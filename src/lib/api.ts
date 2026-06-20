@@ -2,18 +2,38 @@ import type {
   Appointment,
   CreateAppointmentPayload,
   DentalService,
+  LoginPayload,
+  LoginResponse,
 } from "@/types";
+import { clearToken, getToken } from "@/lib/auth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065";
 
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
+interface RequestOptions extends RequestInit {
+  skipAuthHandling?: boolean;
+}
+
+async function request<T>(path: string, options?: RequestOptions): Promise<T> {
+  const { skipAuthHandling, ...fetchOptions } = options ?? {};
+  const token = getToken();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(fetchOptions.headers as Record<string, string> | undefined),
+  };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
   const response = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
+    ...fetchOptions,
+    headers,
   });
+
+  if (response.status === 401 && !skipAuthHandling) {
+    clearToken();
+    throw new Error("Your session has expired. Please log in again.");
+  }
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
@@ -57,5 +77,13 @@ export function updateAppointmentStatus(
 export function deleteAppointment(id: string): Promise<void> {
   return request<void>(`/api/appointments/${id}`, {
     method: "DELETE",
+  });
+}
+
+export function login(payload: LoginPayload): Promise<LoginResponse> {
+  return request<LoginResponse>("/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    skipAuthHandling: true,
   });
 }

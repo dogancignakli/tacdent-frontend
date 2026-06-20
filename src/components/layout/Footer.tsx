@@ -32,6 +32,12 @@ export default function Footer() {
           >
             Schedule an appointment →
           </Link>
+          <Link
+            href="/admin/login"
+            className="mt-2 block text-xs text-muted-foreground hover:text-foreground hover:underline"
+          >
+            Staff login
+          </Link>
         </div>
       </div>
       <Separator />

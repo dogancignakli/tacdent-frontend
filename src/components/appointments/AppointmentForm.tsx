@@ -58,7 +58,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
   async function onSubmit(values: AppointmentFormValues) {
     try {
       await createAppointment(values);
-      toast.success("Appointment request submitted! We will confirm by email.");
+      toast.success("Appointment request submitted! We will contact you by phone to confirm.");
       form.reset({
         patientName: "",
         email: "",

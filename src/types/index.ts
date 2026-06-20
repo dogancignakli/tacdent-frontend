@@ -36,3 +36,12 @@ export interface CreateAppointmentPayload {
   serviceType: string;
   notes?: string;
 }
+
+export interface LoginPayload {
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  expiresAt: string;
+}

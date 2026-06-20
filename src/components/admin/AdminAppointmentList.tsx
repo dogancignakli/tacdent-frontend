@@ -29,7 +29,11 @@ const statusVariant: Record<
   Completed: "outline",
 };
 
-export default function AppointmentList() {
+interface AdminAppointmentListProps {
+  onUnauthorized?: () => void;
+}
+
+export default function AdminAppointmentList({ onUnauthorized }: AdminAppointmentListProps) {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,12 +44,16 @@ export default function AppointmentList() {
     try {
       const data = await getAppointments();
       setAppointments(data);
-    } catch {
-      setError("Could not load appointments.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not load appointments.";
+      if (message.includes("session has expired")) {
+        onUnauthorized?.();
+      }
+      setError(message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [onUnauthorized]);
 
   useEffect(() => {
     loadAppointments();
@@ -56,8 +64,12 @@ export default function AppointmentList() {
       await updateAppointmentStatus(id, status);
       toast.success(`Appointment marked as ${status}.`);
       await loadAppointments();
-    } catch {
-      toast.error("Could not update appointment status.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not update appointment status.";
+      if (message.includes("session has expired")) {
+        onUnauthorized?.();
+      }
+      toast.error(message);
     }
   }
 
@@ -66,8 +78,12 @@ export default function AppointmentList() {
       await deleteAppointment(id);
       toast.success("Appointment deleted.");
       await loadAppointments();
-    } catch {
-      toast.error("Could not delete appointment.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not delete appointment.";
+      if (message.includes("session has expired")) {
+        onUnauthorized?.();
+      }
+      toast.error(message);
     }
   }
 
@@ -104,7 +120,7 @@ export default function AppointmentList() {
     return (
       <Card className="border-dashed">
         <CardContent className="pt-6 text-sm text-muted-foreground">
-          No appointments yet. Submit the form to create your first booking.
+          No appointment requests yet.
         </CardContent>
       </Card>
     );
@@ -138,7 +154,11 @@ export default function AppointmentList() {
               </div>
               <div>
                 <dt className="text-muted-foreground">Phone</dt>
-                <dd className="font-medium">{appointment.phone}</dd>
+                <dd className="font-medium">
+                  <a href={`tel:${appointment.phone}`} className="text-primary hover:underline">
+                    {appointment.phone}
+                  </a>
+                </dd>
               </div>
             </dl>
 
