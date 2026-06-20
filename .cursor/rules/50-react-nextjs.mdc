@@ -1,0 +1,34 @@
+---
+description: React component and App Router page conventions for the frontend
+globs: src/**/*.tsx
+alwaysApply: false
+---
+
+# React & Next.js components
+
+## File & export shape
+- One component per file, **PascalCase** name, **default export** for feature/page components
+  (shadcn `ui/` primitives are named exports — keep those as-is).
+- Pages live in `src/app/<route>/page.tsx`; shared UI in `src/components/<area>/`
+  (`layout/`, `home/`, `appointments/`, `providers/`, `ui/`).
+- Props use a named `interface XProps`; destructure in the signature. Optional callbacks
+  are named `onX` (e.g. `onCreated?: () => void`) and invoked with `?.()`.
+
+## Server vs Client
+- Default to a **Server Component** (no directive): no `useState`/`useEffect`, event handlers,
+  or browser APIs. Composing static shadcn pieces (e.g. a `Hero`) can stay a Server Component.
+- Add `"use client"` as the first line **only** when the file needs hooks, handlers, theme, or a
+  browser-only lib (forms, carousels, `useTheme`, anything interactive). Keep client components small.
+
+## Data, state, and feedback inside components
+- Import API functions from `@/lib/api` and types from `@/types`. Never `fetch` directly.
+- List views: `useCallback` loader + `useEffect`; render **early returns** for loading
+  (use shadcn `Skeleton`), error, and empty states (use a `Card`) before the data.
+- User feedback for async actions uses **sonner** `toast.success` / `toast.error`. To refresh a
+  sibling list after a mutation, bump a `refreshKey` and pass it as `key` to the list component.
+
+## Navigation & media
+- For button-styled links use `<Button render={<Link href="…" />}>`; for plain text links use
+  `next/link` directly. Never use a raw `<a>` for in-app routes.
+- Use `next/image` (`Image`) with explicit `width`/`height`. Remote hosts must be allowed in
+  `next.config.ts` (`images.remotePatterns`) — currently `images.unsplash.com`.
