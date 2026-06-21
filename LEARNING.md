@@ -20,11 +20,13 @@ Open [http://localhost:3000](http://localhost:3000). Backend API: [http://localh
 |---|------|-------------------|
 | 1 | `src/components/layout/Header.tsx` | Client components, shadcn `Button`, `Sheet`, `NavigationMenu` |
 | 2 | `src/components/home/Hero.tsx` | Server components, composing UI from shadcn pieces |
-| 3 | `src/components/appointments/AppointmentForm.tsx` | `react-hook-form` + `zod` validation + shadcn inputs |
-| 4 | `src/app/appointments/page.tsx` | Lifting state (`refreshKey`) to refresh a sibling list |
-| 5 | `src/components/home/ServicesCarousel.tsx` | shadcn `Carousel` (Embla) instead of Swiper |
-| 6 | `src/app/globals.css` | Theme tokens — change brand color in one place |
-| 7 | `src/components/providers/theme-provider.tsx` | Dark mode with `next-themes` |
+| 3 | `src/components/appointments/AppointmentForm.tsx` | `react-hook-form` + `zod` validation + shadcn inputs + sonner toasts |
+| 4 | `src/app/appointments/page.tsx` | Public booking page — form only, no patient list |
+| 5 | `src/app/admin/login/page.tsx` | Staff login; token stored via `src/lib/auth.ts` |
+| 6 | `src/components/admin/AdminAppointmentList.tsx` | Authenticated list, status updates, delete confirm dialog |
+| 7 | `src/components/home/ServicesCarousel.tsx` | shadcn `Carousel` (Embla) |
+| 8 | `src/app/globals.css` | Theme tokens — change brand color in one place |
+| 9 | `src/components/providers/theme-provider.tsx` | Dark mode with `next-themes` |
 
 ---
 
@@ -34,7 +36,7 @@ Open [http://localhost:3000](http://localhost:3000). Backend API: [http://localh
 A function that returns UI. Example: `Header`, `Hero`, `AppointmentForm`.
 
 ### Props
-Inputs passed into a component: `onCreated` on `AppointmentForm`.
+Inputs passed into a component — e.g. optional `onCreated` on `AppointmentForm`, or `onUnauthorized` on `AdminAppointmentList`.
 
 ### State (`useState`)
 Data that changes over time. Updating state re-renders the component.
@@ -89,7 +91,13 @@ To re-theme for a new client (e.g. law firm navy, restaurant warm orange), chang
 4. Show errors from `form.formState.errors`
 5. On success: `toast.success()` from **sonner**
 
-See `AppointmentForm.tsx` for the full pattern.
+See `AppointmentForm.tsx` and `src/app/admin/login/page.tsx` for the full patterns.
+
+---
+
+## API access
+
+All HTTP calls go through `src/lib/api.ts` — never `fetch` inside a component. Staff endpoints send the JWT from `src/lib/auth.ts` automatically.
 
 ---
 

@@ -84,4 +84,15 @@ Official docs: [react.dev/learn](https://react.dev/learn) · [nextjs.org/docs](h
 - Public: `POST /api/appointments` (booking)
 - Staff: `POST /api/auth/login` then `Bearer` token on appointment management endpoints
 
-Dev staff password: `tacdent-admin-dev` (set in backend `appsettings.Development.json`).
+Dev staff password: set via backend .NET user-secrets (`Auth:AdminPassword`). See `tacdent-backend` README.
+
+## Security
+
+Response headers are set in `next.config.ts` for all routes:
+
+- **Content-Security-Policy** — restricts scripts, styles, images, and API `connect-src` to `NEXT_PUBLIC_API_URL`
+- **X-Frame-Options: DENY** — clickjacking protection
+- **X-Content-Type-Options: nosniff**
+- **Referrer-Policy** and **Permissions-Policy**
+
+Staff JWT is stored in `localStorage` via `src/lib/auth.ts` (see backend README for login rate limits).
