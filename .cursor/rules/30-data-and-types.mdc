@@ -1,33 +1,29 @@
 ---
 description: API client and shared types conventions for the frontend
-globs: src/lib/api.ts,src/types/**/*.ts
+globs: src/lib/api.ts,src/lib/auth.ts,src/types/**/*.ts
 alwaysApply: false
 ---
 
 # API client & types
 
 ## `src/lib/api.ts` is the only place that talks HTTP
-- Keep the private generic `request<T>(path, options?)` helper as the single fetch wrapper:
-  it sets `Content-Type: application/json`, throws `new Error(error.message ?? "…")` on
-  non-2xx, and returns `undefined as T` for `204`.
-- Expose one named function per endpoint, named by intent: `getServices`, `getAppointments`,
-  `createAppointment`, `updateAppointmentStatus`, `deleteAppointment`. Each returns
-  `Promise<T>` and delegates to `request`.
+- Keep the private generic `request<T>(path, options?)` helper as the single fetch wrapper. It:
+  - reads the token via `getToken()` and attaches `Authorization: Bearer <token>` when present;
+  - on `401` (unless `skipAuthHandling`) calls `clearToken()` and throws a "session expired" error,
+    so admin views bounce to login;
+  - throws `new Error(error.message ?? "…")` on other non-2xx, and returns `undefined as T` for `204`.
+- One named function per endpoint by intent: `getServices`, `getAppointments`, `createAppointment`,
+  `updateAppointmentStatus`, `deleteAppointment`, `login`. `login` passes `skipAuthHandling: true`
+  (a failed login is a normal 401, not an expired session). Let errors throw so callers can `toast.error`.
 - Base URL: `process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065"`. Paths start `/api/...`.
-- Mutations pass `method` + `JSON.stringify(payload)`. Do not swallow errors here — let them
-  throw so callers can `toast.error(err.message)`.
 
 ## `src/types/index.ts` mirrors the backend
-- Define entities as `interface` (`DentalService`, `Appointment`), string-literal unions for
-  enums (`AppointmentStatus = "Pending" | "Confirmed" | "Cancelled" | "Completed"`), and a
-  separate `interface CreateXPayload` for request bodies (optional fields use `?`).
-- Field names are **camelCase** and must match the backend response exactly. IDs: services
-  use `number`, appointments use `string` (GUID). Dates/times are `string`. `Appointment`
-  includes both `createdAt` and `updatedAt`.
-- When the backend DTO changes, update this file first, then `api.ts`, then components.
+- Entities as `interface` (`DentalService`, `Appointment`); enums as string-literal unions; request
+  bodies as separate `interface XPayload`. Auth types: `LoginPayload { password }`,
+  `LoginResponse { token, expiresAt }`.
+- Field names are **camelCase** and must match the backend exactly. Services `id` = `number`,
+  appointments `id` = `string` (GUID). Update this file first when a DTO changes, then `api.ts`.
 
 ## Two kinds of "types" — keep them distinct
-- **`src/types/`** = the API/wire contract (mirrors backend DTOs).
-- **`src/lib/schemas/`** = zod form schemas + their inferred `z.infer` types (UI input shape).
-  These can differ (e.g. a form may collect a string the API receives differently); map between
-  them at submit time rather than forcing one to serve both.
+- **`src/types/`** = the API/wire contract. **`src/lib/schemas/`** = zod form schemas + their
+  `z.infer` types (UI input shape). Map between them at submit time.

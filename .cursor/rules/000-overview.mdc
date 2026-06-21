@@ -6,38 +6,41 @@ alwaysApply: true
 # TacDent Frontend — overview
 
 Marketing + appointment-booking site for a dental clinic. It is a thin client over a
-.NET API; it has no database or business logic of its own.
+.NET API; it has no database or business logic of its own. Public visitors can only *book*;
+clinic staff log into an admin area to view and manage requests.
 
 ## Stack (do not assume older versions)
 - Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4.
 - **shadcn/ui** for components (built on **Base UI**, not Radix) · **lucide-react** icons.
 - **react-hook-form + zod** (`@hookform/resolvers`) for forms · **sonner** for toasts.
-- **embla-carousel** (`embla-carousel-react` + `-autoplay`) for sliders · **next-themes** for dark mode.
+- **embla-carousel** for sliders · **next-themes** for dark mode.
 - `cva` + `clsx` + `tailwind-merge` (`cn` helper) for class composition.
-- Path alias: `@/*` -> `./src/*`. (Note: Swiper is gone — use the shadcn `Carousel`.)
+- Path alias: `@/*` -> `./src/*`.
 
 ## ⚠️ Next.js 16 is newer than your training data
-APIs, conventions, and file structure may differ from what you remember. Before writing
-Next-specific code (routing, `params`/`searchParams`, caching, `next/image`, metadata,
-server actions), verify against `node_modules/next/dist/docs/` or current docs. Do not
-"fix" code to an older pattern you recognize.
+Verify Next-specific code (routing, `params`/`searchParams`, caching, `next/image`, metadata)
+against `node_modules/next/dist/docs/` or current docs. Don't "fix" to an older pattern.
 
 ## ⚠️ `README.md` is out of date
-It still references Swiper, `ServicesSwiper`, and `useState` forms. The accurate guide is
-`LEARNING.md`. Trust the actual code and `LEARNING.md` over `README.md`.
+It still references Swiper / `ServicesSwiper` / `useState` forms. The accurate guide is
+`LEARNING.md` and the actual code. Trust those over `README.md`.
 
 ## Non-negotiables
 - **Never call `fetch` inside a component.** All API access goes through `src/lib/api.ts`.
 - **All shared types live in `src/types/index.ts`** and must mirror the backend JSON contract.
-- **Server Components by default.** Add `"use client"` only when a file needs hooks, event
-  handlers, or browser APIs.
+- **Server Components by default.** Add `"use client"` only for hooks, handlers, or browser APIs.
 - **Build UI from shadcn primitives in `src/components/ui/`** — don't hand-roll buttons, inputs,
-  cards, dialogs with raw Tailwind when a `ui/` component exists.
+  cards, dialogs with raw Tailwind.
 - **Use semantic color tokens** (`bg-background`, `text-primary`, `text-muted-foreground`, …),
-  never hardcoded palette values like `sky-600` / `slate-900`.
+  never hardcoded palette values like `sky-600`.
+- **Never render patient data on a public page.** The `/appointments` page is the booking form
+  only; the appointment *list* lives behind the admin auth guard. (This was a real data leak.)
 
 ## Backend contract (the API this app talks to)
 - Base URL from `NEXT_PUBLIC_API_URL` (default `http://localhost:5065`). Routes are under `/api`.
 - JSON is **camelCase**. Enums are **strings** (status `"Pending" | "Confirmed" | "Cancelled" | "Completed"`).
-- Times are `"HH:mm"` or `"HH:mm:ss"` strings; dates are `"YYYY-MM-DD"` strings.
-- Error responses look like `{ code, message }`; validation errors like `{ message, errors: { field: string[] } }`.
+- Times are `"HH:mm"` / `"HH:mm:ss"`; dates are `"YYYY-MM-DD"`. `Appointment` has `createdAt` + `updatedAt`.
+- Errors: `{ code, message }`; validation errors: `{ message, errors: { field: string[] } }`.
+- **Auth:** `POST /api/auth/login` (anonymous) returns `{ token, expiresAt }`. Management endpoints
+  (`GET/PATCH/DELETE /api/appointments...`) require `Authorization: Bearer <token>`; booking
+  `POST /api/appointments` stays anonymous. A `401` means the session expired.

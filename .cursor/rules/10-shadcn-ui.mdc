@@ -7,15 +7,11 @@ alwaysApply: false
 # shadcn/ui (Base UI based)
 
 ## ⚠️ This is Base UI, not Radix — compose with the `render` prop, NOT `asChild`
-The shadcn components here wrap `@base-ui/react`. To render a primitive *as* another element
-(e.g. a trigger that looks like a Button, or a Button that is actually a link), pass a
-`render` element. **`asChild` does not exist here.**
+The shadcn components here wrap `@base-ui/react`. To render a primitive *as* another element,
+pass a `render` element. **`asChild` does not exist here.**
 
 ```tsx
-// Button that navigates (button-styled link)
 <Button render={<Link href="/appointments" />}>Book Now</Button>
-
-// Dialog/Sheet/Select trigger rendered as a Button
 <DialogTrigger render={<Button variant="destructive" size="sm" />}>Delete</DialogTrigger>
 <SheetTrigger render={<Button variant="outline" size="icon" aria-label="Open menu" />}>
   <MenuIcon />
@@ -24,19 +20,18 @@ The shadcn components here wrap `@base-ui/react`. To render a primitive *as* ano
 
 ## Owning the components
 - shadcn is **not** an npm UI dependency — its CLI copied source into `src/components/ui/`.
-  You may edit those files directly. Add new primitives with `npx shadcn@latest add <name>`
-  (e.g. `tabs`, `accordion`, `avatar`); don't reinvent them by hand.
-- Build feature UI by **composing** existing primitives. Available now: `button`, `card`,
-  `input`, `label`, `textarea`, `select`, `badge`, `dialog`, `dropdown-menu`, `sheet`,
-  `navigation-menu`, `carousel`, `separator`, `skeleton`, `sonner`.
+  Edit those files directly. Add new primitives with `npx shadcn@latest add <name>`; don't
+  reinvent them by hand.
+- Build feature UI by **composing** existing primitives: `button`, `card`, `input`, `label`,
+  `textarea`, `select`, `badge`, `dialog`, `dropdown-menu`, `sheet`, `navigation-menu`,
+  `carousel`, `separator`, `skeleton`, `sonner`.
 
 ## Usage conventions (match existing code)
 - **Button** variants: `default | outline | secondary | ghost | destructive | link`;
   sizes: `default | xs | sm | lg | icon | icon-sm | icon-lg`. Pill buttons add `rounded-full`.
 - **Card**: compose `Card` > `CardHeader`/`CardContent`/`CardFooter` with `CardTitle`/`CardDescription`.
 - **Badge** for status: drive `variant` from a `Record<Status, "default"|"secondary"|"destructive"|"outline">` map.
-- **Dialog** to confirm destructive actions (e.g. delete); **Sheet** for the mobile nav drawer.
-- **Carousel** (Embla) for sliders: `opts={{ align, loop }}`, `plugins={[Autoplay({...})]}`,
-  `CarouselItem` widths via `basis-*` (`md:basis-1/2 lg:basis-1/3`).
-- **Icons**: `lucide-react`, sized with `size-4` etc. Merge classes with `cn()` from `@/lib/utils`;
+- **Dialog** to confirm destructive actions; **Sheet** for the mobile nav drawer.
+- **Carousel** (Embla): `opts={{ align, loop }}`, `plugins={[Autoplay({...})]}`, item widths via `basis-*`.
+- **Icons**: `lucide-react`, sized with `size-4`. Merge classes with `cn()` from `@/lib/utils`;
   define new variant sets with `cva`.

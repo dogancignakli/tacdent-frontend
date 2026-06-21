@@ -1,13 +1,12 @@
 ---
 description: Form handling conventions (react-hook-form + zod + sonner)
-globs: src/components/**/*.tsx,src/lib/schemas/**/*.ts
+globs: src/components/**/*.tsx,src/app/**/*.tsx,src/lib/schemas/**/*.ts
 alwaysApply: false
 ---
 
 # Forms: react-hook-form + zod + sonner
 
-This is the reusable form pattern for every client site. See `AppointmentForm.tsx` for the
-full reference.
+Reference: `AppointmentForm.tsx` and `app/admin/login/page.tsx`.
 
 ## Schema first
 - Define the schema in `src/lib/schemas/<name>.ts` with **zod**, then export the inferred type:
@@ -15,18 +14,15 @@ full reference.
 
 ## Wiring the form
 - `const form = useForm<XValues>({ resolver: zodResolver(xSchema), defaultValues })`.
-- Simple fields: spread `{...form.register("field")}` onto the shadcn `Input` / `Textarea`,
-  with `aria-invalid={!!errors.field}`.
-- Controlled shadcn components (e.g. `Select`): wrap in `<Controller control={form.control}
-  name="field" render={({ field }) => <Select value={field.value} onValueChange={field.onChange}>…
-  </Select>} />`.
-- Show errors right under the field: `{errors.field && <p className="text-sm text-destructive">
+- Simple fields: spread `{...form.register("field")}` onto the shadcn `Input`/`Textarea`, with
+  `aria-invalid={!!errors.field}`.
+- Controlled shadcn components (e.g. `Select`): wrap in `<Controller control={form.control} ... />`.
+- Show errors under the field: `{errors.field && <p className="text-sm text-destructive">
   {errors.field.message}</p>}`. Pull `const { errors, isSubmitting } = form.formState`.
 
 ## Submit & feedback
-- `<form onSubmit={form.handleSubmit(onSubmit)}>`. In `onSubmit(values)`: call the `@/lib/api`
-  function, then on success `toast.success(...)`, `form.reset(defaults)`, and `onCreated?.()`;
+- `<form onSubmit={form.handleSubmit(onSubmit)}>`. In `onSubmit`: call the `@/lib/api` function,
+  then on success `toast.success(...)` (+ `form.reset(...)` / navigation / `onCreated?.()` as needed);
   on failure `toast.error(err instanceof Error ? err.message : "…")`.
 - Disable the submit `Button` with `disabled={isSubmitting}` and show a `Loader2Icon` spinner.
-- **Feedback is via sonner toasts**, not inline success/error state. The `<Toaster />` is already
-  mounted in `app/layout.tsx` — don't add another.
+- **Feedback is via sonner toasts**, not inline state. `<Toaster />` is already in `app/layout.tsx`.
