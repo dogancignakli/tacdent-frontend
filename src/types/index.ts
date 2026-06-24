@@ -38,6 +38,7 @@ export interface CreateAppointmentPayload {
 }
 
 export interface LoginPayload {
+  email: string;
   password: string;
 }
 
