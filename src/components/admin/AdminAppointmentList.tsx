@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
   assignAppointment,
@@ -10,6 +11,7 @@ import {
   getUsers,
   updateAppointmentStatus,
 } from "@/lib/api";
+import { isSessionExpiredMessage } from "@/lib/api-error";
 import type {
   Appointment,
   AppointmentSortField,
@@ -45,18 +47,18 @@ const PAGE_SIZE = 20;
 
 type StatusFilter = AppointmentStatus | "All";
 
-const STATUS_TABS: { value: StatusFilter; label: string }[] = [
-  { value: "Pending", label: "Pending" },
-  { value: "Confirmed", label: "Confirmed" },
-  { value: "Completed", label: "Completed" },
-  { value: "Cancelled", label: "Cancelled" },
-  { value: "All", label: "All" },
+const STATUS_TABS: { value: StatusFilter; tabKey: string }[] = [
+  { value: "Pending", tabKey: "pending" },
+  { value: "Confirmed", tabKey: "confirmed" },
+  { value: "Completed", tabKey: "completed" },
+  { value: "Cancelled", tabKey: "cancelled" },
+  { value: "All", tabKey: "all" },
 ];
 
-const SORT_OPTIONS: { value: AppointmentSortField; label: string }[] = [
-  { value: "PreferredDate", label: "Preferred date" },
-  { value: "CreatedAt", label: "Created" },
-  { value: "Status", label: "Status" },
+const SORT_OPTIONS: { value: AppointmentSortField; key: string }[] = [
+  { value: "PreferredDate", key: "preferredDate" },
+  { value: "CreatedAt", key: "createdAt" },
+  { value: "Status", key: "status" },
 ];
 
 const statusVariant: Record<
@@ -69,20 +71,18 @@ const statusVariant: Record<
   Completed: "outline",
 };
 
-function emptyStateMessage(statusFilter: StatusFilter): string {
-  if (statusFilter === "All") {
-    return "No appointment requests yet.";
-  }
-
-  return `No ${statusFilter.toLowerCase()} appointment requests.`;
-}
-
 interface AdminAppointmentListProps {
   isAdmin: boolean;
   onUnauthorized?: () => void;
 }
 
 export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminAppointmentListProps) {
+  const t = useTranslations("admin.appointments");
+  const tStatus = useTranslations("status");
+  const tRoles = useTranslations("admin.roles");
+  const tButtons = useTranslations("common.buttons");
+  const tErrors = useTranslations("common.errors");
+
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -111,15 +111,15 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
       setHasNextPage(data.hasNextPage);
       setHasPreviousPage(data.hasPreviousPage);
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not load appointments.";
-      if (message.includes("session has expired")) {
+      const message = err instanceof Error ? err.message : t("toast.loadError");
+      if (isSessionExpiredMessage(message)) {
         onUnauthorized?.();
       }
       setError(message);
     } finally {
       setLoading(false);
     }
-  }, [onUnauthorized, page, sortBy, sortDirection, statusFilter]);
+  }, [onUnauthorized, page, sortBy, sortDirection, statusFilter, t]);
 
   const loadUsers = useCallback(async () => {
     if (!isAdmin) {
@@ -130,13 +130,13 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
       const data = await getUsers();
       setUsers(data.filter((user) => user.isActive));
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not load users.";
-      if (message.includes("session has expired")) {
+      const message = err instanceof Error ? err.message : t("toast.usersError");
+      if (isSessionExpiredMessage(message)) {
         onUnauthorized?.();
       }
       toast.error(message);
     }
-  }, [isAdmin, onUnauthorized]);
+  }, [isAdmin, onUnauthorized, t]);
 
   useEffect(() => {
     void loadAppointments();
@@ -164,14 +164,21 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
     setPage(1);
   }
 
+  function emptyStateMessage(): string {
+    if (statusFilter === "All") {
+      return t("empty.all");
+    }
+    return t("empty.filtered", { status: tStatus(statusFilter) });
+  }
+
   async function handleStatusChange(id: string, status: AppointmentStatus) {
     try {
       await updateAppointmentStatus(id, status);
-      toast.success(`Appointment marked as ${status}.`);
+      toast.success(t("toast.statusUpdated", { status: tStatus(status) }));
       await loadAppointments();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not update appointment status.";
-      if (message.includes("session has expired")) {
+      const message = err instanceof Error ? err.message : t("toast.statusError");
+      if (isSessionExpiredMessage(message)) {
         onUnauthorized?.();
       }
       toast.error(message);
@@ -181,11 +188,11 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
   async function handleDelete(id: string) {
     try {
       await deleteAppointment(id);
-      toast.success("Appointment deleted.");
+      toast.success(t("toast.deleted"));
       await loadAppointments();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not delete appointment.";
-      if (message.includes("session has expired")) {
+      const message = err instanceof Error ? err.message : t("toast.deleteError");
+      if (isSessionExpiredMessage(message)) {
         onUnauthorized?.();
       }
       toast.error(message);
@@ -197,16 +204,24 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
 
     try {
       await assignAppointment(appointmentId, assignedUserId);
-      toast.success(assignedUserId ? "Assignee updated." : "Assignee cleared.");
+      toast.success(
+        assignedUserId ? t("toast.assigneeUpdated") : t("toast.assigneeCleared")
+      );
       await loadAppointments();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not assign appointment.";
-      if (message.includes("session has expired")) {
+      const message = err instanceof Error ? err.message : t("toast.assignError");
+      if (isSessionExpiredMessage(message)) {
         onUnauthorized?.();
       }
       toast.error(message);
     }
   }
+
+  const sortDirectionLabel =
+    sortDirection === "Asc" ? t("sort.ascending") : t("sort.descending");
+
+  const activeSortKey =
+    SORT_OPTIONS.find((option) => option.value === sortBy)?.key ?? "preferredDate";
 
   return (
     <div className="space-y-6">
@@ -215,7 +230,7 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
           <TabsList>
             {STATUS_TABS.map((tab) => (
               <TabsTrigger key={tab.value} value={tab.value}>
-                {tab.label}
+                {t(`tabs.${tab.tabKey}`)}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -224,12 +239,14 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
         <div className="flex flex-wrap items-center gap-2">
           <Select value={sortBy} onValueChange={handleSortByChange}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort by" />
+              <SelectValue placeholder={t("sort.sortBy")}>
+                {t(`sort.${activeSortKey}`)}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {SORT_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
-                  {option.label}
+                  {t(`sort.${option.key}`)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -240,10 +257,10 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
             variant="outline"
             size="sm"
             onClick={toggleSortDirection}
-            aria-label={`Sort ${sortDirection === "Asc" ? "ascending" : "descending"}`}
+            aria-label={t("sort.ariaSort", { direction: sortDirectionLabel })}
           >
             {sortDirection === "Asc" ? <ArrowUpIcon /> : <ArrowDownIcon />}
-            {sortDirection === "Asc" ? "Ascending" : "Descending"}
+            {sortDirectionLabel}
           </Button>
         </div>
       </div>
@@ -272,7 +289,7 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
       ) : appointments.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="pt-6 text-sm text-muted-foreground">
-            {emptyStateMessage(statusFilter)}
+            {emptyStateMessage()}
           </CardContent>
         </Card>
       ) : (
@@ -284,25 +301,27 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
                   <CardTitle>{appointment.patientName}</CardTitle>
                   <p className="text-sm text-muted-foreground">{appointment.serviceType}</p>
                 </div>
-                <Badge variant={statusVariant[appointment.status]}>{appointment.status}</Badge>
+                <Badge variant={statusVariant[appointment.status]}>
+                  {tStatus(appointment.status)}
+                </Badge>
               </CardHeader>
 
               <CardContent>
                 <dl className="grid gap-2 text-sm sm:grid-cols-2">
                   <div>
-                    <dt className="text-muted-foreground">Date</dt>
+                    <dt className="text-muted-foreground">{t("fields.date")}</dt>
                     <dd className="font-medium">{appointment.preferredDate}</dd>
                   </div>
                   <div>
-                    <dt className="text-muted-foreground">Time</dt>
+                    <dt className="text-muted-foreground">{t("fields.time")}</dt>
                     <dd className="font-medium">{appointment.preferredTime}</dd>
                   </div>
                   <div>
-                    <dt className="text-muted-foreground">Email</dt>
+                    <dt className="text-muted-foreground">{t("fields.email")}</dt>
                     <dd className="font-medium">{appointment.email}</dd>
                   </div>
                   <div>
-                    <dt className="text-muted-foreground">Phone</dt>
+                    <dt className="text-muted-foreground">{t("fields.phone")}</dt>
                     <dd className="font-medium">
                       <a href={`tel:${appointment.phone}`} className="text-primary hover:underline">
                         {appointment.phone}
@@ -310,22 +329,23 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
                     </dd>
                   </div>
                   <div className="sm:col-span-2">
-                    <dt className="text-muted-foreground">Assignee</dt>
+                    <dt className="text-muted-foreground">{t("fields.assignee")}</dt>
                     <dd className="font-medium">
-                      {appointment.assignedUserEmail ?? "Unassigned"}
+                      {appointment.assignedUserEmail ?? t("fields.unassigned")}
                     </dd>
                   </div>
                 </dl>
 
                 {appointment.notes && (
                   <p className="mt-3 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">Notes:</span> {appointment.notes}
+                    <span className="font-medium text-foreground">{t("fields.notes")}:</span>{" "}
+                    {appointment.notes}
                   </p>
                 )}
 
                 {isAdmin && (
                   <div className="mt-4 space-y-2">
-                    <p className="text-sm text-muted-foreground">Assign to</p>
+                    <p className="text-sm text-muted-foreground">{t("fields.assignTo")}</p>
                     <Select
                       value={appointment.assignedUserId ?? UNASSIGNED_VALUE}
                       onValueChange={(value) => {
@@ -335,13 +355,13 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
                       }}
                     >
                       <SelectTrigger className="w-full max-w-sm">
-                        <SelectValue placeholder="Select assignee" />
+                        <SelectValue placeholder={t("fields.selectAssignee")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value={UNASSIGNED_VALUE}>Unassigned</SelectItem>
+                        <SelectItem value={UNASSIGNED_VALUE}>{t("fields.unassigned")}</SelectItem>
                         {users.map((user) => (
                           <SelectItem key={user.id} value={user.id}>
-                            {user.email} ({user.role})
+                            {user.email} ({user.role === "Admin" ? tRoles("admin") : tRoles("staff")})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -359,26 +379,28 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
                     size="sm"
                     onClick={() => handleStatusChange(appointment.id, status)}
                   >
-                    Mark {status}
+                    {t("actions.mark", { status: tStatus(status) })}
                   </Button>
                 ))}
 
                 {isAdmin && (
                   <Dialog>
                     <DialogTrigger render={<Button variant="destructive" size="sm" />}>
-                      Delete
+                      {t("actions.delete")}
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Delete appointment?</DialogTitle>
+                        <DialogTitle>{t("actions.deleteTitle")}</DialogTitle>
                         <DialogDescription>
-                          This will permanently remove the booking for {appointment.patientName}.
+                          {t("actions.deleteDescription", { name: appointment.patientName })}
                         </DialogDescription>
                       </DialogHeader>
                       <DialogFooter>
-                        <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
+                        <DialogClose render={<Button variant="outline" />}>
+                          {tButtons("cancel")}
+                        </DialogClose>
                         <Button variant="destructive" onClick={() => handleDelete(appointment.id)}>
-                          Delete
+                          {t("actions.delete")}
                         </Button>
                       </DialogFooter>
                     </DialogContent>
@@ -393,7 +415,7 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
       {!loading && !error && totalPages > 0 && (
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            Page {page} of {totalPages}
+            {t("pagination.page", { page, total: totalPages })}
           </p>
           <div className="flex gap-2">
             <Button
@@ -403,7 +425,7 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
               disabled={!hasPreviousPage}
               onClick={() => setPage((current) => current - 1)}
             >
-              Previous
+              {tButtons("previous")}
             </Button>
             <Button
               type="button"
@@ -412,7 +434,7 @@ export default function AdminAppointmentList({ isAdmin, onUnauthorized }: AdminA
               disabled={!hasNextPage}
               onClick={() => setPage((current) => current + 1)}
             >
-              Next
+              {tButtons("next")}
             </Button>
           </div>
         </div>

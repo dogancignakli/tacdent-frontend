@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -12,9 +13,10 @@ import {
   updateUserRole,
   updateUserStatus,
 } from "@/lib/api";
+import { isSessionExpiredMessage } from "@/lib/api-error";
 import {
-  createUserFormSchema,
-  resetPasswordFormSchema,
+  createUserFormSchema as buildCreateUserFormSchema,
+  createResetPasswordFormSchema as buildResetPasswordFormSchema,
   type CreateUserFormValues,
   type ResetPasswordFormValues,
 } from "@/lib/schemas/user";
@@ -48,6 +50,20 @@ interface AdminUserManagementProps {
 }
 
 export default function AdminUserManagement({ onUnauthorized }: AdminUserManagementProps) {
+  const t = useTranslations("admin.users");
+  const tRoles = useTranslations("admin.roles");
+  const tValidation = useTranslations("validation");
+  const tButtons = useTranslations("common.buttons");
+
+  const createUserFormSchema = useMemo(
+    () => buildCreateUserFormSchema((key) => tValidation(key)),
+    [tValidation]
+  );
+  const resetPasswordFormSchema = useMemo(
+    () => buildResetPasswordFormSchema((key) => tValidation(key)),
+    [tValidation]
+  );
+
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [resetUserId, setResetUserId] = useState<string | null>(null);
@@ -72,15 +88,15 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
       const data = await getUsers();
       setUsers(data);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Could not load users.";
-      if (message.includes("session has expired")) {
+      const message = error instanceof Error ? error.message : t("toast.loadError");
+      if (isSessionExpiredMessage(message)) {
         onUnauthorized?.();
       }
       toast.error(message);
     } finally {
       setLoading(false);
     }
-  }, [onUnauthorized]);
+  }, [onUnauthorized, t]);
 
   useEffect(() => {
     void loadUsers();
@@ -89,31 +105,31 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
   async function onCreateUser(values: CreateUserFormValues) {
     try {
       await createUser(values);
-      toast.success("User created.");
+      toast.success(t("toast.created"));
       createForm.reset({ email: "", password: "", role: "Staff" });
       await loadUsers();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not create user.");
+      toast.error(error instanceof Error ? error.message : t("toast.createError"));
     }
   }
 
   async function handleRoleChange(userId: string, role: UserRole) {
     try {
       await updateUserRole(userId, role);
-      toast.success("Role updated.");
+      toast.success(t("toast.roleUpdated"));
       await loadUsers();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not update role.");
+      toast.error(error instanceof Error ? error.message : t("toast.roleError"));
     }
   }
 
   async function handleStatusToggle(user: User) {
     try {
       await updateUserStatus(user.id, !user.isActive);
-      toast.success(user.isActive ? "User deactivated." : "User activated.");
+      toast.success(user.isActive ? t("toast.deactivated") : t("toast.activated"));
       await loadUsers();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not update status.");
+      toast.error(error instanceof Error ? error.message : t("toast.statusError"));
     }
   }
 
@@ -124,11 +140,11 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
 
     try {
       await resetUserPassword(resetUserId, values);
-      toast.success("Password reset.");
+      toast.success(t("toast.passwordReset"));
       resetForm.reset();
       setResetUserId(null);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not reset password.");
+      toast.error(error instanceof Error ? error.message : t("toast.resetError"));
     }
   }
 
@@ -138,21 +154,19 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
   return (
     <section className="space-y-6">
       <div>
-        <h2 className="font-heading text-2xl font-bold">Staff accounts</h2>
-        <p className="mt-2 text-muted-foreground">
-          Create staff accounts, manage roles, and reset passwords.
-        </p>
+        <h2 className="font-heading text-2xl font-bold">{t("title")}</h2>
+        <p className="mt-2 text-muted-foreground">{t("description")}</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Create user</CardTitle>
-          <CardDescription>Add a new admin or staff account.</CardDescription>
+          <CardTitle>{t("createTitle")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={createForm.handleSubmit(onCreateUser)} className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="create-email">Email</Label>
+              <Label htmlFor="create-email">{t("email")}</Label>
               <Input
                 id="create-email"
                 type="email"
@@ -166,7 +180,7 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="create-password">Password</Label>
+              <Label htmlFor="create-password">{t("password")}</Label>
               <Input
                 id="create-password"
                 type="password"
@@ -180,7 +194,7 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="create-role">Role</Label>
+              <Label htmlFor="create-role">{t("role")}</Label>
               <Controller
                 control={createForm.control}
                 name="role"
@@ -190,8 +204,8 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Staff">Staff</SelectItem>
-                      <SelectItem value="Admin">Admin</SelectItem>
+                      <SelectItem value="Staff">{tRoles("staff")}</SelectItem>
+                      <SelectItem value="Admin">{tRoles("admin")}</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -203,10 +217,10 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
                 {isCreating ? (
                   <>
                     <Loader2Icon className="animate-spin" />
-                    Creating...
+                    {t("creating")}
                   </>
                 ) : (
-                  "Create user"
+                  t("create")
                 )}
               </Button>
             </div>
@@ -224,6 +238,10 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
             </Card>
           ))}
         </div>
+      ) : users.length === 0 ? (
+        <Card className="border-dashed">
+          <CardContent className="pt-6 text-sm text-muted-foreground">{t("empty")}</CardContent>
+        </Card>
       ) : (
         <div className="space-y-4">
           {users.map((user) => (
@@ -233,9 +251,11 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
                   <CardTitle className="text-base">{user.email}</CardTitle>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <Badge variant={user.isActive ? "default" : "secondary"}>
-                      {user.isActive ? "Active" : "Inactive"}
+                      {user.isActive ? t("active") : t("inactive")}
                     </Badge>
-                    <Badge variant="outline">{user.role}</Badge>
+                    <Badge variant="outline">
+                      {user.role === "Admin" ? tRoles("admin") : tRoles("staff")}
+                    </Badge>
                   </div>
                 </div>
               </CardHeader>
@@ -248,8 +268,8 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Staff">Staff</SelectItem>
-                    <SelectItem value="Admin">Admin</SelectItem>
+                    <SelectItem value="Staff">{tRoles("staff")}</SelectItem>
+                    <SelectItem value="Admin">{tRoles("admin")}</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -259,7 +279,7 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
                   size="sm"
                   onClick={() => handleStatusToggle(user)}
                 >
-                  {user.isActive ? "Deactivate" : "Activate"}
+                  {user.isActive ? t("deactivate") : t("activate")}
                 </Button>
 
                 <Dialog
@@ -281,18 +301,18 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
                       />
                     }
                   >
-                    Reset password
+                    {t("resetPassword")}
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Reset password</DialogTitle>
+                      <DialogTitle>{t("resetTitle")}</DialogTitle>
                       <DialogDescription>
-                        Set a new password for {user.email}.
+                        {t("resetDescription", { email: user.email })}
                       </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={resetForm.handleSubmit(onResetPassword)} className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor={`reset-password-${user.id}`}>New password</Label>
+                        <Label htmlFor={`reset-password-${user.id}`}>{t("newPassword")}</Label>
                         <Input
                           id={`reset-password-${user.id}`}
                           type="password"
@@ -306,16 +326,16 @@ export default function AdminUserManagement({ onUnauthorized }: AdminUserManagem
                       </div>
                       <DialogFooter>
                         <DialogClose render={<Button variant="outline" type="button" />}>
-                          Cancel
+                          {tButtons("cancel")}
                         </DialogClose>
                         <Button type="submit" variant="destructive" disabled={isResetting}>
                           {isResetting ? (
                             <>
                               <Loader2Icon className="animate-spin" />
-                              Saving...
+                              {t("saving")}
                             </>
                           ) : (
-                            "Reset password"
+                            t("resetPassword")
                           )}
                         </Button>
                       </DialogFooter>
