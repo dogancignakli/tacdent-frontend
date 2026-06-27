@@ -1,17 +1,28 @@
-const TOKEN_KEY = "tacdent_admin_token";
+export type UserRole = "Admin" | "Staff";
 
-export function getToken(): string | null {
-  if (typeof window === "undefined") {
+const ROLE_COOKIE = "tacdent_role";
+
+export function getRole(): UserRole | null {
+  if (typeof document === "undefined") {
     return null;
   }
 
-  return localStorage.getItem(TOKEN_KEY);
+  const match = document.cookie
+    .split("; ")
+    .find((entry) => entry.startsWith(`${ROLE_COOKIE}=`));
+
+  if (!match) {
+    return null;
+  }
+
+  const value = decodeURIComponent(match.split("=")[1] ?? "");
+  return value === "Admin" || value === "Staff" ? value : null;
 }
 
-export function setToken(token: string): void {
-  localStorage.setItem(TOKEN_KEY, token);
+export function isAuthenticated(): boolean {
+  return getRole() !== null;
 }
 
-export function clearToken(): void {
-  localStorage.removeItem(TOKEN_KEY);
+export function isAdmin(): boolean {
+  return getRole() === "Admin";
 }
