@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
 import { login } from "@/lib/api";
-import { setToken } from "@/lib/auth";
 import { loginFormSchema, type LoginFormValues } from "@/lib/schemas/login";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,8 +25,7 @@ export default function AdminLoginPage() {
 
   async function onSubmit(values: LoginFormValues) {
     try {
-      const response = await login(values);
-      setToken(response.token);
+      await login(values);
       toast.success("Welcome back.");
       router.push("/admin");
     } catch (error) {
