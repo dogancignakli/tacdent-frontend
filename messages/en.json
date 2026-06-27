@@ -1,0 +1,331 @@
+{
+  "metadata": {
+    "title": "TacDent | Modern Dental Clinic",
+    "description": "Book appointments, explore services, and discover gentle modern dental care."
+  },
+  "common": {
+    "brand": "TacDent",
+    "tagline": "Modern Dental Care",
+    "nav": {
+      "home": "Home",
+      "services": "Services",
+      "about": "About",
+      "contact": "Contact",
+      "appointments": "Appointments"
+    },
+    "buttons": {
+      "bookNow": "Book Now",
+      "bookAppointment": "Book appointment",
+      "scheduleNow": "Schedule Now",
+      "seeAllServices": "See all services →",
+      "bookConsultation": "Book a consultation",
+      "logOut": "Log out",
+      "signIn": "Sign in",
+      "signingIn": "Signing in...",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Submit",
+      "create": "Create",
+      "save": "Save",
+      "reset": "Reset"
+    },
+    "footer": {
+      "clinic": "TacDent Clinic",
+      "description": "Gentle, modern dentistry for families. Your smile is our priority.",
+      "hours": "Hours",
+      "hoursWeekdays": "Mon – Fri: 8:00 – 18:00",
+      "hoursSaturday": "Saturday: 9:00 – 14:00",
+      "hoursSunday": "Sunday: Emergency only",
+      "contact": "Contact",
+      "address": "123 Smile Avenue, Dental City",
+      "phone": "+1 (555) 123-4567",
+      "email": "hello@tacdent.com",
+      "scheduleLink": "Schedule an appointment →",
+      "staffLogin": "Staff login",
+      "copyright": "© {year} TacDent. Built with Next.js + shadcn/ui."
+    },
+    "language": {
+      "label": "Language",
+      "tr": "TR",
+      "en": "EN"
+    },
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "menu": "Menu",
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "sessionExpired": "Your session has expired. Please log in again.",
+      "loginFailed": "Login failed."
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "Welcome to TacDent",
+      "title": "Healthy smiles start with trusted care",
+      "description": "From routine checkups to advanced treatments, our team combines modern technology with a calm, friendly experience.",
+      "bookAppointment": "Book Appointment",
+      "viewServices": "View Services",
+      "imageAlt": "Modern dental clinic with friendly staff"
+    },
+    "highlights": {
+      "team": {
+        "title": "Experienced Team",
+        "text": "Dentists and hygienists focused on comfort and clear communication."
+      },
+      "equipment": {
+        "title": "Modern Equipment",
+        "text": "Digital imaging and precise tools for faster, safer treatments."
+      },
+      "booking": {
+        "title": "Easy Booking",
+        "text": "Request appointments online and manage them from one place."
+      }
+    },
+    "servicesCarousel": {
+      "label": "Our Services",
+      "title": "Care tailored to every smile",
+      "slides": {
+        "general": {
+          "title": "General Dentistry",
+          "description": "Preventive exams, cleanings, and personalized care plans."
+        },
+        "cosmetic": {
+          "title": "Cosmetic Treatments",
+          "description": "Whitening, veneers, and smile makeovers that look natural."
+        },
+        "family": {
+          "title": "Family Friendly",
+          "description": "Comfortable visits for kids, teens, and adults alike."
+        }
+      }
+    },
+    "testimonials": {
+      "label": "Patient Stories",
+      "title": "What our patients say",
+      "items": {
+        "1": {
+          "quote": "The team made me feel calm from the moment I walked in. Best dental experience I've had.",
+          "name": "Sarah M.",
+          "role": "Patient since 2022"
+        },
+        "2": {
+          "quote": "Booking online was easy, and the appointment reminder saved me from forgetting my visit.",
+          "name": "James L.",
+          "role": "New patient"
+        },
+        "3": {
+          "quote": "Professional, gentle, and transparent about every step. Highly recommend TacDent.",
+          "name": "Ayşe K.",
+          "role": "Family plan member"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready for your next visit?",
+      "description": "Book online in under a minute. Our team will confirm your appointment and send a reminder before your visit."
+    }
+  },
+  "services": {
+    "label": "Services",
+    "title": "Treatments for every stage of care",
+    "description": "From preventive visits to advanced procedures, we explain every option in plain language so you can choose with confidence.",
+    "imageAlt": "Dental treatment room",
+    "empty": "Start the backend API to load live services, or check back soon.",
+    "priceFrom": "From {price} · {minutes} min",
+    "items": {
+      "1": {
+        "name": "General Checkup",
+        "description": "Comprehensive oral exam, cleaning, and preventive care."
+      },
+      "2": {
+        "name": "Teeth Whitening",
+        "description": "Professional whitening for a brighter, confident smile."
+      },
+      "3": {
+        "name": "Dental Implants",
+        "description": "Permanent tooth replacement with natural-looking results."
+      },
+      "4": {
+        "name": "Orthodontics",
+        "description": "Clear aligners and braces for straighter teeth."
+      },
+      "5": {
+        "name": "Emergency Care",
+        "description": "Same-day relief for pain, breaks, and urgent issues."
+      }
+    }
+  },
+  "about": {
+    "label": "About TacDent",
+    "title": "Care that feels human, not clinical",
+    "description": "TacDent was founded on a simple idea: dental visits should be calm, transparent, and tailored to you. We combine modern technology with a warm team that listens first.",
+    "team": {
+      "elena": { "name": "Dr. Elena Brooks", "role": "Lead Dentist" },
+      "marco": { "name": "Dr. Marco Silva", "role": "Implant Specialist" },
+      "nina": { "name": "Nina Carter", "role": "Dental Hygienist" }
+    }
+  },
+  "contact": {
+    "label": "Contact",
+    "title": "We are here to help",
+    "description": "Questions about a treatment or your upcoming visit? Reach out anytime.",
+    "clinic": "Clinic",
+    "emergency": "Emergency line",
+    "emergencyText": "For urgent pain or trauma outside regular hours, call our emergency line at",
+    "emergencyPhone": "+1 (555) 987-6543"
+  },
+  "appointments": {
+    "label": "Appointments",
+    "title": "Book a visit",
+    "description": "Request a new appointment and our team will contact you by phone to confirm your preferred date and time.",
+    "form": {
+      "title": "Book an appointment",
+      "description": "Fill in your details and pick a preferred date and time.",
+      "patientName": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "service": "Service",
+      "servicePlaceholder": "Select a service",
+      "preferredDate": "Preferred date",
+      "preferredTime": "Preferred time",
+      "notes": "Notes (optional)",
+      "notesPlaceholder": "Any allergies, concerns, or special requests",
+      "submit": "Request Appointment",
+      "submitting": "Submitting...",
+      "success": "Appointment request submitted! We will contact you by phone to confirm.",
+      "loadServicesError": "Could not load services. Is the API running?",
+      "submitError": "Failed to submit appointment."
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "Staff login",
+      "description": "Sign in to view appointment requests and manage bookings.",
+      "email": "Email",
+      "password": "Password",
+      "welcomeBack": "Welcome back."
+    },
+    "roles": {
+      "admin": "Admin",
+      "staff": "Staff"
+    },
+    "dashboard": {
+      "adminLabel": "Admin",
+      "staffLabel": "Staff",
+      "adminTitle": "Admin dashboard",
+      "staffTitle": "Appointment requests",
+      "adminDescription": "Manage staff accounts and appointment requests.",
+      "staffDescription": "Review new booking requests and contact patients by phone to confirm their visit.",
+      "appointmentsSectionTitle": "Appointment requests",
+      "appointmentsSectionDescription": "Review new booking requests and contact patients by phone to confirm their visit."
+    },
+    "appointments": {
+      "tabs": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "all": "All"
+      },
+      "sort": {
+        "preferredDate": "Preferred date",
+        "createdAt": "Created",
+        "status": "Status",
+        "ascending": "Ascending",
+        "descending": "Descending",
+        "sortBy": "Sort by",
+        "ariaSort": "Sort {direction}"
+      },
+      "empty": {
+        "all": "No appointment requests yet.",
+        "filtered": "No {status} appointment requests."
+      },
+      "fields": {
+        "date": "Date",
+        "time": "Time",
+        "email": "Email",
+        "phone": "Phone",
+        "assignee": "Assignee",
+        "unassigned": "Unassigned",
+        "notes": "Notes",
+        "assignTo": "Assign to",
+        "selectAssignee": "Select assignee"
+      },
+      "actions": {
+        "mark": "Mark {status}",
+        "delete": "Delete",
+        "deleteTitle": "Delete appointment?",
+        "deleteDescription": "This will permanently remove the booking for {name}."
+      },
+      "pagination": {
+        "page": "Page {page} of {total}"
+      },
+      "toast": {
+        "statusUpdated": "Appointment marked as {status}.",
+        "deleted": "Appointment deleted.",
+        "assigneeUpdated": "Assignee updated.",
+        "assigneeCleared": "Assignee cleared.",
+        "loadError": "Could not load appointments.",
+        "statusError": "Could not update appointment status.",
+        "deleteError": "Could not delete appointment.",
+        "assignError": "Could not assign appointment.",
+        "usersError": "Could not load users."
+      }
+    },
+    "users": {
+      "title": "Staff accounts",
+      "description": "Create and manage clinic staff logins.",
+      "createTitle": "Add staff member",
+      "email": "Email",
+      "password": "Password",
+      "role": "Role",
+      "create": "Create user",
+      "creating": "Creating...",
+      "saving": "Saving...",
+      "resetPassword": "Reset password",
+      "resetTitle": "Reset password",
+      "resetDescription": "Set a new password for {email}.",
+      "newPassword": "New password",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "empty": "No staff accounts yet.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "toast": {
+        "created": "User created.",
+        "roleUpdated": "Role updated.",
+        "deactivated": "User deactivated.",
+        "activated": "User activated.",
+        "passwordReset": "Password reset.",
+        "createError": "Could not create user.",
+        "roleError": "Could not update role.",
+        "statusError": "Could not update status.",
+        "resetError": "Could not reset password.",
+        "loadError": "Could not load users."
+      }
+    }
+  },
+  "status": {
+    "Pending": "Pending",
+    "Confirmed": "Confirmed",
+    "Cancelled": "Cancelled",
+    "Completed": "Completed"
+  },
+  "validation": {
+    "required": "This field is required.",
+    "patientNameRequired": "Full name is required.",
+    "emailInvalid": "Enter a valid email address.",
+    "phoneRequired": "Phone number is required.",
+    "preferredDateRequired": "Preferred date is required.",
+    "preferredTimeRequired": "Preferred time is required.",
+    "serviceRequired": "Please select a service.",
+    "passwordRequired": "Password is required.",
+    "passwordMin": "Password must be at least 8 characters."
+  }
+}

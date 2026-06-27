@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
 import { createAppointment, getServices } from "@/lib/api";
 import {
-  appointmentFormSchema,
+  createAppointmentFormSchema,
   type AppointmentFormValues,
 } from "@/lib/schemas/appointment";
+import { localizeServiceName } from "@/lib/services";
 import type { DentalService } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,7 +31,14 @@ interface AppointmentFormProps {
 }
 
 export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
+  const t = useTranslations("appointments.form");
+  const tValidation = useTranslations("validation");
   const [services, setServices] = useState<DentalService[]>([]);
+
+  const appointmentFormSchema = useMemo(
+    () => createAppointmentFormSchema((key) => tValidation(key)),
+    [tValidation]
+  );
 
   const form = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentFormSchema),
@@ -52,13 +61,13 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
           form.setValue("serviceType", data[0].name);
         }
       })
-      .catch(() => toast.error("Could not load services. Is the API running?"));
-  }, [form]);
+      .catch(() => toast.error(t("loadServicesError")));
+  }, [form, t]);
 
   async function onSubmit(values: AppointmentFormValues) {
     try {
       await createAppointment(values);
-      toast.success("Appointment request submitted! We will contact you by phone to confirm.");
+      toast.success(t("success"));
       form.reset({
         patientName: "",
         email: "",
@@ -70,23 +79,24 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
       });
       onCreated?.();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to submit appointment.");
+      toast.error(error instanceof Error ? error.message : t("submitError"));
     }
   }
 
   const { errors, isSubmitting } = form.formState;
+  const tServices = useTranslations("services");
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Book an appointment</CardTitle>
-        <CardDescription>Fill in your details and pick a preferred date and time.</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="patientName">Full name</Label>
+              <Label htmlFor="patientName">{t("patientName")}</Label>
               <Input id="patientName" {...form.register("patientName")} aria-invalid={!!errors.patientName} />
               {errors.patientName && (
                 <p className="text-sm text-destructive">{errors.patientName.message}</p>
@@ -94,31 +104,31 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("email")}</Label>
               <Input id="email" type="email" {...form.register("email")} aria-invalid={!!errors.email} />
               {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">{t("phone")}</Label>
               <Input id="phone" {...form.register("phone")} aria-invalid={!!errors.phone} />
               {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="serviceType">Service</Label>
+              <Label htmlFor="serviceType">{t("service")}</Label>
               <Controller
                 control={form.control}
                 name="serviceType"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger id="serviceType" className="w-full" aria-invalid={!!errors.serviceType}>
-                      <SelectValue placeholder="Select a service" />
+                      <SelectValue placeholder={t("servicePlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {services.map((service) => (
                         <SelectItem key={service.id} value={service.name}>
-                          {service.name}
+                          {localizeServiceName(service, tServices)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -131,7 +141,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="preferredDate">Preferred date</Label>
+              <Label htmlFor="preferredDate">{t("preferredDate")}</Label>
               <Input
                 id="preferredDate"
                 type="date"
@@ -144,7 +154,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="preferredTime">Preferred time</Label>
+              <Label htmlFor="preferredTime">{t("preferredTime")}</Label>
               <Input
                 id="preferredTime"
                 type="time"
@@ -158,11 +168,11 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="notes">Notes (optional)</Label>
+            <Label htmlFor="notes">{t("notes")}</Label>
             <Textarea
               id="notes"
               rows={3}
-              placeholder="Any allergies, concerns, or special requests"
+              placeholder={t("notesPlaceholder")}
               {...form.register("notes")}
             />
           </div>
@@ -171,10 +181,10 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
             {isSubmitting ? (
               <>
                 <Loader2Icon className="animate-spin" />
-                Submitting...
+                {t("submitting")}
               </>
             ) : (
-              "Request Appointment"
+              t("submit")
             )}
           </Button>
         </form>

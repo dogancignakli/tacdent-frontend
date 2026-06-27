@@ -1,0 +1,331 @@
+{
+  "metadata": {
+    "title": "TacDent | Modern Diş Kliniği",
+    "description": "Randevu alın, hizmetleri keşfedin ve nazik, modern diş bakımını deneyimleyin."
+  },
+  "common": {
+    "brand": "TacDent",
+    "tagline": "Modern Diş Bakımı",
+    "nav": {
+      "home": "Ana Sayfa",
+      "services": "Hizmetler",
+      "about": "Hakkımızda",
+      "contact": "İletişim",
+      "appointments": "Randevular"
+    },
+    "buttons": {
+      "bookNow": "Randevu Al",
+      "bookAppointment": "Randevu al",
+      "scheduleNow": "Hemen Planla",
+      "seeAllServices": "Tüm hizmetler →",
+      "bookConsultation": "Danışma randevusu al",
+      "logOut": "Çıkış yap",
+      "signIn": "Giriş yap",
+      "signingIn": "Giriş yapılıyor...",
+      "cancel": "İptal",
+      "delete": "Sil",
+      "previous": "Önceki",
+      "next": "Sonraki",
+      "submit": "Gönder",
+      "create": "Oluştur",
+      "save": "Kaydet",
+      "reset": "Sıfırla"
+    },
+    "footer": {
+      "clinic": "TacDent Kliniği",
+      "description": "Aileler için nazik, modern diş hekimliği. Gülüşünüz önceliğimizdir.",
+      "hours": "Çalışma saatleri",
+      "hoursWeekdays": "Pzt – Cum: 08:00 – 18:00",
+      "hoursSaturday": "Cumartesi: 09:00 – 14:00",
+      "hoursSunday": "Pazar: Yalnızca acil",
+      "contact": "İletişim",
+      "address": "Gülüş Caddesi No: 123, İstanbul",
+      "phone": "+90 (212) 123 45 67",
+      "email": "hello@tacdent.com",
+      "scheduleLink": "Randevu planla →",
+      "staffLogin": "Personel girişi",
+      "copyright": "© {year} TacDent. Next.js + shadcn/ui ile geliştirildi."
+    },
+    "language": {
+      "label": "Dil",
+      "tr": "TR",
+      "en": "EN"
+    },
+    "theme": {
+      "toggle": "Tema değiştir",
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem"
+    },
+    "menu": "Menü",
+    "errors": {
+      "generic": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+      "sessionExpired": "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
+      "loginFailed": "Giriş başarısız."
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "TacDent'e Hoş Geldiniz",
+      "title": "Sağlıklı gülüşler güvenilir bakımla başlar",
+      "description": "Rutin kontrollerden ileri tedavilere kadar ekibimiz modern teknolojiyi sakin ve samimi bir deneyimle birleştirir.",
+      "bookAppointment": "Randevu Al",
+      "viewServices": "Hizmetleri Gör",
+      "imageAlt": "Samimi personelli modern diş kliniği"
+    },
+    "highlights": {
+      "team": {
+        "title": "Deneyimli Ekip",
+        "text": "Konfor ve net iletişime odaklanan diş hekimleri ve hijyenistler."
+      },
+      "equipment": {
+        "title": "Modern Ekipman",
+        "text": "Daha hızlı ve güvenli tedaviler için dijital görüntüleme ve hassas araçlar."
+      },
+      "booking": {
+        "title": "Kolay Randevu",
+        "text": "Randevularınızı çevrimiçi talep edin ve tek yerden yönetin."
+      }
+    },
+    "servicesCarousel": {
+      "label": "Hizmetlerimiz",
+      "title": "Her gülüşe özel bakım",
+      "slides": {
+        "general": {
+          "title": "Genel Diş Hekimliği",
+          "description": "Koruyucu muayeneler, temizlik ve kişiselleştirilmiş bakım planları."
+        },
+        "cosmetic": {
+          "title": "Estetik Tedaviler",
+          "description": "Doğal görünümlü beyazlatma, kaplama ve gülüş tasarımı."
+        },
+        "family": {
+          "title": "Aile Dostu",
+          "description": "Çocuklar, gençler ve yetişkinler için rahat ziyaretler."
+        }
+      }
+    },
+    "testimonials": {
+      "label": "Hasta Hikayeleri",
+      "title": "Hastalarımız ne diyor",
+      "items": {
+        "1": {
+          "quote": "Kapıdan girdiğim andan itibaren kendimi rahat hissettim. Şimdiye kadarki en iyi diş deneyimim.",
+          "name": "Sarah M.",
+          "role": "2022'den beri hasta"
+        },
+        "2": {
+          "quote": "Çevrimiçi randevu almak kolaydı ve hatırlatma sayesinde randevumu unutmadım.",
+          "name": "James L.",
+          "role": "Yeni hasta"
+        },
+        "3": {
+          "quote": "Profesyonel, nazik ve her adımı şeffaf anlattılar. TacDent'i kesinlikle tavsiye ederim.",
+          "name": "Ayşe K.",
+          "role": "Aile planı üyesi"
+        }
+      }
+    },
+    "cta": {
+      "title": "Bir sonraki ziyaretinize hazır mısınız?",
+      "description": "Bir dakikadan kısa sürede çevrimiçi randevu alın. Ekibimiz randevunuzu onaylayacak ve ziyaretinizden önce hatırlatma gönderecek."
+    }
+  },
+  "services": {
+    "label": "Hizmetler",
+    "title": "Her bakım aşaması için tedaviler",
+    "description": "Koruyucu ziyaretlerden ileri işlemlere kadar her seçeneği anlaşılır bir dille açıklıyoruz; güvenle karar verebilirsiniz.",
+    "imageAlt": "Diş tedavi odası",
+    "empty": "Canlı hizmetleri yüklemek için backend API'yi başlatın veya daha sonra tekrar kontrol edin.",
+    "priceFrom": "{price} başlayan fiyatlar · {minutes} dk",
+    "items": {
+      "1": {
+        "name": "Genel Muayene",
+        "description": "Kapsamlı ağız muayenesi, temizlik ve koruyucu bakım."
+      },
+      "2": {
+        "name": "Diş Beyazlatma",
+        "description": "Daha parlak ve özgüvenli bir gülüş için profesyonel beyazlatma."
+      },
+      "3": {
+        "name": "Diş İmplantı",
+        "description": "Doğal görünümlü kalıcı diş değişimi."
+      },
+      "4": {
+        "name": "Ortodonti",
+        "description": "Daha düzgün dişler için şeffaf plaklar ve telli tedaviler."
+      },
+      "5": {
+        "name": "Acil Bakım",
+        "description": "Ağrı, kırık ve acil durumlar için aynı gün müdahale."
+      }
+    }
+  },
+  "about": {
+    "label": "TacDent Hakkında",
+    "title": "İnsani hissettiren, klinik olmayan bakım",
+    "description": "TacDent basit bir fikirle kuruldu: diş ziyaretleri sakin, şeffaf ve size özel olmalı. Modern teknolojiyi önce dinleyen sıcak bir ekiple birleştiriyoruz.",
+    "team": {
+      "elena": { "name": "Dr. Elena Brooks", "role": "Baş Diş Hekimi" },
+      "marco": { "name": "Dr. Marco Silva", "role": "İmplant Uzmanı" },
+      "nina": { "name": "Nina Carter", "role": "Diş Hijyenisti" }
+    }
+  },
+  "contact": {
+    "label": "İletişim",
+    "title": "Yardımcı olmak için buradayız",
+    "description": "Bir tedavi veya yaklaşan ziyaretiniz hakkında sorularınız mı var? Bize istediğiniz zaman ulaşın.",
+    "clinic": "Klinik",
+    "emergency": "Acil hat",
+    "emergencyText": "Mesai saatleri dışında acil ağrı veya travma için acil hattımızı arayın:",
+    "emergencyPhone": "+90 (212) 987 65 43"
+  },
+  "appointments": {
+    "label": "Randevular",
+    "title": "Ziyaret planlayın",
+    "description": "Yeni bir randevu talep edin; ekibimiz tercih ettiğiniz tarih ve saati telefonla onaylamak için sizinle iletişime geçecek.",
+    "form": {
+      "title": "Randevu alın",
+      "description": "Bilgilerinizi doldurun ve tercih ettiğiniz tarih ile saati seçin.",
+      "patientName": "Ad soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "service": "Hizmet",
+      "servicePlaceholder": "Hizmet seçin",
+      "preferredDate": "Tercih edilen tarih",
+      "preferredTime": "Tercih edilen saat",
+      "notes": "Notlar (isteğe bağlı)",
+      "notesPlaceholder": "Alerjiler, endişeler veya özel istekler",
+      "submit": "Randevu Talep Et",
+      "submitting": "Gönderiliyor...",
+      "success": "Randevu talebiniz alındı! Onay için telefonla sizinle iletişime geçeceğiz.",
+      "loadServicesError": "Hizmetler yüklenemedi. API çalışıyor mu?",
+      "submitError": "Randevu gönderilemedi."
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "Personel girişi",
+      "description": "Randevu taleplerini görüntülemek ve yönetmek için giriş yapın.",
+      "email": "E-posta",
+      "password": "Şifre",
+      "welcomeBack": "Tekrar hoş geldiniz."
+    },
+    "roles": {
+      "admin": "Yönetici",
+      "staff": "Personel"
+    },
+    "dashboard": {
+      "adminLabel": "Yönetici",
+      "staffLabel": "Personel",
+      "adminTitle": "Yönetici paneli",
+      "staffTitle": "Randevu talepleri",
+      "adminDescription": "Personel hesaplarını ve randevu taleplerini yönetin.",
+      "staffDescription": "Yeni randevu taleplerini inceleyin ve ziyareti onaylamak için hastaları telefonla arayın.",
+      "appointmentsSectionTitle": "Randevu talepleri",
+      "appointmentsSectionDescription": "Yeni randevu taleplerini inceleyin ve ziyareti onaylamak için hastaları telefonla arayın."
+    },
+    "appointments": {
+      "tabs": {
+        "pending": "Bekleyen",
+        "confirmed": "Onaylı",
+        "completed": "Tamamlanan",
+        "cancelled": "İptal",
+        "all": "Tümü"
+      },
+      "sort": {
+        "preferredDate": "Tercih edilen tarih",
+        "createdAt": "Oluşturulma",
+        "status": "Durum",
+        "ascending": "Artan",
+        "descending": "Azalan",
+        "sortBy": "Sırala",
+        "ariaSort": "Sıralama: {direction}"
+      },
+      "empty": {
+        "all": "Henüz randevu talebi yok.",
+        "filtered": "{status} randevu talebi yok."
+      },
+      "fields": {
+        "date": "Tarih",
+        "time": "Saat",
+        "email": "E-posta",
+        "phone": "Telefon",
+        "assignee": "Atanan",
+        "unassigned": "Atanmamış",
+        "notes": "Notlar",
+        "assignTo": "Ata",
+        "selectAssignee": "Personel seçin"
+      },
+      "actions": {
+        "mark": "{status} olarak işaretle",
+        "delete": "Sil",
+        "deleteTitle": "Randevu silinsin mi?",
+        "deleteDescription": "{name} için yapılan randevu kalıcı olarak silinecek."
+      },
+      "pagination": {
+        "page": "Sayfa {page} / {total}"
+      },
+      "toast": {
+        "statusUpdated": "Randevu {status} olarak işaretlendi.",
+        "deleted": "Randevu silindi.",
+        "assigneeUpdated": "Atanan güncellendi.",
+        "assigneeCleared": "Atama kaldırıldı.",
+        "loadError": "Randevular yüklenemedi.",
+        "statusError": "Randevu durumu güncellenemedi.",
+        "deleteError": "Randevu silinemedi.",
+        "assignError": "Atama yapılamadı.",
+        "usersError": "Kullanıcılar yüklenemedi."
+      }
+    },
+    "users": {
+      "title": "Personel hesapları",
+      "description": "Klinik personel girişlerini oluşturun ve yönetin.",
+      "createTitle": "Personel ekle",
+      "email": "E-posta",
+      "password": "Şifre",
+      "role": "Rol",
+      "create": "Kullanıcı oluştur",
+      "creating": "Oluşturuluyor...",
+      "saving": "Kaydediliyor...",
+      "resetPassword": "Şifre sıfırla",
+      "resetTitle": "Şifre sıfırla",
+      "resetDescription": "{email} için yeni bir şifre belirleyin.",
+      "newPassword": "Yeni şifre",
+      "activate": "Etkinleştir",
+      "deactivate": "Devre dışı bırak",
+      "empty": "Henüz personel hesabı yok.",
+      "active": "Aktif",
+      "inactive": "Pasif",
+      "toast": {
+        "created": "Kullanıcı oluşturuldu.",
+        "roleUpdated": "Rol güncellendi.",
+        "deactivated": "Kullanıcı devre dışı bırakıldı.",
+        "activated": "Kullanıcı etkinleştirildi.",
+        "passwordReset": "Şifre sıfırlandı.",
+        "createError": "Kullanıcı oluşturulamadı.",
+        "roleError": "Rol güncellenemedi.",
+        "statusError": "Durum güncellenemedi.",
+        "resetError": "Şifre sıfırlanamadı.",
+        "loadError": "Kullanıcılar yüklenemedi."
+      }
+    }
+  },
+  "status": {
+    "Pending": "Bekleyen",
+    "Confirmed": "Onaylı",
+    "Cancelled": "İptal",
+    "Completed": "Tamamlanan"
+  },
+  "validation": {
+    "required": "Bu alan zorunludur.",
+    "patientNameRequired": "Ad soyad zorunludur.",
+    "emailInvalid": "Geçerli bir e-posta adresi girin.",
+    "phoneRequired": "Telefon numarası zorunludur.",
+    "preferredDateRequired": "Tercih edilen tarih zorunludur.",
+    "preferredTimeRequired": "Tercih edilen saat zorunludur.",
+    "serviceRequired": "Lütfen bir hizmet seçin.",
+    "passwordRequired": "Şifre zorunludur.",
+    "passwordMin": "Şifre en az 8 karakter olmalıdır."
+  }
+}

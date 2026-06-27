@@ -10,7 +10,7 @@ cp .env.local.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Backend API: [http://localhost:5065](http://localhost:5065).
+Open [http://localhost:3000/tr](http://localhost:3000/tr). Backend API: [http://localhost:5065](http://localhost:5065).
 
 ---
 
@@ -18,15 +18,17 @@ Open [http://localhost:3000](http://localhost:3000). Backend API: [http://localh
 
 | # | File | What you'll learn |
 |---|------|-------------------|
-| 1 | `src/components/layout/Header.tsx` | Client components, shadcn `Button`, `Sheet`, `NavigationMenu` |
-| 2 | `src/components/home/Hero.tsx` | Server components, composing UI from shadcn pieces |
-| 3 | `src/components/appointments/AppointmentForm.tsx` | `react-hook-form` + `zod` validation + shadcn inputs + sonner toasts |
-| 4 | `src/app/appointments/page.tsx` | Public booking page — form only, no patient list |
-| 5 | `src/app/admin/login/page.tsx` | Staff login; token stored via `src/lib/auth.ts` |
-| 6 | `src/components/admin/AdminAppointmentList.tsx` | Authenticated list, status updates, delete confirm dialog |
+| 1 | `src/components/layout/Header.tsx` | Nav, mobile sheet, **TR \| EN language toggle**, theme toggle |
+| 1b | `src/components/layout/language-toggle.tsx` | Segmented locale switcher with `useRouter` + `usePathname` |
+| 2 | `src/components/home/Hero.tsx` | Client components with `useTranslations` |
+| 3 | `src/components/appointments/AppointmentForm.tsx` | `react-hook-form` + locale-aware zod + sonner toasts |
+| 4 | `src/app/[locale]/appointments/page.tsx` | Public booking page |
+| 5 | `src/app/[locale]/admin/login/page.tsx` | Staff login via BFF |
+| 6 | `src/components/admin/AdminAppointmentList.tsx` | Status tabs, sorting, pagination |
+| 6b | `src/components/admin/AdminUserManagement.tsx` | Admin-only staff account management |
 | 7 | `src/components/home/ServicesCarousel.tsx` | shadcn `Carousel` (Embla) |
-| 8 | `src/app/globals.css` | Theme tokens — change brand color in one place |
-| 9 | `src/components/providers/theme-provider.tsx` | Dark mode with `next-themes` |
+| 8 | `messages/tr.json` | Translation keys (mirror in `en.json`) |
+| 9 | `src/app/globals.css` | Theme tokens |
 
 ---
 
@@ -97,7 +99,15 @@ See `AppointmentForm.tsx` and `src/app/admin/login/page.tsx` for the full patter
 
 ## API access
 
-All HTTP calls go through `src/lib/api.ts` — never `fetch` inside a component. Staff endpoints send the JWT from `src/lib/auth.ts` automatically.
+All HTTP calls go through `src/lib/api.ts` — never `fetch` inside a component. Staff routes hit the **Next.js BFF** (`/api/*`).
+
+## Adding translations
+
+1. Add the key to both `messages/tr.json` and `messages/en.json` under the right namespace (`common`, `home`, `admin`, …).
+2. In Server Components: `const t = await getTranslations('namespace')` then `t('key')`.
+3. In Client Components: `const t = useTranslations('namespace')` then `t('key')`.
+4. For links, use `Link` from `@/i18n/navigation` (not `next/link`) so the locale prefix is preserved.
+5. Form validation: use schema factories in `src/lib/schemas/` that accept a `t` function from `useTranslations('validation')`.
 
 ---
 

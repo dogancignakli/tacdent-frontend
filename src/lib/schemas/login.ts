@@ -1,8 +1,12 @@
 import { z } from "zod";
 
-export const loginFormSchema = z.object({
-  email: z.string().trim().email("Enter a valid email address.").max(200),
-  password: z.string().min(1, "Password is required."),
-});
+type ValidationTranslator = (key: string) => string;
 
-export type LoginFormValues = z.infer<typeof loginFormSchema>;
+export function createLoginFormSchema(t: ValidationTranslator) {
+  return z.object({
+    email: z.string().trim().email(t("emailInvalid")).max(200),
+    password: z.string().min(1, t("passwordRequired")),
+  });
+}
+
+export type LoginFormValues = z.infer<ReturnType<typeof createLoginFormSchema>>;
