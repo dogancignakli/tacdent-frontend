@@ -7,14 +7,15 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://images.unsplash.com",
-  `connect-src 'self' ${apiUrl}`,
+  `connect-src 'self' ${apiUrl} https://www.google.com`,
   "font-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
+  "frame-src https://www.google.com",
   "frame-ancestors 'none'",
 ].join("; ");
 

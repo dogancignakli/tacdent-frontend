@@ -1,13 +1,5 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-
-const teamKeys = ["elena", "marco", "nina"] as const;
-const teamImages = {
-  elena: "photo-1559839734-2b71ea197ec2",
-  marco: "photo-1612349317150-e413f6a5b16d",
-  nina: "photo-1594824476967-48c8b964273f",
-} as const;
 
 export default async function AboutPage({
   params,
@@ -17,31 +9,34 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("about");
+  const bio = t.raw("dentist.bio") as string[];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <div className="max-w-3xl space-y-4">
-        <p className="text-sm font-semibold uppercase tracking-wide text-primary">{t("label")}</p>
-        <h1 className="font-heading text-4xl font-bold">{t("title")}</h1>
-        <p className="text-lg leading-8 text-muted-foreground">{t("description")}</p>
-      </div>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-12">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,46%)_1fr] lg:items-start lg:gap-10 xl:gap-12">
+        <div className="mx-auto w-full max-w-sm lg:sticky lg:top-24 lg:mx-0 lg:max-w-none">
+          <Image
+            src="/team/tugce-aydin-cignakli.webp"
+            alt={t("dentist.imageAlt")}
+            width={854}
+            height={1024}
+            className="w-full rounded-lg"
+            priority
+          />
+        </div>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {teamKeys.map((key) => (
-          <Card key={key} className="overflow-hidden py-0">
-            <Image
-              src={`https://images.unsplash.com/${teamImages[key]}?auto=format&fit=crop&w=800&q=80`}
-              alt={t(`team.${key}.name`)}
-              width={800}
-              height={600}
-              className="h-56 w-full object-cover"
-            />
-            <CardHeader>
-              <CardTitle>{t(`team.${key}.name`)}</CardTitle>
-              <p className="text-sm text-primary">{t(`team.${key}.role`)}</p>
-            </CardHeader>
-          </Card>
-        ))}
+        <div className="min-w-0">
+          <h1 className="font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+            {t("dentist.name")}
+          </h1>
+          <p className="mt-1 text-sm font-medium text-primary">{t("dentist.role")}</p>
+
+          <div className="mt-6 text-[15px] leading-7 text-muted-foreground sm:text-base sm:leading-7 lg:columns-2 lg:gap-x-10 xl:gap-x-12 [&>p]:mb-4 [&>p]:break-inside-avoid [&>p:last-child]:mb-0">
+            {bio.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

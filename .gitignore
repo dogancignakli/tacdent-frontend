@@ -12,6 +12,9 @@ out/
 npm-debug.log*
 .DS_Store
 
+# Cursor
+.cursor/
+
 # TypeScript
 next-env.d.ts
 *.tsbuildinfo

@@ -61,7 +61,8 @@
     "errors": {
       "generic": "Something went wrong. Please try again.",
       "sessionExpired": "Your session has expired. Please log in again.",
-      "loginFailed": "Login failed."
+      "loginFailed": "Login failed.",
+      "recaptchaFailed": "Security verification failed. Please try again."
     }
   },
   "home": {
@@ -162,13 +163,17 @@
     }
   },
   "about": {
-    "label": "About TacDent",
-    "title": "Care that feels human, not clinical",
-    "description": "TacDent was founded on a simple idea: dental visits should be calm, transparent, and tailored to you. We combine modern technology with a warm team that listens first.",
-    "team": {
-      "elena": { "name": "Dr. Elena Brooks", "role": "Lead Dentist" },
-      "marco": { "name": "Dr. Marco Silva", "role": "Implant Specialist" },
-      "nina": { "name": "Nina Carter", "role": "Dental Hygienist" }
+    "dentist": {
+      "name": "Tuğçe Aydın Çiğnaklı",
+      "role": "Dentist",
+      "imageAlt": "Dentist Tuğçe Aydın Çiğnaklı",
+      "bio": [
+        "I completed my undergraduate education in Dentistry in 2020 at Istanbul Medipol University Faculty of Dentistry. After graduating, I worked actively for two years at a private practice in Istanbul. Following this period, I established my own practice in the Dalaman district of Muğla, where I began working independently and continue to practice dentistry to this day.",
+        "In my professional practice, I base my work on evidence-based approaches guided by scientific data, taking care to create individualized treatment plans through comprehensive, multidisciplinary evaluations tailored to each patient. My main areas of interest include aesthetic dentistry, implantology, prosthetic rehabilitation, and minimally invasive treatment methods.",
+        "Placing great importance on my professional development after graduation, I have participated in numerous advanced training and certification programs at both national and international levels. These include training in aesthetic composite restorations, ceramic restorations, implant surgery and superstructure applications, peri-implantitis treatment protocols, the use of PRF–PRP biological materials, botulinum toxin applications, dental photography techniques, and advanced surgical procedures.",
+        "In my practice, I adopt an approach that values aesthetic integrity alongside functional recovery, prioritizing long-term biological compatibility and patient satisfaction. I believe that communication established with patients is decisive for treatment success, and I aim to build an informative, transparent, and trust-based doctor-patient relationship throughout the process.",
+        "Beyond my professional activities, I am closely interested in animal rights and love of nature. As a dentist who prioritizes quality of life, is committed to ethical values, and closely follows scientific developments, I aim to offer my patients current and holistic solutions."
+      ]
     }
   },
   "contact": {

@@ -61,7 +61,8 @@
     "errors": {
       "generic": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
       "sessionExpired": "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
-      "loginFailed": "Giriş başarısız."
+      "loginFailed": "Giriş başarısız.",
+      "recaptchaFailed": "Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin."
     }
   },
   "home": {
@@ -162,13 +163,17 @@
     }
   },
   "about": {
-    "label": "TacDent Hakkında",
-    "title": "İnsani hissettiren, klinik olmayan bakım",
-    "description": "TacDent basit bir fikirle kuruldu: diş ziyaretleri sakin, şeffaf ve size özel olmalı. Modern teknolojiyi önce dinleyen sıcak bir ekiple birleştiriyoruz.",
-    "team": {
-      "elena": { "name": "Dr. Elena Brooks", "role": "Baş Diş Hekimi" },
-      "marco": { "name": "Dr. Marco Silva", "role": "İmplant Uzmanı" },
-      "nina": { "name": "Nina Carter", "role": "Diş Hijyenisti" }
+    "dentist": {
+      "name": "Tuğçe Aydın Çiğnaklı",
+      "role": "Diş Hekimi",
+      "imageAlt": "Diş Hekimi Tuğçe Aydın Çiğnaklı",
+      "bio": [
+        "Diş Hekimliği lisans eğitimimi 2020 yılında İstanbul Medipol Üniversitesi Diş Hekimliği Fakültesi’nde tamamladım. Mezuniyetimin ardından İstanbul’da özel bir muayenehanede iki yıl süreyle aktif hizmet verdim. Bu sürecin ardından Muğla’nın Dalaman ilçesinde kendi muayenehanemi kurarak serbest diş hekimliği faaliyetlerime başladım ve halen çalışmalarımı burada sürdürmekteyim.",
+        "Mesleki uygulamalarımda bilimsel veriler ışığında, kanıta dayalı yaklaşımları esas alıyor; her hastaya özgü, kapsamlı ve multidisipliner değerlendirmelerle bireyselleştirilmiş tedavi planları oluşturmaya özen gösteriyorum. Özellikle estetik diş hekimliği, implantoloji, protetik rehabilitasyon ve minimal invaziv tedavi yöntemleri başlıca ilgi alanlarım arasında yer almaktadır.",
+        "Mezuniyet sonrası mesleki gelişimime önem vererek, ulusal ve uluslararası düzeyde birçok ileri düzey eğitime ve sertifikasyon programına katıldım. Bu kapsamda estetik kompozit restorasyonlar, seramik restorasyonlar, implant cerrahisi ve üst yapı uygulamaları, periimplantitis tedavi protokolleri, PRF–PRP biyolojik materyal kullanımı, botulinum toksin uygulamaları, dental fotoğrafçılık teknikleri ve ileri cerrahi prosedürlere yönelik eğitimler aldım.",
+        "Pratiğimde fonksiyonel iyileşmenin yanı sıra estetik bütünlüğü de önemseyen, uzun dönem biyolojik uyum ve hasta memnuniyetini esas alan bir yaklaşımı benimsemekteyim. Hastalarla kurulan iletişimin tedavi başarısında belirleyici olduğuna inanıyor; süreç boyunca bilgilendirici, şeffaf ve güvene dayalı bir hekim-hasta ilişkisi kurmayı hedefliyorum.",
+        "Mesleki faaliyetlerimin yanı sıra hayvan hakları ve doğa sevgisiyle yakından ilgilenmekteyim. Yaşam kalitesini önceleyen, etik değerlere bağlı, bilimsel gelişmeleri yakından takip eden bir diş hekimi olarak hastalarıma güncel ve bütüncül çözümler sunmayı amaçlıyorum."
+      ]
     }
   },
   "contact": {
