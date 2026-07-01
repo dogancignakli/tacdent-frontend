@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
 import { login } from "@/lib/api";
+import { useRecaptcha } from "@/hooks/use-recaptcha";
 import { createLoginFormSchema, type LoginFormValues } from "@/lib/schemas/login";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +21,7 @@ export default function AdminLoginPage() {
   const tButtons = useTranslations("common.buttons");
   const tValidation = useTranslations("validation");
   const tErrors = useTranslations("common.errors");
+  const { executeRecaptcha } = useRecaptcha();
 
   const loginFormSchema = useMemo(
     () => createLoginFormSchema((key) => tValidation(key)),
@@ -36,7 +38,13 @@ export default function AdminLoginPage() {
 
   async function onSubmit(values: LoginFormValues) {
     try {
-      await login(values);
+      const recaptchaToken = await executeRecaptcha("login");
+      if (!recaptchaToken) {
+        toast.error(tErrors("recaptchaFailed"));
+        return;
+      }
+
+      await login({ ...values, recaptchaToken });
       toast.success(t("welcomeBack"));
       router.push("/admin");
     } catch (error) {

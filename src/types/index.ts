@@ -51,11 +51,13 @@ export interface CreateAppointmentPayload {
   preferredTime: string;
   serviceType: string;
   notes?: string;
+  recaptchaToken: string;
 }
 
 export interface LoginPayload {
   email: string;
   password: string;
+  recaptchaToken: string;
 }
 
 export interface LoginResponse {

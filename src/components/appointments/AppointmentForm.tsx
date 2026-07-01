@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
 import { createAppointment, getServices } from "@/lib/api";
+import { useRecaptcha } from "@/hooks/use-recaptcha";
 import {
   createAppointmentFormSchema,
   type AppointmentFormValues,
@@ -33,6 +34,8 @@ interface AppointmentFormProps {
 export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
   const t = useTranslations("appointments.form");
   const tValidation = useTranslations("validation");
+  const tErrors = useTranslations("common.errors");
+  const { executeRecaptcha } = useRecaptcha();
   const [services, setServices] = useState<DentalService[]>([]);
 
   const appointmentFormSchema = useMemo(
@@ -66,7 +69,13 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
 
   async function onSubmit(values: AppointmentFormValues) {
     try {
-      await createAppointment(values);
+      const recaptchaToken = await executeRecaptcha("booking");
+      if (!recaptchaToken) {
+        toast.error(tErrors("recaptchaFailed"));
+        return;
+      }
+
+      await createAppointment({ ...values, recaptchaToken });
       toast.success(t("success"));
       form.reset({
         patientName: "",

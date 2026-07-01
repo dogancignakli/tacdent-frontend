@@ -77,6 +77,7 @@ src/
 | Variable | Description |
 |----------|-------------|
 | `NEXT_PUBLIC_API_URL` | Base URL of the .NET API (default `http://localhost:5065`) |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 **site key** (public). Required for booking and staff login forms. Get keys at [Google reCAPTCHA admin](https://www.google.com/recaptcha/admin/create); add `localhost` to allowed domains. |
 
 ## React learning path
 
@@ -96,9 +97,9 @@ Official docs: [react.dev/learn](https://react.dev/learn) · [nextjs.org/docs](h
 
 - JSON is **camelCase**; enums are **strings** (`Pending`, `Confirmed`, `Cancelled`, `Completed`)
 - Dates: `"YYYY-MM-DD"` · Times: `"HH:mm"` or `"HH:mm:ss"`
-- Public: `POST /api/appointments` (booking) — calls backend directly via `NEXT_PUBLIC_API_URL`
+- Public: `POST /api/appointments` (booking) — calls backend directly via `NEXT_PUBLIC_API_URL`; body includes `recaptchaToken` from reCAPTCHA v3 action `booking`
 - Staff: browser calls **Next.js BFF** routes under `/api/*`; BFF forwards `Authorization: Bearer` from the `tacdent_session` httpOnly cookie
-- Login: `POST /api/auth/login` (BFF) sets `tacdent_session` (httpOnly) and `tacdent_role` (readable by client for UI gating)
+- Login: `POST /api/auth/login` (BFF) sets `tacdent_session` (httpOnly) and `tacdent_role` (readable by client for UI gating); body includes `recaptchaToken` from action `login`
 - Appointments list returns a **paged envelope**: `{ items, page, pageSize, totalCount, totalPages, hasNextPage, hasPreviousPage }`
 - Query params: `status`, `page`, `pageSize`, `sortBy` (`PreferredDate` | `CreatedAt` | `Status`), `sortDirection` (`Asc` | `Desc`)
 
@@ -110,7 +111,7 @@ Staff session is stored in an **httpOnly cookie** (`tacdent_session`) set by the
 
 Response headers are set in `next.config.ts` for all routes:
 
-- **Content-Security-Policy** — restricts scripts, styles, images, and API `connect-src` to `NEXT_PUBLIC_API_URL`
+- **Content-Security-Policy** — restricts scripts, styles, images, and API `connect-src` to `NEXT_PUBLIC_API_URL`; allows Google reCAPTCHA v3 (`google.com`, `gstatic.com`)
 - **X-Frame-Options: DENY** — clickjacking protection
 - **X-Content-Type-Options: nosniff**
 - **Referrer-Policy** and **Permissions-Policy**
