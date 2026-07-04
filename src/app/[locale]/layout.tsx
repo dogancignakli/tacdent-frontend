@@ -13,6 +13,8 @@ import { routing } from "@/i18n/routing";
 import { SESSION_COOKIE } from "@/lib/server/backend";
 import "../globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,6 +38,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata" });
 
   return {
+    metadataBase: new URL(siteUrl),
     title: t("title"),
     description: t("description"),
   };

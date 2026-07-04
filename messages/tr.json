@@ -39,9 +39,9 @@
       "hoursSaturday": "Cumartesi: 09:00 – 14:00",
       "hoursSunday": "Pazar: Yalnızca acil",
       "contact": "İletişim",
-      "address": "Gülüş Caddesi No: 123, İstanbul",
-      "phone": "+90 (212) 123 45 67",
-      "email": "hello@tacdent.com",
+      "address": "Merkez Mahallesi, Atatürk Caddesi, 3. Sokak No:5/1, Dalaman/Muğla",
+      "phone": "0544 405 48 41",
+      "email": "info@tugceaydincignakli.com",
       "scheduleLink": "Randevu planla →",
       "staffLogin": "Personel girişi",
       "copyright": "© {year} TacDent. Next.js + shadcn/ui ile geliştirildi."
@@ -182,8 +182,9 @@
     "description": "Bir tedavi veya yaklaşan ziyaretiniz hakkında sorularınız mı var? Bize istediğiniz zaman ulaşın.",
     "clinic": "Klinik",
     "emergency": "Acil hat",
-    "emergencyText": "Mesai saatleri dışında acil ağrı veya travma için acil hattımızı arayın:",
-    "emergencyPhone": "+90 (212) 987 65 43"
+    "emergencyText": "Mesai saatleri dışında acil ağrı veya travma için bizi arayın:",
+    "emergencyPhone": "0544 405 48 41",
+    "mapTitle": "Klinik konumu haritası"
   },
   "appointments": {
     "label": "Randevular",
