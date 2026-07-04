@@ -39,9 +39,9 @@
       "hoursSaturday": "Saturday: 9:00 – 14:00",
       "hoursSunday": "Sunday: Emergency only",
       "contact": "Contact",
-      "address": "123 Smile Avenue, Dental City",
-      "phone": "+1 (555) 123-4567",
-      "email": "hello@tacdent.com",
+      "address": "Merkez Mahallesi, Atatürk Caddesi, 3. Sokak No:5/1, Dalaman/Muğla, Turkey",
+      "phone": "+90 544 405 48 41",
+      "email": "info@tugceaydincignakli.com",
       "scheduleLink": "Schedule an appointment →",
       "staffLogin": "Staff login",
       "copyright": "© {year} TacDent. Built with Next.js + shadcn/ui."
@@ -182,8 +182,9 @@
     "description": "Questions about a treatment or your upcoming visit? Reach out anytime.",
     "clinic": "Clinic",
     "emergency": "Emergency line",
-    "emergencyText": "For urgent pain or trauma outside regular hours, call our emergency line at",
-    "emergencyPhone": "+1 (555) 987-6543"
+    "emergencyText": "For urgent pain or trauma outside regular hours, call us at",
+    "emergencyPhone": "+90 544 405 48 41",
+    "mapTitle": "Clinic location map"
   },
   "appointments": {
     "label": "Appointments",

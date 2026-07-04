@@ -1,6 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+const MAP_EMBED_SRC =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.1539038021497!2d28.803814799999998!3d36.7668752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c0713c63fe9959%3A0xe4c9c21b0e11829b!2zRGnFnyBIZWtpbWkgVHXEn8OnZSBBeWTEsW4gw4dpxJ9uYWtsxLE!5e0!3m2!1str!2str!4v1783157357606!5m2!1str!2str";
+
 export default async function ContactPage({
   params,
 }: {
@@ -43,6 +46,17 @@ export default async function ContactPage({
             </p>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="mt-6 overflow-hidden rounded-2xl border">
+        <iframe
+          src={MAP_EMBED_SRC}
+          title={t("mapTitle")}
+          className="aspect-video w-full"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          allowFullScreen
+        />
       </div>
     </div>
   );
