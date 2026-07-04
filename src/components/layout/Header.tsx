@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { MenuIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -39,14 +40,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground">
-            T
-          </span>
-          <div>
-            <p className="font-heading text-lg font-semibold">{t("brand")}</p>
-            <p className="text-xs text-muted-foreground">{t("tagline")}</p>
-          </div>
+        <Link href="/" className="shrink-0">
+          <Image
+            src="/logo/tacdent-logo.png"
+            alt={t("brand")}
+            width={920}
+            height={220}
+            className="h-9 w-auto sm:h-10"
+            priority
+          />
         </Link>
 
         <NavigationMenu className="hidden md:flex">
@@ -84,7 +86,16 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <SheetHeader>
-                <SheetTitle>{t("menu")}</SheetTitle>
+                <SheetTitle className="sr-only">{t("menu")}</SheetTitle>
+                <Link href="/" className="mx-auto w-fit">
+                  <Image
+                    src="/logo/tacdent-logo.png"
+                    alt={t("brand")}
+                    width={920}
+                    height={220}
+                    className="h-9 w-auto"
+                  />
+                </Link>
               </SheetHeader>
               <div className="mt-4 px-1">
                 <LanguageToggle className="w-full" />
