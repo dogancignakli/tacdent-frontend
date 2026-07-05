@@ -1,12 +1,14 @@
 # TacDent Frontend
 
-Marketing + appointment-booking site for the TacDent dental clinic. Thin client over the [.NET API](https://github.com/dogancignakli/tacdent-backend) — no database or business logic of its own.
+Marketing + appointment-booking site for **Diş Hekimi Tuğçe Aydın Çiğnaklı** (Dalaman, Muğla). Thin client over the [.NET API](https://github.com/dogancignakli/tacdent-backend) — no database or business logic of its own.
+
+> **New to React?** Read **[LEARNING.md](./LEARNING.md)** first — it walks through the codebase file-by-file for backend developers learning UI.
 
 ## Quick start
 
 ```bash
 npm install
-cp .env.local.example .env.local
+cp .env.local.example .env.local   # fill in values (see Environment below)
 npm run dev
 ```
 
@@ -14,27 +16,49 @@ Open [http://localhost:3000](http://localhost:3000) — redirects to `/tr` (defa
 
 Make sure the backend API is running at `http://localhost:5065` (see `tacdent-backend` README).
 
+**Production preview** (use this for Lighthouse / real performance scores — dev mode is slower):
+
+```bash
+npm run build && npm start
+```
+
 ## Internationalization (TR / EN)
 
 - **Locales:** Turkish (`/tr`, default) and English (`/en`) via [next-intl](https://next-intl.dev)
-- **Toggle:** Segmented `TR | EN` button in the header (and mobile menu), next to the theme toggle
+- **Toggle:** Segmented `TR | EN` button in the header (and mobile menu)
 - **Messages:** `messages/tr.json` and `messages/en.json` (namespaced keys)
 - **Routing:** All pages live under `src/app/[locale]/`; BFF routes stay at `src/app/api/`
+- **SEO:** `alternates.languages` (hreflang) + per-locale canonical URLs in layout metadata
 - **API contract unchanged:** Backend still receives English enum/string values (e.g. `Pending`, `General Checkup`)
 
 ## Pages
 
 | Route | Purpose |
 |-------|---------|
-| `/tr` or `/en` | Landing page with hero, services carousel, testimonials |
+| `/tr` or `/en` | Landing page — hero, services carousel, testimonials |
 | `/tr/services` | Service list from API (localized display names) |
-| `/tr/about` | Team and clinic story |
-| `/tr/contact` | Contact details |
+| `/tr/about` | Dentist profile (Tuğçe Aydın Çiğnaklı) |
+| `/tr/contact` | Contact details + click-to-load Google Maps |
 | `/tr/appointments` | Public booking form |
 | `/tr/admin/login` | Staff login |
 | `/tr/admin` | Staff panel (status tabs, sorting, pagination) |
 
 Patient data is **not** shown on the public site. Staff sign in to review bookings and contact patients by phone.
+
+## SEO & performance
+
+| Feature | Location |
+|---------|----------|
+| `sitemap.xml` | `src/app/sitemap.ts` — public routes, tr/en hreflang |
+| `robots.txt` | `src/app/robots.ts` — disallows `/admin`, `/api/` |
+| Open Graph / Twitter cards | `generateMetadata` in `src/app/[locale]/layout.tsx` |
+| JSON-LD (`Dentist` schema) | `src/components/seo/JsonLd.tsx` |
+| Self-hosted images | `public/images/` (hero + service cards) — no external CDN |
+| Favicon / apple icon | `src/app/icon.png`, `src/app/apple-icon.png`, `public/favicon.ico` |
+| Web Vitals logging (dev) | `src/components/analytics/web-vitals.tsx` — console in `npm run dev` |
+| Bundle analysis | `npm run analyze` — opens `@next/bundle-analyzer` report |
+
+Images use `next/image` with `sizes` + AVIF/WebP (`next.config.ts`). Hero is a **Server Component** (less JS on first paint).
 
 ## Stack
 
@@ -43,9 +67,9 @@ Patient data is **not** shown on the public site. Staff sign in to review bookin
 - **shadcn/ui** (Base UI) — components in `src/components/ui/`
 - **react-hook-form** + **zod** for forms · **sonner** for toasts
 - **embla-carousel** for sliders · **next-themes** for dark mode
-- **lucide-react** icons
+- **lucide-react** icons · **web-vitals** for Core Web Vitals reporting
 
-> Swiper is not used — carousels use the shadcn `Carousel` (Embla).
+> Carousels use the shadcn `Carousel` (Embla), not Swiper.
 
 ## Project layout
 
@@ -54,14 +78,20 @@ src/
 ├── app/
 │   ├── [locale]/         # Localized page routes (tr, en)
 │   ├── api/              # BFF route handlers (proxy to .NET API with httpOnly cookie)
+│   ├── icon.png          # Favicon source (Next auto-generates routes)
+│   ├── robots.ts         # robots.txt
+│   ├── sitemap.ts        # sitemap.xml
 │   └── layout.tsx        # Root passthrough layout
 ├── i18n/                 # next-intl routing, navigation, request config
 ├── components/
 │   ├── ui/               # shadcn primitives (you own these files)
 │   ├── layout/           # Header, Footer, theme toggle, language toggle
-│   ├── home/             # Hero, carousels, CTA
+│   ├── home/             # Hero (RSC), carousels, CTA
 │   ├── appointments/     # Public booking form
-│   └── admin/            # Appointment list, user management, admin shell
+│   ├── admin/            # Appointment list, user management
+│   ├── seo/              # JSON-LD structured data
+│   ├── analytics/        # Web Vitals reporter
+│   └── contact/          # Map click-to-load facade
 ├── lib/
 │   ├── api.ts            # All HTTP calls to /api/* BFF (never fetch in components)
 │   ├── auth.ts           # Client-side role cookie reader (Admin vs Staff)
@@ -70,6 +100,12 @@ src/
 │   └── utils.ts          # cn() helper
 ├── middleware.ts         # Redirects unauthenticated users away from /admin
 └── types/index.ts        # API wire types (mirror backend JSON)
+
+public/
+├── images/               # Hero + service card photos (self-hosted)
+├── logo/                 # Header logo
+├── team/                 # About page dentist photo
+└── og-image.jpg          # Open Graph preview image
 ```
 
 ## Environment
@@ -77,19 +113,20 @@ src/
 | Variable | Description |
 |----------|-------------|
 | `NEXT_PUBLIC_API_URL` | Base URL of the .NET API (default `http://localhost:5065`) |
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 **site key** (public). Required for booking and staff login forms. Get keys at [Google reCAPTCHA admin](https://www.google.com/recaptcha/admin/create); add `localhost` to allowed domains. |
+| `NEXT_PUBLIC_SITE_URL` | Public site URL for metadata, sitemap, JSON-LD (default `http://localhost:3000`) |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 **site key** (public). Required for booking and staff login. [Create keys](https://www.google.com/recaptcha/admin/create); add `localhost` to allowed domains. |
 
 ## React learning path
 
-For a guided tour of the codebase, read **[LEARNING.md](./LEARNING.md)** — it is more up to date than this file for patterns and file-by-file walkthroughs.
+Read **[LEARNING.md](./LEARNING.md)** — guided tour for backend developers, including Server vs Client Components, forms, i18n, and performance basics.
 
 Quick pointers:
 
-1. `src/components/layout/Header.tsx` — navigation, mobile sheet, theme toggle
-2. `src/components/home/Hero.tsx` — Server Component composition
-3. `src/components/appointments/AppointmentForm.tsx` — react-hook-form + zod + sonner
-4. `src/app/admin/login/page.tsx` — staff auth flow
-5. `src/components/home/ServicesCarousel.tsx` — shadcn Carousel (Embla)
+1. `src/components/layout/Header.tsx` — client nav, mobile sheet, theme + language toggles
+2. `src/components/home/Hero.tsx` — **Server Component** (no `"use client"`)
+3. `src/components/appointments/AppointmentForm.tsx` — react-hook-form + zod + reCAPTCHA + sonner
+4. `src/app/[locale]/admin/login/page.tsx` — staff auth via BFF
+5. `src/components/home/ServicesCarousel.tsx` — client carousel (Embla)
 
 Official docs: [react.dev/learn](https://react.dev/learn) · [nextjs.org/docs](https://nextjs.org/docs) · [ui.shadcn.com](https://ui.shadcn.com)
 
@@ -97,7 +134,7 @@ Official docs: [react.dev/learn](https://react.dev/learn) · [nextjs.org/docs](h
 
 - JSON is **camelCase**; enums are **strings** (`Pending`, `Confirmed`, `Cancelled`, `Completed`)
 - Dates: `"YYYY-MM-DD"` · Times: `"HH:mm"` or `"HH:mm:ss"`
-- Public: `POST /api/appointments` (booking) — calls backend directly via `NEXT_PUBLIC_API_URL`; body includes `recaptchaToken` from reCAPTCHA v3 action `booking`
+- Public: `POST /api/appointments` (booking) — body includes `recaptchaToken` from reCAPTCHA v3 action `booking`
 - Staff: browser calls **Next.js BFF** routes under `/api/*`; BFF forwards `Authorization: Bearer` from the `tacdent_session` httpOnly cookie
 - Login: `POST /api/auth/login` (BFF) sets `tacdent_session` (httpOnly) and `tacdent_role` (readable by client for UI gating); body includes `recaptchaToken` from action `login`
 - Appointments list returns a **paged envelope**: `{ items, page, pageSize, totalCount, totalPages, hasNextPage, hasPreviousPage }`
@@ -111,9 +148,9 @@ Staff session is stored in an **httpOnly cookie** (`tacdent_session`) set by the
 
 Response headers are set in `next.config.ts` for all routes:
 
-- **Content-Security-Policy** — restricts scripts, styles, images, and API `connect-src` to `NEXT_PUBLIC_API_URL`; allows Google reCAPTCHA v3 (`google.com`, `gstatic.com`)
+- **Content-Security-Policy** — restricts scripts, styles, images, and API `connect-src` to `NEXT_PUBLIC_API_URL`; allows Google reCAPTCHA v3 and Maps iframe (`google.com`, `gstatic.com`)
 - **X-Frame-Options: DENY** — clickjacking protection
 - **X-Content-Type-Options: nosniff**
 - **Referrer-Policy** and **Permissions-Policy**
 
-See backend README for API-side login rate limits and role-based authorization.
+See backend README for API-side login rate limits, reCAPTCHA verification, and role-based authorization.
