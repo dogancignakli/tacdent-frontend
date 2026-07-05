@@ -1,14 +1,11 @@
-"use client";
-
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export default function Hero() {
-  const t = useTranslations("home.hero");
-  const tButtons = useTranslations("common.buttons");
+export default async function Hero() {
+  const t = await getTranslations("home.hero");
 
   return (
     <section className="relative overflow-hidden border-b bg-gradient-to-br from-background via-accent/40 to-background">
@@ -40,10 +37,11 @@ export default function Hero() {
           <div className="absolute -left-6 -top-6 size-24 rounded-full bg-primary/20 blur-2xl" />
           <div className="relative overflow-hidden rounded-3xl shadow-xl ring-1 ring-border">
             <Image
-              src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80"
+              src="/images/hero.jpg"
               alt={t("imageAlt")}
               width={1200}
               height={900}
+              sizes="(max-width: 1024px) 100vw, 600px"
               className="h-[420px] w-full object-cover"
               priority
             />

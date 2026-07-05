@@ -20,6 +20,7 @@ export default async function AboutPage({
             alt={t("dentist.imageAlt")}
             width={854}
             height={1024}
+            sizes="(max-width: 1024px) 100vw, 46vw"
             className="w-full rounded-lg"
             priority
           />

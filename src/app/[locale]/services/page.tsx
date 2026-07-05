@@ -47,10 +47,11 @@ export default async function ServicesPage({
         </div>
         <Card className="overflow-hidden py-0">
           <Image
-            src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1200&q=80"
+            src="/images/service-general.jpg"
             alt={t("imageAlt")}
             width={1200}
             height={800}
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="h-80 w-full object-cover"
           />
         </Card>
