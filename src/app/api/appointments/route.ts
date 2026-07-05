@@ -1,4 +1,4 @@
-import { backendFetch } from "@/lib/server/backend";
+import { anonymousBackendFetch, backendFetch, getClientIpFromRequest } from "@/lib/server/backend";
 
 const FORWARDED_QUERY_PARAMS = [
   "status",
@@ -32,4 +32,27 @@ export async function GET(request: Request) {
 
   const data = await backendResponse.json();
   return Response.json(data);
+}
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const clientIp = getClientIpFromRequest(request);
+  const backendResponse = await anonymousBackendFetch(
+    "/api/appointments",
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+    },
+    clientIp
+  );
+
+  if (!backendResponse.ok) {
+    const error = await backendResponse.json().catch(() => ({}));
+    return Response.json(
+      { message: error.message ?? "Could not create appointment." },
+      { status: backendResponse.status }
+    );
+  }
+
+  return Response.json(await backendResponse.json(), { status: backendResponse.status });
 }

@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", key: "home" },
   { href: "/services", key: "services" },
+  { href: "/health-tourism", key: "healthTourism" },
   { href: "/about", key: "about" },
   { href: "/contact", key: "contact" },
   { href: "/appointments", key: "appointments" },

@@ -3,11 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  formatServicePrice,
-  localizeServiceDescription,
-  localizeServiceName,
-} from "@/lib/services";
+import { formatServicePrice, getServiceDescription, getServiceName } from "@/lib/services";
 import type { DentalService } from "@/types";
 
 async function getServices(): Promise<DentalService[]> {
@@ -66,16 +62,16 @@ export default async function ServicesPage({
           services.map((service) => (
             <Card key={service.id}>
               <CardHeader>
-                <CardTitle>{localizeServiceName(service, t)}</CardTitle>
+                <CardTitle>{getServiceName(service, locale)}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm leading-6 text-muted-foreground">
-                  {localizeServiceDescription(service, t)}
+                  {getServiceDescription(service, locale)}
                 </p>
               </CardContent>
               <CardFooter>
                 <p className="text-sm font-medium text-primary">
-                  {formatServicePrice(service.priceFrom, service.durationMinutes, locale, t)}
+                  {formatServicePrice(service, locale, t)}
                 </p>
               </CardFooter>
             </Card>

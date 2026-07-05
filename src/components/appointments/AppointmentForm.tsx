@@ -1,21 +1,27 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { createAppointment, getServices } from "@/lib/api";
 import { useRecaptcha } from "@/hooks/use-recaptcha";
+import {
+  KVKK_EXPLICIT_CONSENT_VERSION,
+  KVKK_INFORMATION_VERSION,
+} from "@/lib/kvkk";
 import {
   createAppointmentFormSchema,
   type AppointmentFormValues,
 } from "@/lib/schemas/appointment";
-import { localizeServiceName } from "@/lib/services";
+import { getServiceName } from "@/lib/services";
 import type { DentalService } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,6 +43,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
   const tErrors = useTranslations("common.errors");
   const { executeRecaptcha } = useRecaptcha();
   const [services, setServices] = useState<DentalService[]>([]);
+  const locale = useLocale();
 
   const appointmentFormSchema = useMemo(
     () => createAppointmentFormSchema((key) => tValidation(key)),
@@ -51,8 +58,10 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
       phone: "",
       preferredDate: "",
       preferredTime: "09:00",
-      serviceType: "",
+      serviceId: 0,
       notes: "",
+      kvkkInformationAccepted: false,
+      kvkkExplicitConsentAccepted: false,
     },
   });
 
@@ -61,7 +70,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
       .then((data) => {
         setServices(data);
         if (data.length > 0) {
-          form.setValue("serviceType", data[0].name);
+          form.setValue("serviceId", data[0].id);
         }
       })
       .catch(() => toast.error(t("loadServicesError")));
@@ -75,7 +84,20 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
         return;
       }
 
-      await createAppointment({ ...values, recaptchaToken });
+      await createAppointment({
+        patientName: values.patientName,
+        email: values.email,
+        phone: values.phone,
+        preferredDate: values.preferredDate,
+        preferredTime: values.preferredTime,
+        serviceId: values.serviceId,
+        notes: values.notes,
+        kvkkInformationAccepted: values.kvkkInformationAccepted,
+        kvkkInformationVersion: KVKK_INFORMATION_VERSION,
+        kvkkExplicitConsentAccepted: values.kvkkExplicitConsentAccepted,
+        kvkkExplicitConsentVersion: KVKK_EXPLICIT_CONSENT_VERSION,
+        recaptchaToken,
+      });
       toast.success(t("success"));
       form.reset({
         patientName: "",
@@ -83,8 +105,10 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
         phone: "",
         preferredDate: "",
         preferredTime: "09:00",
-        serviceType: services[0]?.name ?? "",
+        serviceId: services[0]?.id ?? 0,
         notes: "",
+        kvkkInformationAccepted: false,
+        kvkkExplicitConsentAccepted: false,
       });
       onCreated?.();
     } catch (error) {
@@ -93,7 +117,6 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
   }
 
   const { errors, isSubmitting } = form.formState;
-  const tServices = useTranslations("services");
 
   return (
     <Card>
@@ -125,27 +148,30 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="serviceType">{t("service")}</Label>
+              <Label htmlFor="serviceId">{t("service")}</Label>
               <Controller
                 control={form.control}
-                name="serviceType"
+                name="serviceId"
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger id="serviceType" className="w-full" aria-invalid={!!errors.serviceType}>
+                  <Select
+                    value={field.value ? String(field.value) : undefined}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                  >
+                    <SelectTrigger id="serviceId" className="w-full" aria-invalid={!!errors.serviceId}>
                       <SelectValue placeholder={t("servicePlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {services.map((service) => (
-                        <SelectItem key={service.id} value={service.name}>
-                          {localizeServiceName(service, tServices)}
+                        <SelectItem key={service.id} value={String(service.id)}>
+                          {getServiceName(service, locale)}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 )}
               />
-              {errors.serviceType && (
-                <p className="text-sm text-destructive">{errors.serviceType.message}</p>
+              {errors.serviceId && (
+                <p className="text-sm text-destructive">{errors.serviceId.message}</p>
               )}
             </div>
 
@@ -184,6 +210,56 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
               placeholder={t("notesPlaceholder")}
               {...form.register("notes")}
             />
+          </div>
+
+          <div className="space-y-3 rounded-lg border p-4">
+            <div className="flex items-start gap-3">
+              <Controller
+                control={form.control}
+                name="kvkkInformationAccepted"
+                render={({ field }) => (
+                  <Checkbox
+                    id="kvkkInformationAccepted"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                    aria-invalid={!!errors.kvkkInformationAccepted}
+                  />
+                )}
+              />
+              <Label htmlFor="kvkkInformationAccepted" className="text-sm leading-6 font-normal">
+                {t("kvkkInformationLabel")}{" "}
+                <Link href="/kvkk/information" className="text-primary underline" target="_blank">
+                  {t("kvkkInformationLink")}
+                </Link>
+              </Label>
+            </div>
+            {errors.kvkkInformationAccepted && (
+              <p className="text-sm text-destructive">{errors.kvkkInformationAccepted.message}</p>
+            )}
+
+            <div className="flex items-start gap-3">
+              <Controller
+                control={form.control}
+                name="kvkkExplicitConsentAccepted"
+                render={({ field }) => (
+                  <Checkbox
+                    id="kvkkExplicitConsentAccepted"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                    aria-invalid={!!errors.kvkkExplicitConsentAccepted}
+                  />
+                )}
+              />
+              <Label htmlFor="kvkkExplicitConsentAccepted" className="text-sm leading-6 font-normal">
+                {t("kvkkExplicitConsentLabel")}{" "}
+                <Link href="/kvkk/consent" className="text-primary underline" target="_blank">
+                  {t("kvkkExplicitConsentLink")}
+                </Link>
+              </Label>
+            </div>
+            {errors.kvkkExplicitConsentAccepted && (
+              <p className="text-sm text-destructive">{errors.kvkkExplicitConsentAccepted.message}</p>
+            )}
           </div>
 
           <Button type="submit" disabled={isSubmitting} className="rounded-full">

@@ -13,7 +13,8 @@
       "services": "Services",
       "about": "About",
       "contact": "Contact",
-      "appointments": "Appointments"
+      "appointments": "Appointments",
+      "healthTourism": "Health Tourism"
     },
     "buttons": {
       "bookNow": "Book Now",
@@ -111,6 +112,7 @@
     "testimonials": {
       "label": "Patient Stories",
       "title": "What our patients say",
+      "rating": "{rating}/5 stars",
       "items": {
         "1": {
           "quote": "The team made me feel calm from the moment I walked in. Best dental experience I've had.",
@@ -209,7 +211,11 @@
       "submitting": "Submitting...",
       "success": "Appointment request submitted! We will contact you by phone to confirm.",
       "loadServicesError": "Could not load services. Is the API running?",
-      "submitError": "Failed to submit appointment."
+      "submitError": "Failed to submit appointment.",
+      "kvkkInformationLabel": "I have read and understood the privacy notice.",
+      "kvkkInformationLink": "Privacy notice",
+      "kvkkExplicitConsentLabel": "I give my explicit consent for the processing of my personal data.",
+      "kvkkExplicitConsentLink": "Consent form"
     }
   },
   "admin": {
@@ -318,6 +324,76 @@
         "resetError": "Could not reset password.",
         "loadError": "Could not load users."
       }
+    },
+    "services": {
+      "title": "Service management",
+      "description": "Manage clinic services, pricing, and visibility.",
+      "createTitle": "New service",
+      "nameTr": "Name (TR)",
+      "nameEn": "Name (EN)",
+      "descriptionTr": "Description (TR)",
+      "descriptionEn": "Description (EN)",
+      "icon": "Icon",
+      "iconPlaceholder": "e.g. tooth",
+      "durationMinutes": "Duration (minutes)",
+      "priceFromTry": "Starting price (TRY)",
+      "priceFromEur": "Starting price (EUR)",
+      "displayOrder": "Order",
+      "isActive": "Active",
+      "create": "Create service",
+      "creating": "Creating...",
+      "saving": "Saving...",
+      "edit": "Edit",
+      "editTitle": "Edit service",
+      "editDescription": "Edit the {name} service.",
+      "delete": "Delete",
+      "deleteTitle": "Delete service?",
+      "deleteDescription": "{name} will be permanently deleted.",
+      "empty": "No services yet.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "durationBadge": "{minutes} min",
+      "toast": {
+        "created": "Service created.",
+        "updated": "Service updated.",
+        "deleted": "Service deleted.",
+        "loadError": "Could not load services.",
+        "createError": "Could not create service.",
+        "updateError": "Could not update service.",
+        "deleteError": "Could not delete service."
+      }
+    },
+    "testimonials": {
+      "title": "Testimonial management",
+      "description": "Manage patient testimonials shown on the home page.",
+      "createTitle": "New testimonial",
+      "authorName": "Author name",
+      "quoteTr": "Quote (TR)",
+      "quoteEn": "Quote (EN, optional)",
+      "rating": "Rating (1-5, optional)",
+      "displayOrder": "Order",
+      "isActive": "Active",
+      "create": "Create testimonial",
+      "creating": "Creating...",
+      "saving": "Saving...",
+      "edit": "Edit",
+      "editTitle": "Edit testimonial",
+      "editDescription": "Edit the testimonial by {name}.",
+      "delete": "Delete",
+      "deleteTitle": "Delete testimonial?",
+      "deleteDescription": "The testimonial by {name} will be permanently deleted.",
+      "empty": "No testimonials yet.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "toast": {
+        "created": "Testimonial created.",
+        "updated": "Testimonial updated.",
+        "deleted": "Testimonial deleted.",
+        "loadError": "Could not load testimonials.",
+        "createError": "Could not create testimonial.",
+        "updateError": "Could not update testimonial.",
+        "deleteError": "Could not delete testimonial."
+      }
     }
   },
   "status": {
@@ -335,6 +411,128 @@
     "preferredTimeRequired": "Preferred time is required.",
     "serviceRequired": "Please select a service.",
     "passwordRequired": "Password is required.",
-    "passwordMin": "Password must be at least 8 characters."
+    "passwordMin": "Password must be at least 8 characters.",
+    "nameTrRequired": "Turkish name is required.",
+    "nameEnRequired": "English name is required.",
+    "descriptionTrRequired": "Turkish description is required.",
+    "descriptionEnRequired": "English description is required.",
+    "priceInvalid": "Price must be 0 or greater.",
+    "durationInvalid": "Duration must be a positive number.",
+    "authorRequired": "Author name is required.",
+    "quoteTrRequired": "Turkish quote is required.",
+    "kvkkInformationRequired": "You must accept the privacy notice.",
+    "kvkkExplicitConsentRequired": "Explicit consent is required."
+  },
+  "healthTourism": {
+    "title": "Health Tourism",
+    "description": "We offer comprehensive dental care and coordination support for international patients.",
+    "intro": "TacDent supports international patients with treatment planning, bilingual communication, and appointment coordination. Our modern clinic provides implants, cosmetic dentistry, and general dental treatments in a safe, welcoming environment.",
+    "servicesTitle": "What we offer",
+    "services": {
+      "consultation": "Free initial consultation and treatment plan",
+      "treatment": "Implants, prosthetics, and cosmetic dentistry",
+      "coordination": "Appointment and process coordination",
+      "followUp": "Post-treatment follow-up"
+    },
+    "certificateTitle": "Health tourism authorization certificate",
+    "certificateAlt": "Health tourism authorization certificate",
+    "certificatePlaceholder": "Certificate image will be added soon."
+  },
+  "kvkk": {
+    "disclaimer": "This English text is provided for convenience only. In case of any discrepancy, the Turkish version is legally binding.",
+    "information": {
+      "title": "Privacy Notice on the Processing of Personal Data within the Scope of the Appointment Request Form",
+      "version": "Version: {version}",
+      "intro": "This Privacy Notice has been prepared under the General Data Protection Regulation (“GDPR”) regarding the processing of your personal data in connection with appointment requests submitted through the tugceaydincignakli.com website.",
+      "sections": [
+        {
+          "title": "1. Data Controller",
+          "paragraphs": [
+            "Your personal data is processed by Dentist Tuğçe Aydın Çiğnaklı as the data controller.",
+            "Contact: info@tugceaydincignakli.com",
+            "Address: Merkez, Atatürk Cad. 3.Sokak, 48770 Dalaman/Muğla, Türkiye",
+            "Phone: +905444054841"
+          ]
+        },
+        {
+          "title": "2. Personal Data Processed",
+          "paragraphs": [
+            "The following personal data may be processed through the appointment request form:",
+            "If you choose to share information in the short note/description field, data that may qualify as health data may also be processed."
+          ],
+          "items": [
+            "Full name",
+            "Phone number",
+            "Email address",
+            "Short note/description related to the appointment request",
+            "Date and time the request was submitted",
+            "IP address, user device/browser information, and system log data"
+          ]
+        },
+        {
+          "title": "3. Purposes of Processing Personal Data",
+          "paragraphs": ["Your personal data is processed for the following purposes:"],
+          "items": [
+            "Receiving your appointment request",
+            "Evaluating your appointment request",
+            "Contacting you by phone or email",
+            "Concluding your request",
+            "Ensuring website and system security",
+            "Retaining records in the event of potential disputes"
+          ]
+        },
+        {
+          "title": "4. Method of Collection and Legal Basis",
+          "paragraphs": [
+            "Your personal data is collected electronically when you complete the appointment request form on the tugceaydincignakli.com website.",
+            "Personal data such as your name, phone number, and email address may be processed for the purpose of receiving your appointment request and contacting you, based on the legal grounds under the GDPR, including where you have made your data public, where processing is necessary for the establishment, exercise, or defence of legal claims, and where processing is necessary for the legitimate interests of the data controller.",
+            "If you share information that qualifies as health data in the short note/description field, such data is processed based on your explicit consent."
+          ]
+        },
+        {
+          "title": "5. Transfer of Personal Data",
+          "paragraphs": [
+            "Your personal data is not shared with third parties for marketing or sales purposes.",
+            "However, your personal data may be shared with hosting, database, software, email, and technical infrastructure service providers only to the extent necessary to provide the website, server, database, email infrastructure, and technical security services.",
+            "If requested lawfully by authorized public institutions and organizations, your personal data may be shared with the relevant authorities."
+          ]
+        },
+        {
+          "title": "6. Retention Period",
+          "paragraphs": [
+            "Personal data collected through the appointment request form is retained for 1 year from the conclusion of your appointment request.",
+            "At the end of this period, your personal data is deleted, destroyed, or anonymized in accordance with applicable legislation.",
+            "If your appointment request leads to an examination, treatment, or patient registration process, the relevant records will be evaluated separately under patient registration procedures and applicable legislation."
+          ]
+        },
+        {
+          "title": "7. Rights of the Data Subject",
+          "paragraphs": [
+            "Under the GDPR, you have the following rights regarding your personal data:",
+            "You may submit requests regarding these rights to info@tugceaydincignakli.com."
+          ],
+          "items": [
+            "To learn whether your personal data is being processed",
+            "To request information if it has been processed",
+            "To learn the purpose of processing and whether it is used in line with that purpose",
+            "To know the third parties to whom it is transferred domestically or abroad",
+            "To request correction if it has been processed incompletely or inaccurately",
+            "To request deletion or destruction within the framework of the conditions set out in legislation",
+            "To object to a result arising against you through analysis of processed data exclusively by automated systems",
+            "To request compensation for damage suffered due to unlawful processing"
+          ]
+        }
+      ]
+    },
+    "consent": {
+      "title": "Explicit Consent Form within the Scope of the Appointment Request Form",
+      "version": "Version: {version}",
+      "paragraphs": [
+        "I give my explicit consent for my name, phone number, email address, and short note/description information shared through the appointment request form on the tugceaydincignakli.com website to be processed by Dentist Tuğçe Aydın Çiğnaklı for the purposes of receiving, evaluating, contacting me regarding, and concluding my appointment request.",
+        "I also give my explicit consent for any health data that I may share in the short note/description field to be processed solely for the purpose of evaluating my appointment request and contacting me.",
+        "I understand that my personal data will not be shared with third parties for marketing or sales purposes; however, it may be shared with relevant technical service providers to the extent necessary to provide website, server, database, email, and technical infrastructure services.",
+        "I acknowledge that I give this explicit consent of my own free will, that I may withdraw it at any time, and that I may apply to info@tugceaydincignakli.com to withdraw my consent."
+      ]
+    }
   }
 }

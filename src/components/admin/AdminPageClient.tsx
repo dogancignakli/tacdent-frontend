@@ -3,6 +3,8 @@
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import AdminAppointmentList from "@/components/admin/AdminAppointmentList";
+import AdminServicesManagement from "@/components/admin/AdminServicesManagement";
+import AdminTestimonialsManagement from "@/components/admin/AdminTestimonialsManagement";
 import AdminUserManagement from "@/components/admin/AdminUserManagement";
 import { Button } from "@/components/ui/button";
 import { logout } from "@/lib/api";
@@ -49,9 +51,17 @@ export default function AdminPageClient({ isAdmin }: AdminPageClientProps) {
       </div>
 
       {isAdmin && (
-        <div className="mt-12">
-          <AdminUserManagement onUnauthorized={handleUnauthorized} />
-        </div>
+        <>
+          <div className="mt-12">
+            <AdminServicesManagement onUnauthorized={handleUnauthorized} />
+          </div>
+          <div className="mt-10">
+            <AdminTestimonialsManagement onUnauthorized={handleUnauthorized} />
+          </div>
+          <div className="mt-10">
+            <AdminUserManagement onUnauthorized={handleUnauthorized} />
+          </div>
+        </>
       )}
 
       <div className={isAdmin ? "mt-10" : "mt-12"}>
