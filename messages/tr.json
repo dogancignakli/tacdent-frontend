@@ -1,7 +1,9 @@
 {
   "metadata": {
     "title": "TacDent | Modern Diş Kliniği",
-    "description": "Randevu alın, hizmetleri keşfedin ve nazik, modern diş bakımını deneyimleyin."
+    "description": "Randevu alın, hizmetleri keşfedin ve nazik, modern diş bakımını deneyimleyin.",
+    "siteName": "TacDent",
+    "keywords": "diş kliniği, diş hekimi, Dalaman, Muğla, diş randevu, diş tedavisi, TacDent, Tuğçe Aydın Çiğnaklı"
   },
   "common": {
     "brand": "TacDent",
@@ -184,7 +186,8 @@
     "emergency": "Acil hat",
     "emergencyText": "Mesai saatleri dışında acil ağrı veya travma için bizi arayın:",
     "emergencyPhone": "0544 405 48 41",
-    "mapTitle": "Klinik konumu haritası"
+    "mapTitle": "Klinik konumu haritası",
+    "loadMap": "Haritayı yükle"
   },
   "appointments": {
     "label": "Randevular",

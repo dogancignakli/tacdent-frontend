@@ -16,12 +16,9 @@ import { Button } from "@/components/ui/button";
 
 const slideKeys = ["general", "cosmetic", "family"] as const;
 const slideImages = {
-  general:
-    "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1200&q=80",
-  cosmetic:
-    "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1200&q=80",
-  family:
-    "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=1200&q=80",
+  general: "/images/service-general.jpg",
+  cosmetic: "/images/service-cosmetic.jpg",
+  family: "/images/service-family.jpg",
 } as const;
 
 export default function ServicesCarousel() {
@@ -55,6 +52,7 @@ export default function ServicesCarousel() {
                     alt={t(`slides.${key}.title`)}
                     width={800}
                     height={520}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="h-52 w-full object-cover"
                   />
                   <CardContent>

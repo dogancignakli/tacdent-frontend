@@ -46,6 +46,7 @@ export default function Header() {
             alt={t("brand")}
             width={920}
             height={220}
+            sizes="(max-width: 640px) 160px, 200px"
             className="h-9 w-auto sm:h-10"
             priority
           />
@@ -93,6 +94,7 @@ export default function Header() {
                     alt={t("brand")}
                     width={920}
                     height={220}
+                    sizes="160px"
                     className="h-9 w-auto"
                   />
                 </Link>

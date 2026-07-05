@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import MapEmbed from "@/components/contact/MapEmbed";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const MAP_EMBED_SRC =
@@ -49,14 +50,7 @@ export default async function ContactPage({
       </div>
 
       <div className="mt-6 overflow-hidden rounded-2xl border">
-        <iframe
-          src={MAP_EMBED_SRC}
-          title={t("mapTitle")}
-          className="aspect-video w-full"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          allowFullScreen
-        />
+        <MapEmbed src={MAP_EMBED_SRC} title={t("mapTitle")} loadLabel={t("loadMap")} />
       </div>
     </div>
   );

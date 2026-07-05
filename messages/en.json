@@ -1,7 +1,9 @@
 {
   "metadata": {
     "title": "TacDent | Modern Dental Clinic",
-    "description": "Book appointments, explore services, and discover gentle modern dental care."
+    "description": "Book appointments, explore services, and discover gentle modern dental care.",
+    "siteName": "TacDent",
+    "keywords": "dental clinic, dentist, Dalaman, Mugla, dental appointment, dental care, TacDent, Tuğce Aydin Cignakli"
   },
   "common": {
     "brand": "TacDent",
@@ -184,7 +186,8 @@
     "emergency": "Emergency line",
     "emergencyText": "For urgent pain or trauma outside regular hours, call us at",
     "emergencyPhone": "+90 544 405 48 41",
-    "mapTitle": "Clinic location map"
+    "mapTitle": "Clinic location map",
+    "loadMap": "Load map"
   },
   "appointments": {
     "label": "Appointments",
