@@ -40,6 +40,9 @@ npm run build && npm start
 | `/tr/about` | Dentist profile (Tuğçe Aydın Çiğnaklı) |
 | `/tr/contact` | Contact details + click-to-load Google Maps |
 | `/tr/appointments` | Public booking form |
+| `/tr/kvkk/information` | KVKK / privacy notice |
+| `/tr/kvkk/consent` | Explicit consent form |
+| `/tr/health-tourism` | Health tourism info |
 | `/tr/admin/login` | Staff login |
 | `/tr/admin` | Staff panel (status tabs, sorting, pagination) |
 
@@ -112,9 +115,11 @@ public/
 
 | Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_API_URL` | Base URL of the .NET API (default `http://localhost:5065`) |
+| `NEXT_PUBLIC_API_URL` | Public base URL of the .NET API (browser `connect-src`; default `http://localhost:5065`) |
+| `API_URL` | Server-only backend URL used by BFF route handlers (default same as `NEXT_PUBLIC_API_URL`) |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL for metadata, sitemap, JSON-LD (default `http://localhost:3000`) |
 | `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 **site key** (public). Required for booking and staff login. [Create keys](https://www.google.com/recaptcha/admin/create); add `localhost` to allowed domains. |
+| `INTERNAL_API_KEY` | Shared secret sent by the BFF to the .NET API on `POST /api/appointments` and `POST /api/auth/login`. **Required in production** — must match backend `InternalApi:Key`. Leave empty locally to skip the check. |
 
 ## React learning path
 
@@ -134,7 +139,8 @@ Official docs: [react.dev/learn](https://react.dev/learn) · [nextjs.org/docs](h
 
 - JSON is **camelCase**; enums are **strings** (`Pending`, `Confirmed`, `Cancelled`, `Completed`)
 - Dates: `"YYYY-MM-DD"` · Times: `"HH:mm"` or `"HH:mm:ss"`
-- Public: `POST /api/appointments` (booking) — body includes `recaptchaToken` from reCAPTCHA v3 action `booking`
+- Public booking: browser → **Next.js BFF** `POST /api/appointments` → .NET API. Body includes `serviceId`, KVKK consent flags + text versions, and `recaptchaToken` (reCAPTCHA v3 action `booking`). The BFF forwards the visitor IP (`X-Forwarded-For`) and `X-Internal-Api-Key` when configured.
+- Public reads: `GET /api/services` and `GET /api/testimonials` still call the .NET API directly (no auth).
 - Staff: browser calls **Next.js BFF** routes under `/api/*`; BFF forwards `Authorization: Bearer` from the `tacdent_session` httpOnly cookie
 - Login: `POST /api/auth/login` (BFF) sets `tacdent_session` (httpOnly) and `tacdent_role` (readable by client for UI gating); body includes `recaptchaToken` from action `login`
 - Appointments list returns a **paged envelope**: `{ items, page, pageSize, totalCount, totalPages, hasNextPage, hasPreviousPage }`
@@ -146,6 +152,16 @@ Bootstrap admin credentials: set via backend .NET user-secrets (`Auth:AdminEmail
 
 Staff session is stored in an **httpOnly cookie** (`tacdent_session`) set by the BFF login route — not in `localStorage`. Role (`Admin` / `Staff`) is exposed via a separate `tacdent_role` cookie for client-side UI gating only. `src/middleware.ts` guards `/admin` routes.
 
+**Production checklist**
+
+| Item | Frontend | Backend |
+|------|----------|---------|
+| BFF ↔ API shared secret | `INTERNAL_API_KEY` | `InternalApi:Key` (same value) |
+| Trusted proxy IPs | — | `ForwardedHeaders:KnownProxies` (BFF / nginx IP) |
+| Do not expose API publicly | BFF is the public edge | Firewall / bind API to private network |
+
+The BFF derives the visitor IP from platform headers when available (`x-vercel-forwarded-for`, `cf-connecting-ip`, then `x-forwarded-for`) and forwards it to the API so KVKK consent rows store the real client IP. Direct calls to the .NET API for booking/login are rejected in production when `InternalApi:Key` is set.
+
 Response headers are set in `next.config.ts` for all routes:
 
 - **Content-Security-Policy** — restricts scripts, styles, images, and API `connect-src` to `NEXT_PUBLIC_API_URL`; allows Google reCAPTCHA v3 and Maps iframe (`google.com`, `gstatic.com`)
@@ -153,4 +169,4 @@ Response headers are set in `next.config.ts` for all routes:
 - **X-Content-Type-Options: nosniff**
 - **Referrer-Policy** and **Permissions-Policy**
 
-See backend README for API-side login rate limits, reCAPTCHA verification, and role-based authorization.
+See backend README for API-side rate limits, KVKK consent storage, reCAPTCHA verification, role-based authorization, and forwarded-header configuration.

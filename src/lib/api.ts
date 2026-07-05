@@ -1,8 +1,12 @@
 import type {
+  AdminDentalService,
+  AdminTestimonial,
   Appointment,
   AppointmentSortField,
   AppointmentStatus,
   CreateAppointmentPayload,
+  CreateServicePayload,
+  CreateTestimonialPayload,
   CreateUserPayload,
   DentalService,
   LoginPayload,
@@ -10,6 +14,9 @@ import type {
   PagedResult,
   ResetPasswordPayload,
   SortDirection,
+  Testimonial,
+  UpdateServicePayload,
+  UpdateTestimonialPayload,
   User,
   UserRole,
 } from "@/types";
@@ -76,6 +83,62 @@ export function getServices(): Promise<DentalService[]> {
   return publicRequest<DentalService[]>("/api/services");
 }
 
+export function getTestimonials(): Promise<Testimonial[]> {
+  return publicRequest<Testimonial[]>("/api/testimonials");
+}
+
+export function getAllServicesAdmin(): Promise<AdminDentalService[]> {
+  return request<AdminDentalService[]>("/api/services/all");
+}
+
+export function createService(payload: CreateServicePayload): Promise<AdminDentalService> {
+  return request<AdminDentalService>("/api/services", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function updateService(
+  id: number,
+  payload: UpdateServicePayload
+): Promise<AdminDentalService> {
+  return request<AdminDentalService>(`/api/services/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deleteService(id: number): Promise<void> {
+  return request<void>(`/api/services/${id}`, { method: "DELETE" });
+}
+
+export function getAllTestimonialsAdmin(): Promise<AdminTestimonial[]> {
+  return request<AdminTestimonial[]>("/api/testimonials/all");
+}
+
+export function createTestimonial(
+  payload: CreateTestimonialPayload
+): Promise<AdminTestimonial> {
+  return request<AdminTestimonial>("/api/testimonials", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function updateTestimonial(
+  id: number,
+  payload: UpdateTestimonialPayload
+): Promise<AdminTestimonial> {
+  return request<AdminTestimonial>(`/api/testimonials/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deleteTestimonial(id: number): Promise<void> {
+  return request<void>(`/api/testimonials/${id}`, { method: "DELETE" });
+}
+
 export interface GetAppointmentsParams {
   status?: AppointmentStatus;
   page?: number;
@@ -89,32 +152,21 @@ export function getAppointments(
 ): Promise<PagedResult<Appointment>> {
   const searchParams = new URLSearchParams();
 
-  if (params.status) {
-    searchParams.set("status", params.status);
-  }
-  if (params.page !== undefined) {
-    searchParams.set("page", String(params.page));
-  }
-  if (params.pageSize !== undefined) {
-    searchParams.set("pageSize", String(params.pageSize));
-  }
-  if (params.sortBy) {
-    searchParams.set("sortBy", params.sortBy);
-  }
-  if (params.sortDirection) {
-    searchParams.set("sortDirection", params.sortDirection);
-  }
+  if (params.status) searchParams.set("status", params.status);
+  if (params.page !== undefined) searchParams.set("page", String(params.page));
+  if (params.pageSize !== undefined) searchParams.set("pageSize", String(params.pageSize));
+  if (params.sortBy) searchParams.set("sortBy", params.sortBy);
+  if (params.sortDirection) searchParams.set("sortDirection", params.sortDirection);
 
   const query = searchParams.toString();
   return request<PagedResult<Appointment>>(`/api/appointments${query ? `?${query}` : ""}`);
 }
 
-export function createAppointment(
-  payload: CreateAppointmentPayload
-): Promise<Appointment> {
-  return publicRequest<Appointment>("/api/appointments", {
+export function createAppointment(payload: CreateAppointmentPayload): Promise<Appointment> {
+  return request<Appointment>("/api/appointments", {
     method: "POST",
     body: JSON.stringify(payload),
+    skipAuthHandling: true,
   });
 }
 
@@ -129,9 +181,7 @@ export function updateAppointmentStatus(
 }
 
 export function deleteAppointment(id: string): Promise<void> {
-  return request<void>(`/api/appointments/${id}`, {
-    method: "DELETE",
-  });
+  return request<void>(`/api/appointments/${id}`, { method: "DELETE" });
 }
 
 export function login(payload: LoginPayload): Promise<LoginResponse> {

@@ -13,7 +13,8 @@
       "services": "Hizmetler",
       "about": "Hakkımızda",
       "contact": "İletişim",
-      "appointments": "Randevular"
+      "appointments": "Randevular",
+      "healthTourism": "Sağlık Turizmi"
     },
     "buttons": {
       "bookNow": "Randevu Al",
@@ -111,6 +112,7 @@
     "testimonials": {
       "label": "Hasta Hikayeleri",
       "title": "Hastalarımız ne diyor",
+      "rating": "{rating}/5 yıldız",
       "items": {
         "1": {
           "quote": "Kapıdan girdiğim andan itibaren kendimi rahat hissettim. Şimdiye kadarki en iyi diş deneyimim.",
@@ -209,7 +211,11 @@
       "submitting": "Gönderiliyor...",
       "success": "Randevu talebiniz alındı! Onay için telefonla sizinle iletişime geçeceğiz.",
       "loadServicesError": "Hizmetler yüklenemedi. API çalışıyor mu?",
-      "submitError": "Randevu gönderilemedi."
+      "submitError": "Randevu gönderilemedi.",
+      "kvkkInformationLabel": "KVKK aydınlatma metnini okudum ve anladım.",
+      "kvkkInformationLink": "Aydınlatma metni",
+      "kvkkExplicitConsentLabel": "Kişisel verilerimin işlenmesine ilişkin açık rızamı veriyorum.",
+      "kvkkExplicitConsentLink": "Açık rıza metni"
     }
   },
   "admin": {
@@ -318,6 +324,76 @@
         "resetError": "Şifre sıfırlanamadı.",
         "loadError": "Kullanıcılar yüklenemedi."
       }
+    },
+    "services": {
+      "title": "Hizmet yönetimi",
+      "description": "Klinik hizmetlerini, fiyatları ve görünürlüğü yönetin.",
+      "createTitle": "Yeni hizmet",
+      "nameTr": "Ad (TR)",
+      "nameEn": "Ad (EN)",
+      "descriptionTr": "Açıklama (TR)",
+      "descriptionEn": "Açıklama (EN)",
+      "icon": "İkon",
+      "iconPlaceholder": "ör. tooth",
+      "durationMinutes": "Süre (dakika)",
+      "priceFromTry": "Başlangıç fiyatı (TRY)",
+      "priceFromEur": "Başlangıç fiyatı (EUR)",
+      "displayOrder": "Sıra",
+      "isActive": "Aktif",
+      "create": "Hizmet oluştur",
+      "creating": "Oluşturuluyor...",
+      "saving": "Kaydediliyor...",
+      "edit": "Düzenle",
+      "editTitle": "Hizmeti düzenle",
+      "editDescription": "{name} hizmetini düzenleyin.",
+      "delete": "Sil",
+      "deleteTitle": "Hizmet silinsin mi?",
+      "deleteDescription": "{name} kalıcı olarak silinecek.",
+      "empty": "Henüz hizmet yok.",
+      "active": "Aktif",
+      "inactive": "Pasif",
+      "durationBadge": "{minutes} dk",
+      "toast": {
+        "created": "Hizmet oluşturuldu.",
+        "updated": "Hizmet güncellendi.",
+        "deleted": "Hizmet silindi.",
+        "loadError": "Hizmetler yüklenemedi.",
+        "createError": "Hizmet oluşturulamadı.",
+        "updateError": "Hizmet güncellenemedi.",
+        "deleteError": "Hizmet silinemedi."
+      }
+    },
+    "testimonials": {
+      "title": "Yorum yönetimi",
+      "description": "Ana sayfada gösterilen hasta yorumlarını yönetin.",
+      "createTitle": "Yeni yorum",
+      "authorName": "Yazar adı",
+      "quoteTr": "Yorum (TR)",
+      "quoteEn": "Yorum (EN, isteğe bağlı)",
+      "rating": "Puan (1-5, isteğe bağlı)",
+      "displayOrder": "Sıra",
+      "isActive": "Aktif",
+      "create": "Yorum oluştur",
+      "creating": "Oluşturuluyor...",
+      "saving": "Kaydediliyor...",
+      "edit": "Düzenle",
+      "editTitle": "Yorumu düzenle",
+      "editDescription": "{name} yorumunu düzenleyin.",
+      "delete": "Sil",
+      "deleteTitle": "Yorum silinsin mi?",
+      "deleteDescription": "{name} yorumu kalıcı olarak silinecek.",
+      "empty": "Henüz yorum yok.",
+      "active": "Aktif",
+      "inactive": "Pasif",
+      "toast": {
+        "created": "Yorum oluşturuldu.",
+        "updated": "Yorum güncellendi.",
+        "deleted": "Yorum silindi.",
+        "loadError": "Yorumlar yüklenemedi.",
+        "createError": "Yorum oluşturulamadı.",
+        "updateError": "Yorum güncellenemedi.",
+        "deleteError": "Yorum silinemedi."
+      }
     }
   },
   "status": {
@@ -335,6 +411,127 @@
     "preferredTimeRequired": "Tercih edilen saat zorunludur.",
     "serviceRequired": "Lütfen bir hizmet seçin.",
     "passwordRequired": "Şifre zorunludur.",
-    "passwordMin": "Şifre en az 8 karakter olmalıdır."
+    "passwordMin": "Şifre en az 8 karakter olmalıdır.",
+    "nameTrRequired": "Türkçe ad zorunludur.",
+    "nameEnRequired": "İngilizce ad zorunludur.",
+    "descriptionTrRequired": "Türkçe açıklama zorunludur.",
+    "descriptionEnRequired": "İngilizce açıklama zorunludur.",
+    "priceInvalid": "Fiyat 0 veya daha büyük olmalıdır.",
+    "durationInvalid": "Süre pozitif bir sayı olmalıdır.",
+    "authorRequired": "Yazar adı zorunludur.",
+    "quoteTrRequired": "Türkçe yorum zorunludur.",
+    "kvkkInformationRequired": "KVKK aydınlatma metnini onaylamanız gerekir.",
+    "kvkkExplicitConsentRequired": "Açık rıza onayı zorunludur."
+  },
+  "healthTourism": {
+    "title": "Sağlık Turizmi",
+    "description": "Uluslararası hastalarımıza kapsamlı diş tedavisi ve konaklama desteği sunuyoruz.",
+    "intro": "TacDent, sağlık turizmi kapsamında yurt dışından gelen hastalarımıza Türkçe ve İngilizce iletişim, tedavi planlaması ve randevu koordinasyonu sağlar. Modern kliniğimizde implant, estetik diş hekimliği ve genel diş tedavileri güvenle uygulanır.",
+    "servicesTitle": "Sunduğumuz hizmetler",
+    "services": {
+      "consultation": "Ücretsiz ön görüşme ve tedavi planı",
+      "treatment": "İmplant, protez ve estetik diş tedavileri",
+      "coordination": "Randevu ve süreç koordinasyonu",
+      "followUp": "Tedavi sonrası takip"
+    },
+    "certificateTitle": "Sağlık turizmi yetki belgesi",
+    "certificateAlt": "Sağlık turizmi yetki belgesi",
+    "certificatePlaceholder": "Belge görseli yakında eklenecektir."
+  },
+  "kvkk": {
+    "information": {
+      "title": "Randevu Talep Formu Kapsamında Kişisel Verilerin İşlenmesine İlişkin Aydınlatma Metni",
+      "version": "Sürüm: {version}",
+      "intro": "İşbu Aydınlatma Metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) kapsamında, tugceaydincignakli.com internet sitesi üzerinden iletilen randevu talepleri kapsamında kişisel verilerinizin işlenmesine ilişkin olarak hazırlanmıştır.",
+      "sections": [
+        {
+          "title": "1. Veri Sorumlusu",
+          "paragraphs": [
+            "Kişisel verileriniz, veri sorumlusu sıfatıyla Diş Hekimi Tuğçe Aydın Çiğnaklı tarafından işlenmektedir.",
+            "İletişim: info@tugceaydincignakli.com",
+            "Adres: Merkez, Atatürk Cad. 3.Sokak, 48770 Dalaman/Muğla",
+            "Telefon: +905444054841"
+          ]
+        },
+        {
+          "title": "2. İşlenen Kişisel Veriler",
+          "paragraphs": [
+            "Randevu talep formu aracılığıyla aşağıdaki kişisel verileriniz işlenebilir:",
+            "Kısa not/açıklama alanında tarafınızca paylaşılması halinde sağlık verisi niteliğinde olabilecek bilgiler de işlenebilir."
+          ],
+          "items": [
+            "Ad ve soyad",
+            "Telefon numarası",
+            "E-posta adresi",
+            "Randevu talebine ilişkin kısa not/açıklama",
+            "Talebin oluşturulma tarihi ve saati",
+            "IP adresi, kullanıcı cihaz/tarayıcı bilgileri ve sistemsel kayıt bilgileri"
+          ]
+        },
+        {
+          "title": "3. Kişisel Verilerin İşlenme Amaçları",
+          "paragraphs": ["Kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:"],
+          "items": [
+            "Randevu talebinizin alınması",
+            "Randevu talebinizin değerlendirilmesi",
+            "Sizinle telefon veya e-posta yoluyla iletişime geçilmesi",
+            "Talebinizin sonuçlandırılması",
+            "Site ve sistem güvenliğinin sağlanması",
+            "Olası uyuşmazlıklarda kayıtların muhafaza edilmesi"
+          ]
+        },
+        {
+          "title": "4. Kişisel Verilerin Toplanma Yöntemi ve Hukuki Sebebi",
+          "paragraphs": [
+            "Kişisel verileriniz, tugceaydincignakli.com internet sitesinde yer alan randevu talep formunu doldurmanız yoluyla elektronik ortamda toplanmaktadır.",
+            "Ad, soyad, telefon numarası ve e-posta adresi gibi kişisel verileriniz, randevu talebinizin alınması ve sizinle iletişime geçilmesi amacıyla, KVKK’da yer alan ilgili kişinin kendisi tarafından alenileştirilmiş olması, bir hakkın tesisi, kullanılması veya korunması için veri işlemenin zorunlu olması ve veri sorumlusunun meşru menfaati hukuki sebeplerine dayanılarak işlenebilir.",
+            "Kısa not/açıklama alanında tarafınızca sağlık verisi niteliğinde bilgi paylaşılması halinde, bu veriler açık rızanıza dayanılarak işlenmektedir."
+          ]
+        },
+        {
+          "title": "5. Kişisel Verilerin Aktarılması",
+          "paragraphs": [
+            "Kişisel verileriniz pazarlama veya satış amacıyla üçüncü kişilerle paylaşılmaz.",
+            "Ancak kişisel verileriniz; internet sitesinin, sunucunun, veritabanının, e-posta altyapısının ve teknik güvenlik hizmetlerinin sağlanması amacıyla, yalnızca gerekli olduğu ölçüde hosting, veritabanı, yazılım, e-posta ve teknik altyapı hizmet sağlayıcılarıyla paylaşılabilir.",
+            "Yetkili kamu kurum ve kuruluşları tarafından hukuka uygun şekilde talep edilmesi halinde kişisel verileriniz ilgili kurum ve kuruluşlarla paylaşılabilir."
+          ]
+        },
+        {
+          "title": "6. Kişisel Verilerin Saklama Süresi",
+          "paragraphs": [
+            "Randevu talep formu aracılığıyla alınan kişisel verileriniz, randevu talebinizin sonuçlandırılmasından itibaren 1 yıl süreyle saklanır.",
+            "Bu sürenin sonunda kişisel verileriniz, ilgili mevzuata uygun şekilde silinir, yok edilir veya anonim hale getirilir.",
+            "Randevu talebinizin muayene, tedavi veya hasta kaydı sürecine dönüşmesi halinde, ilgili kayıtlar ayrı hasta kayıt süreçleri ve ilgili mevzuat kapsamında ayrıca değerlendirilecektir."
+          ]
+        },
+        {
+          "title": "7. İlgili Kişinin Hakları",
+          "paragraphs": [
+            "KVKK’nın 11. maddesi kapsamında kişisel verilerinizle ilgili olarak aşağıdaki haklara sahipsiniz:",
+            "Bu haklarınıza ilişkin taleplerinizi info@tugceaydincignakli.com adresine iletebilirsiniz."
+          ],
+          "items": [
+            "Kişisel verilerinizin işlenip işlenmediğini öğrenme",
+            "İşlenmişse buna ilişkin bilgi talep etme",
+            "İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme",
+            "Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme",
+            "Eksik veya yanlış işlenmişse düzeltilmesini isteme",
+            "Mevzuatta öngörülen şartlar çerçevesinde silinmesini veya yok edilmesini isteme",
+            "İşlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme",
+            "Kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme"
+          ]
+        }
+      ]
+    },
+    "consent": {
+      "title": "Randevu Talep Formu Kapsamında Açık Rıza Metni",
+      "version": "Sürüm: {version}",
+      "paragraphs": [
+        "tugceaydincignakli.com internet sitesinde yer alan randevu talep formu aracılığıyla paylaştığım ad, soyad, telefon numarası, e-posta adresi ve kısa not/açıklama bilgilerimin; randevu talebimin alınması, değerlendirilmesi, tarafımla iletişime geçilmesi ve talebimin sonuçlandırılması amaçlarıyla Diş Hekimi Tuğçe Aydın Çiğnaklı tarafından işlenmesine açık rıza veriyorum.",
+        "Kısa not/açıklama alanında tarafımca paylaşılabilecek sağlık verisi niteliğindeki bilgilerin de yalnızca randevu talebimin değerlendirilmesi ve tarafımla iletişime geçilmesi amacıyla işlenmesine açık rıza veriyorum.",
+        "Kişisel verilerimin pazarlama veya satış amacıyla üçüncü kişilerle paylaşılmayacağını; ancak internet sitesi, sunucu, veritabanı, e-posta ve teknik altyapı hizmetlerinin sağlanması amacıyla gerekli olduğu ölçüde ilgili teknik hizmet sağlayıcılarıyla paylaşılabileceğini biliyorum.",
+        "Bu açık rızayı özgür irademle verdiğimi, dilediğim zaman geri çekebileceğimi ve rızamı geri çekmek için info@tugceaydincignakli.com üzerinden başvurabileceğimi kabul ederim."
+      ]
+    }
   }
 }

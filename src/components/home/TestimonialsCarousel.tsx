@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import Autoplay from "embla-carousel-autoplay";
-import { useTranslations } from "next-intl";
+import { getTestimonials } from "@/lib/api";
+import type { Testimonial } from "@/types";
 import {
   Carousel,
   CarouselContent,
@@ -11,10 +14,27 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 
-const testimonialKeys = ["1", "2", "3"] as const;
+function getQuote(testimonial: Testimonial, locale: string): string {
+  if (locale === "en" && testimonial.quoteEn) {
+    return testimonial.quoteEn;
+  }
+  return testimonial.quoteTr;
+}
 
 export default function TestimonialsCarousel() {
+  const locale = useLocale();
   const t = useTranslations("home.testimonials");
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+
+  useEffect(() => {
+    getTestimonials()
+      .then(setTestimonials)
+      .catch(() => setTestimonials([]));
+  }, []);
+
+  if (testimonials.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-primary py-16 text-primary-foreground">
@@ -28,16 +48,20 @@ export default function TestimonialsCarousel() {
           className="mt-10 w-full"
         >
           <CarouselContent className="-ml-4">
-            {testimonialKeys.map((key) => (
-              <CarouselItem key={key} className="pl-4 md:basis-1/2">
+            {testimonials.map((testimonial) => (
+              <CarouselItem key={testimonial.id} className="pl-4 md:basis-1/2">
                 <Card className="border-0 bg-primary-foreground/10 text-primary-foreground ring-primary-foreground/20">
                   <CardContent>
                     <blockquote className="text-lg leading-8">
-                      &ldquo;{t(`items.${key}.quote`)}&rdquo;
+                      &ldquo;{getQuote(testimonial, locale)}&rdquo;
                     </blockquote>
                     <footer className="mt-4">
-                      <p className="font-semibold">{t(`items.${key}.name`)}</p>
-                      <p className="text-sm opacity-80">{t(`items.${key}.role`)}</p>
+                      <p className="font-semibold">{testimonial.authorName}</p>
+                      {testimonial.rating ? (
+                        <p className="text-sm opacity-80">
+                          {t("rating", { rating: testimonial.rating })}
+                        </p>
+                      ) : null}
                     </footer>
                   </CardContent>
                 </Card>

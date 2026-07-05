@@ -20,11 +20,32 @@ export interface PagedResult<T> {
 
 export interface DentalService {
   id: number;
-  name: string;
-  description: string;
+  nameTr: string;
+  nameEn: string;
+  descriptionTr: string;
+  descriptionEn: string;
   icon: string | null;
-  priceFrom: number;
+  priceFromTry: number;
+  priceFromEur: number;
   durationMinutes: number;
+  displayOrder: number;
+}
+
+export interface AdminDentalService extends DentalService {
+  isActive: boolean;
+}
+
+export interface Testimonial {
+  id: number;
+  authorName: string;
+  quoteTr: string;
+  quoteEn: string | null;
+  rating: number | null;
+  displayOrder: number;
+}
+
+export interface AdminTestimonial extends Testimonial {
+  isActive: boolean;
 }
 
 export interface Appointment {
@@ -49,10 +70,40 @@ export interface CreateAppointmentPayload {
   phone: string;
   preferredDate: string;
   preferredTime: string;
-  serviceType: string;
+  serviceId: number;
   notes?: string;
+  kvkkInformationAccepted: boolean;
+  kvkkInformationVersion: string;
+  kvkkExplicitConsentAccepted: boolean;
+  kvkkExplicitConsentVersion: string;
   recaptchaToken: string;
 }
+
+export interface CreateServicePayload {
+  nameTr: string;
+  nameEn: string;
+  descriptionTr: string;
+  descriptionEn: string;
+  icon?: string | null;
+  priceFromTry: number;
+  priceFromEur: number;
+  durationMinutes: number;
+  displayOrder: number;
+  isActive: boolean;
+}
+
+export interface UpdateServicePayload extends CreateServicePayload {}
+
+export interface CreateTestimonialPayload {
+  authorName: string;
+  quoteTr: string;
+  quoteEn?: string | null;
+  rating?: number | null;
+  isActive: boolean;
+  displayOrder: number;
+}
+
+export interface UpdateTestimonialPayload extends CreateTestimonialPayload {}
 
 export interface LoginPayload {
   email: string;

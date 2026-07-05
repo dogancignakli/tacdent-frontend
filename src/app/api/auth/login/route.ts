@@ -1,6 +1,11 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { getBackendUrl, ROLE_COOKIE, SESSION_COOKIE } from "@/lib/server/backend";
+import {
+  anonymousBackendFetch,
+  getClientIpFromRequest,
+  ROLE_COOKIE,
+  SESSION_COOKIE,
+} from "@/lib/server/backend";
 
 interface BackendLoginResponse {
   token: string;
@@ -10,12 +15,16 @@ interface BackendLoginResponse {
 
 export async function POST(request: Request) {
   const body = await request.json();
+  const clientIp = getClientIpFromRequest(request);
 
-  const backendResponse = await fetch(`${getBackendUrl()}/api/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  const backendResponse = await anonymousBackendFetch(
+    "/api/auth/login",
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+    },
+    clientIp
+  );
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));
