@@ -13,24 +13,5 @@ services:
     environment:
       API_URL: ${API_URL}
       INTERNAL_API_KEY: ${INTERNAL_API_KEY}
-    expose:
-      - "3000"
-    networks:
-      - web
-
-  nginx:
-    image: nginx:1.27-alpine
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      - app
-    networks:
-      - web
-
-networks:
-  web:
+      - "127.0.0.1:3000:3000"
