@@ -22,6 +22,8 @@ Make sure the backend API is running at `http://localhost:5065` (see `tacdent-ba
 npm run build && npm start
 ```
 
+**VPS (Docker + Nginx):** see **[DEPLOY-VPS.md](./DEPLOY-VPS.md)**.
+
 ## Internationalization (TR / EN)
 
 - **Locales:** Turkish (`/tr`, default) and English (`/en`) via [next-intl](https://next-intl.dev)
