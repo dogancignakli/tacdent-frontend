@@ -123,6 +123,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
         kvkkInformationAccepted: false,
         kvkkExplicitConsentAccepted: false,
       });
+      form.clearErrors();
       onCreated?.();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : t("submitError"));
@@ -276,8 +277,9 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
                 name="preferredTime"
                 render={({ field }) => (
                   <Select
-                    value={field.value || undefined}
-                    onValueChange={field.onChange}
+                    // Base UI uses null for "no selection"; keep RHF/Zod on strings.
+                    value={field.value ? field.value : null}
+                    onValueChange={(value) => field.onChange(value ?? "")}
                     disabled={!preferredDate || timeSlots.length === 0}
                   >
                     <SelectTrigger id="preferredTime" className="w-full" aria-invalid={!!errors.preferredTime}>

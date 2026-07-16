@@ -19,8 +19,15 @@ export function createAppointmentFormSchema(t: ValidationTranslator) {
         .max(30)
         .regex(PHONE_ALLOWED, t("phoneInvalid"))
         .refine((v) => v.replace(/\D/g, "").length >= 10, t("phoneInvalid")),
-      preferredDate: z.string().min(1, t("preferredDateRequired")),
-      preferredTime: z.string().min(1, t("preferredTimeRequired")),
+      preferredDate: z.preprocess(
+        (v) => (v == null ? "" : v),
+        z.string().min(1, t("preferredDateRequired"))
+      ),
+      // Base UI Select can emit null when cleared after reset; coerce before string checks.
+      preferredTime: z.preprocess(
+        (v) => (v == null ? "" : v),
+        z.string().min(1, t("preferredTimeRequired"))
+      ),
       serviceId: z.number().int().positive(t("serviceRequired")),
       notes: z.string().max(1000).optional(),
       kvkkInformationAccepted: z.boolean(),
