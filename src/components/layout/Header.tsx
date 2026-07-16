@@ -48,7 +48,7 @@ export default function Header() {
             width={920}
             height={220}
             sizes="(max-width: 640px) 160px, 200px"
-            className="h-9 w-auto sm:h-10"
+            className="h-9 w-auto sm:h-10 dark:rounded-md dark:bg-white/95 dark:px-2 dark:py-1"
             priority
           />
         </Link>
@@ -96,7 +96,7 @@ export default function Header() {
                     width={920}
                     height={220}
                     sizes="160px"
-                    className="h-9 w-auto"
+                    className="h-9 w-auto dark:rounded-md dark:bg-white/95 dark:px-2 dark:py-1"
                   />
                 </Link>
               </SheetHeader>
@@ -121,7 +121,7 @@ export default function Header() {
                   render={
                     <Link
                       href="/appointments"
-                      className="mt-2 inline-flex h-8 items-center justify-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground"
+                      className="mt-3 inline-flex h-9 w-full items-center justify-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                     />
                   }
                 >

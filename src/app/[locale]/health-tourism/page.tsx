@@ -22,10 +22,22 @@ export default async function HealthTourismPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <div className="max-w-3xl space-y-6">
-        <h1 className="font-heading text-4xl font-bold tracking-tight">{t("title")}</h1>
-        <p className="text-lg text-muted-foreground">{t("description")}</p>
-        <p className="leading-8 text-muted-foreground">{t("intro")}</p>
+      <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="max-w-3xl space-y-6">
+          <h1 className="font-heading text-4xl font-bold tracking-tight">{t("title")}</h1>
+          <p className="text-lg text-muted-foreground">{t("description")}</p>
+          <p className="leading-8 text-muted-foreground">{t("intro")}</p>
+        </div>
+        <div className="w-fit rounded-2xl border bg-white p-5 shadow-sm">
+          <Image
+            src="/images/health-turkiye.jpeg"
+            alt={t("partnerAlt")}
+            width={800}
+            height={533}
+            sizes="(max-width: 768px) 60vw, 260px"
+            className="h-auto w-48 sm:w-56"
+          />
+        </div>
       </div>
 
       <section className="mt-12">

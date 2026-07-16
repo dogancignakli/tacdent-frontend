@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
   const tButtons = useTranslations("common.buttons");
   const tValidation = useTranslations("validation");
   const tErrors = useTranslations("common.errors");
-  const { executeRecaptcha } = useRecaptcha();
+  const { executeRecaptcha, isConfigured: isRecaptchaConfigured } = useRecaptcha();
 
   const loginFormSchema = useMemo(
     () => createLoginFormSchema((key) => tValidation(key)),
@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
   async function onSubmit(values: LoginFormValues) {
     try {
       const recaptchaToken = await executeRecaptcha("login");
-      if (!recaptchaToken) {
+      if (isRecaptchaConfigured && !recaptchaToken) {
         toast.error(tErrors("recaptchaFailed"));
         return;
       }

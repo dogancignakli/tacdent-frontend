@@ -35,11 +35,11 @@
       "reset": "Sıfırla"
     },
     "footer": {
-      "clinic": "TacDent Kliniği",
+      "clinic": "TacDent Muayenehanesi",
       "description": "Aileler için nazik, modern diş hekimliği. Gülüşünüz önceliğimizdir.",
       "hours": "Çalışma saatleri",
-      "hoursWeekdays": "Pzt – Cum: 08:00 – 18:00",
-      "hoursSaturday": "Cumartesi: 09:00 – 14:00",
+      "hoursWeekdays": "Pzt – Cum: 09:00 – 18:00",
+      "hoursSaturday": "Cumartesi: 09:00 – 18:00",
       "hoursSunday": "Pazar: Yalnızca acil",
       "contact": "İletişim",
       "address": "Merkez Mahallesi, Atatürk Caddesi, 3. Sokak No:5/1, Dalaman/Muğla",
@@ -47,7 +47,7 @@
       "email": "info@tugceaydincignakli.com",
       "scheduleLink": "Randevu planla →",
       "staffLogin": "Personel girişi",
-      "copyright": "© {year} TacDent. Next.js + shadcn/ui ile geliştirildi."
+      "copyright": "© {year} TacDent. Doğan Çığnaklı tarafından geliştirilmiştir."
     },
     "language": {
       "label": "Dil",
@@ -184,11 +184,12 @@
     "label": "İletişim",
     "title": "Yardımcı olmak için buradayız",
     "description": "Bir tedavi veya yaklaşan ziyaretiniz hakkında sorularınız mı var? Bize istediğiniz zaman ulaşın.",
-    "clinic": "Klinik",
+    "clinic": "Muayenehane",
     "emergency": "Acil hat",
     "emergencyText": "Mesai saatleri dışında acil ağrı veya travma için bizi arayın:",
     "emergencyPhone": "0544 405 48 41",
-    "mapTitle": "Klinik konumu haritası",
+    "mapTitle": "Muayenehane konumu haritası",
+    "mapHint": "Muayenehanemizin konumunu Google Haritalar üzerinde görüntülemek için haritayı yükleyin.",
     "loadMap": "Haritayı yükle"
   },
   "appointments": {
@@ -204,7 +205,11 @@
       "service": "Hizmet",
       "servicePlaceholder": "Hizmet seçin",
       "preferredDate": "Tercih edilen tarih",
+      "preferredDatePlaceholder": "Tarih seçin",
       "preferredTime": "Tercih edilen saat",
+      "preferredTimePlaceholder": "Saat seçin",
+      "selectDateFirst": "Önce tarih seçin",
+      "closedDayNote": "Seçtiğiniz gün kapalıyız. Lütfen başka bir gün seçin.",
       "notes": "Notlar (isteğe bağlı)",
       "notesPlaceholder": "Alerjiler, endişeler veya özel istekler",
       "submit": "Randevu Talep Et",
@@ -295,7 +300,7 @@
     },
     "users": {
       "title": "Personel hesapları",
-      "description": "Klinik personel girişlerini oluşturun ve yönetin.",
+      "description": "Muayenehane personel girişlerini oluşturun ve yönetin.",
       "createTitle": "Personel ekle",
       "email": "E-posta",
       "password": "Şifre",
@@ -327,7 +332,7 @@
     },
     "services": {
       "title": "Hizmet yönetimi",
-      "description": "Klinik hizmetlerini, fiyatları ve görünürlüğü yönetin.",
+      "description": "Muayenehane hizmetlerini, fiyatları ve görünürlüğü yönetin.",
       "createTitle": "Yeni hizmet",
       "nameTr": "Ad (TR)",
       "nameEn": "Ad (EN)",
@@ -407,8 +412,11 @@
     "patientNameRequired": "Ad soyad zorunludur.",
     "emailInvalid": "Geçerli bir e-posta adresi girin.",
     "phoneRequired": "Telefon numarası zorunludur.",
+    "phoneInvalid": "Geçerli bir telefon numarası girin (en az 10 rakam).",
     "preferredDateRequired": "Tercih edilen tarih zorunludur.",
     "preferredTimeRequired": "Tercih edilen saat zorunludur.",
+    "closedDay": "Seçtiğiniz gün kapalıyız. Lütfen başka bir gün seçin.",
+    "invalidTimeSlot": "Seçtiğiniz saat çalışma saatleri dışında. Lütfen listeden bir saat seçin.",
     "serviceRequired": "Lütfen bir hizmet seçin.",
     "passwordRequired": "Şifre zorunludur.",
     "passwordMin": "Şifre en az 8 karakter olmalıdır.",
@@ -429,11 +437,12 @@
     "intro": "TacDent, sağlık turizmi kapsamında yurt dışından gelen hastalarımıza Türkçe ve İngilizce iletişim, tedavi planlaması ve randevu koordinasyonu sağlar. Modern kliniğimizde implant, estetik diş hekimliği ve genel diş tedavileri güvenle uygulanır.",
     "servicesTitle": "Sunduğumuz hizmetler",
     "services": {
-      "consultation": "Ücretsiz ön görüşme ve tedavi planı",
+      "consultation": "Ön görüşme ve tedavi planı",
       "treatment": "İmplant, protez ve estetik diş tedavileri",
       "coordination": "Randevu ve süreç koordinasyonu",
       "followUp": "Tedavi sonrası takip"
     },
+    "partnerAlt": "Health Türkiye - Sağlığın Kalbi",
     "certificateTitle": "Sağlık turizmi yetki belgesi",
     "certificateAlt": "Sağlık turizmi yetki belgesi",
     "certificatePlaceholder": "Belge görseli yakında eklenecektir."

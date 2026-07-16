@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "TacDent | Modern Dental Clinic",
+    "title": "TacDent | Modern Dental Practice",
     "description": "Book appointments, explore services, and discover gentle modern dental care.",
     "siteName": "TacDent",
-    "keywords": "dental clinic, dentist, Dalaman, Mugla, dental appointment, dental care, TacDent, Tuğce Aydin Cignakli"
+    "keywords": "dental practice, dentist, Dalaman, Mugla, dental appointment, dental care, TacDent, Tuğce Aydin Cignakli"
   },
   "common": {
     "brand": "TacDent",
@@ -35,11 +35,11 @@
       "reset": "Reset"
     },
     "footer": {
-      "clinic": "TacDent Clinic",
+      "clinic": "TacDent Practice",
       "description": "Gentle, modern dentistry for families. Your smile is our priority.",
       "hours": "Hours",
-      "hoursWeekdays": "Mon – Fri: 8:00 – 18:00",
-      "hoursSaturday": "Saturday: 9:00 – 14:00",
+      "hoursWeekdays": "Mon – Fri: 9:00 – 18:00",
+      "hoursSaturday": "Saturday: 9:00 – 18:00",
       "hoursSunday": "Sunday: Emergency only",
       "contact": "Contact",
       "address": "Merkez Mahallesi, Atatürk Caddesi, 3. Sokak No:5/1, Dalaman/Muğla, Turkey",
@@ -47,7 +47,7 @@
       "email": "info@tugceaydincignakli.com",
       "scheduleLink": "Schedule an appointment →",
       "staffLogin": "Staff login",
-      "copyright": "© {year} TacDent. Built with Next.js + shadcn/ui."
+      "copyright": "© {year} TacDent. Developed by Doğan Çığnaklı."
     },
     "language": {
       "label": "Language",
@@ -75,7 +75,7 @@
       "description": "From routine checkups to advanced treatments, our team combines modern technology with a calm, friendly experience.",
       "bookAppointment": "Book Appointment",
       "viewServices": "View Services",
-      "imageAlt": "Modern dental clinic with friendly staff"
+      "imageAlt": "Modern dental practice with friendly staff"
     },
     "highlights": {
       "team": {
@@ -184,11 +184,12 @@
     "label": "Contact",
     "title": "We are here to help",
     "description": "Questions about a treatment or your upcoming visit? Reach out anytime.",
-    "clinic": "Clinic",
+    "clinic": "Practice",
     "emergency": "Emergency line",
     "emergencyText": "For urgent pain or trauma outside regular hours, call us at",
     "emergencyPhone": "+90 544 405 48 41",
-    "mapTitle": "Clinic location map",
+    "mapTitle": "Practice location map",
+    "mapHint": "Load the map to view our practice location on Google Maps.",
     "loadMap": "Load map"
   },
   "appointments": {
@@ -204,7 +205,11 @@
       "service": "Service",
       "servicePlaceholder": "Select a service",
       "preferredDate": "Preferred date",
+      "preferredDatePlaceholder": "Pick a date",
       "preferredTime": "Preferred time",
+      "preferredTimePlaceholder": "Pick a time",
+      "selectDateFirst": "Select a date first",
+      "closedDayNote": "We are closed on the selected day. Please choose another day.",
       "notes": "Notes (optional)",
       "notesPlaceholder": "Any allergies, concerns, or special requests",
       "submit": "Request Appointment",
@@ -295,7 +300,7 @@
     },
     "users": {
       "title": "Staff accounts",
-      "description": "Create and manage clinic staff logins.",
+      "description": "Create and manage practice staff logins.",
       "createTitle": "Add staff member",
       "email": "Email",
       "password": "Password",
@@ -327,7 +332,7 @@
     },
     "services": {
       "title": "Service management",
-      "description": "Manage clinic services, pricing, and visibility.",
+      "description": "Manage practice services, pricing, and visibility.",
       "createTitle": "New service",
       "nameTr": "Name (TR)",
       "nameEn": "Name (EN)",
@@ -407,8 +412,11 @@
     "patientNameRequired": "Full name is required.",
     "emailInvalid": "Enter a valid email address.",
     "phoneRequired": "Phone number is required.",
+    "phoneInvalid": "Enter a valid phone number (at least 10 digits).",
     "preferredDateRequired": "Preferred date is required.",
     "preferredTimeRequired": "Preferred time is required.",
+    "closedDay": "We are closed on the selected day. Please choose another day.",
+    "invalidTimeSlot": "The selected time is outside working hours. Please pick a time from the list.",
     "serviceRequired": "Please select a service.",
     "passwordRequired": "Password is required.",
     "passwordMin": "Password must be at least 8 characters.",
@@ -426,14 +434,15 @@
   "healthTourism": {
     "title": "Health Tourism",
     "description": "We offer comprehensive dental care and coordination support for international patients.",
-    "intro": "TacDent supports international patients with treatment planning, bilingual communication, and appointment coordination. Our modern clinic provides implants, cosmetic dentistry, and general dental treatments in a safe, welcoming environment.",
+    "intro": "TacDent supports international patients with treatment planning, bilingual communication, and appointment coordination. Our modern practice provides implants, cosmetic dentistry, and general dental treatments in a safe, welcoming environment.",
     "servicesTitle": "What we offer",
     "services": {
-      "consultation": "Free initial consultation and treatment plan",
+      "consultation": "Initial consultation and treatment plan",
       "treatment": "Implants, prosthetics, and cosmetic dentistry",
       "coordination": "Appointment and process coordination",
       "followUp": "Post-treatment follow-up"
     },
+    "partnerAlt": "Health Türkiye - Heart of Health",
     "certificateTitle": "Health tourism authorization certificate",
     "certificateAlt": "Health tourism authorization certificate",
     "certificatePlaceholder": "Certificate image will be added soon."

@@ -4,6 +4,9 @@ import { useCallback } from "react";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
+/** True when a reCAPTCHA site key is configured; otherwise reCAPTCHA is disabled. */
+export const isRecaptchaConfigured = Boolean(SITE_KEY);
+
 let scriptLoading: Promise<void> | null = null;
 
 declare global {
@@ -58,5 +61,5 @@ export function useRecaptcha() {
     });
   }, []);
 
-  return { executeRecaptcha };
+  return { executeRecaptcha, isConfigured: isRecaptchaConfigured };
 }

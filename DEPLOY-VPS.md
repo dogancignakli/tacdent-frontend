@@ -13,19 +13,39 @@ Next.js **standalone** build behind Nginx. The .NET API stays on separate hostin
 ```bash
 git clone https://github.com/dogancignakli/tacdent-frontend.git
 cd tacdent-frontend
-cp .env.production.example .env.production
-# Edit .env.production with real API URL, site URL, reCAPTCHA, INTERNAL_API_KEY
+cp .env.production.example .env
+# Edit .env with real API URL, site URL, reCAPTCHA, INTERNAL_API_KEY
 ```
 
 ## 2. Build and run (HTTP first)
 
+Docker Compose loads **`.env`** in the project root for `${...}` in `docker-compose.yml` and for the app container. Without it you get "variable is not set" warnings and an empty build.
+
 ```bash
-docker compose --env-file .env.production up -d --build
+docker compose up -d --build
+```
+
+Equivalent explicit form:
+
+```bash
+docker compose --env-file .env up -d --build
 ```
 
 - App listens on internal port `3000`
 - Nginx exposes `80` (and `443` reserved for SSL later)
 - Test: `http://tacdent.com` (or VPS IP until DNS propagates)
+
+### Host Nginx (panel proxies to port 3000)
+
+If Docker only exposes `127.0.0.1:3000` and the **VPS panel / Ubuntu nginx** terminates HTTP(S), that config must proxy **all methods** (GET, POST, **PUT**, **DELETE**, **PATCH**) to Next.js. A common default blocks PUT → admin service edit returns **405**.
+
+Use [nginx/host-proxy.conf.example](./nginx/host-proxy.conf.example). Remove any rule like:
+
+```nginx
+if ($request_method !~ ^(GET|HEAD|POST)$) { return 405; }
+```
+
+Then `nginx -t && systemctl reload nginx`.
 
 ## 3. Enable HTTPS (Let's Encrypt)
 
@@ -62,7 +82,7 @@ Then switch Nginx to SSL:
 
 ```bash
 git pull
-docker compose --env-file .env.production up -d --build
+docker compose up -d --build
 ```
 
 If only `NEXT_PUBLIC_*` env vars change, you **must** rebuild (`--build`) — they are embedded at build time.
@@ -78,7 +98,8 @@ If only `NEXT_PUBLIC_*` env vars change, you **must** rebuild (`--build`) — th
 
 | Symptom | Fix |
 |---------|-----|
-| CSP blocks API | Rebuild with correct `NEXT_PUBLIC_API_URL` in `.env.production` |
+| **405 on PUT/DELETE** (admin save) | Host nginx must allow PUT/DELETE/PATCH to `127.0.0.1:3000` — see `nginx/host-proxy.conf.example` |
+| CSP blocks API | Rebuild with correct `NEXT_PUBLIC_API_URL` in `.env` |
 | 403 on booking/login | `INTERNAL_API_KEY` must match backend `InternalApi:Key` |
 | CORS errors | Backend `Cors:Origins` must include site URL |
 | 502 Bad Gateway | `docker compose logs app` — app container not healthy |
@@ -86,4 +107,4 @@ If only `NEXT_PUBLIC_*` env vars change, you **must** rebuild (`--build`) — th
 
 ## Compose from URL (hosting panel)
 
-Point the panel at this repo. Ensure `.env.production` is set on the server before build (panel env UI or file on disk). Build args must receive `NEXT_PUBLIC_*` from the same file.
+Point the panel at this repo. On the server, create **`.env`** from `.env.production.example` before `docker compose up --build`.

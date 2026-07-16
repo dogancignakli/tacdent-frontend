@@ -4,7 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Loader2Icon } from "lucide-react";
+import { CalendarIcon, Loader2Icon } from "lucide-react";
+import { format, startOfDay } from "date-fns";
+import { tr as trLocale, enUS } from "date-fns/locale";
 import { Link } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { createAppointment, getServices } from "@/lib/api";
@@ -17,13 +19,21 @@ import {
   createAppointmentFormSchema,
   type AppointmentFormValues,
 } from "@/lib/schemas/appointment";
+import {
+  getTimeSlotsForDate,
+  isClosedDate,
+  parseDateString,
+} from "@/lib/working-hours";
 import { getServiceName } from "@/lib/services";
+import { cn } from "@/lib/utils";
 import type { DentalService } from "@/types";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -41,9 +51,11 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
   const t = useTranslations("appointments.form");
   const tValidation = useTranslations("validation");
   const tErrors = useTranslations("common.errors");
-  const { executeRecaptcha } = useRecaptcha();
+  const { executeRecaptcha, isConfigured: isRecaptchaConfigured } = useRecaptcha();
   const [services, setServices] = useState<DentalService[]>([]);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
   const locale = useLocale();
+  const dateLocale = locale === "tr" ? trLocale : enUS;
 
   const appointmentFormSchema = useMemo(
     () => createAppointmentFormSchema((key) => tValidation(key)),
@@ -57,7 +69,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
       email: "",
       phone: "",
       preferredDate: "",
-      preferredTime: "09:00",
+      preferredTime: "",
       serviceId: 0,
       notes: "",
       kvkkInformationAccepted: false,
@@ -65,21 +77,22 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
     },
   });
 
+  const preferredDate = form.watch("preferredDate");
+  const timeSlots = useMemo(
+    () => getTimeSlotsForDate(preferredDate),
+    [preferredDate]
+  );
+
   useEffect(() => {
     getServices()
-      .then((data) => {
-        setServices(data);
-        if (data.length > 0) {
-          form.setValue("serviceId", data[0].id);
-        }
-      })
+      .then((data) => setServices(data))
       .catch(() => toast.error(t("loadServicesError")));
-  }, [form, t]);
+  }, [t]);
 
   async function onSubmit(values: AppointmentFormValues) {
     try {
       const recaptchaToken = await executeRecaptcha("booking");
-      if (!recaptchaToken) {
+      if (isRecaptchaConfigured && !recaptchaToken) {
         toast.error(tErrors("recaptchaFailed"));
         return;
       }
@@ -104,8 +117,8 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
         email: "",
         phone: "",
         preferredDate: "",
-        preferredTime: "09:00",
-        serviceId: services[0]?.id ?? 0,
+        preferredTime: "",
+        serviceId: 0,
         notes: "",
         kvkkInformationAccepted: false,
         kvkkExplicitConsentAccepted: false,
@@ -143,7 +156,25 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="phone">{t("phone")}</Label>
-              <Input id="phone" {...form.register("phone")} aria-invalid={!!errors.phone} />
+              <Input
+                id="phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                placeholder="0555 555 55 55"
+                {...form.register("phone")}
+                onKeyDown={(e) => {
+                  if (
+                    e.key.length === 1 &&
+                    !e.ctrlKey &&
+                    !e.metaKey &&
+                    !/[0-9+()\s-]/.test(e.key)
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+                aria-invalid={!!errors.phone}
+              />
               {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
             </div>
 
@@ -152,23 +183,30 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
               <Controller
                 control={form.control}
                 name="serviceId"
-                render={({ field }) => (
-                  <Select
-                    value={field.value ? String(field.value) : undefined}
-                    onValueChange={(value) => field.onChange(Number(value))}
-                  >
-                    <SelectTrigger id="serviceId" className="w-full" aria-invalid={!!errors.serviceId}>
-                      <SelectValue placeholder={t("servicePlaceholder")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {services.map((service) => (
-                        <SelectItem key={service.id} value={String(service.id)}>
-                          {getServiceName(service, locale)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
+                render={({ field }) => {
+                  const selectedService = services.find((s) => s.id === field.value);
+                  return (
+                    <Select
+                      value={field.value ? String(field.value) : null}
+                      onValueChange={(value) => field.onChange(Number(value))}
+                    >
+                      <SelectTrigger id="serviceId" className="w-full" aria-invalid={!!errors.serviceId}>
+                        <SelectValue placeholder={t("servicePlaceholder")}>
+                          {selectedService
+                            ? getServiceName(selectedService, locale)
+                            : t("servicePlaceholder")}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {services.map((service) => (
+                          <SelectItem key={service.id} value={String(service.id)}>
+                            {getServiceName(service, locale)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  );
+                }}
               />
               {errors.serviceId && (
                 <p className="text-sm text-destructive">{errors.serviceId.message}</p>
@@ -177,11 +215,54 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="preferredDate">{t("preferredDate")}</Label>
-              <Input
-                id="preferredDate"
-                type="date"
-                {...form.register("preferredDate")}
-                aria-invalid={!!errors.preferredDate}
+              <Controller
+                control={form.control}
+                name="preferredDate"
+                render={({ field }) => {
+                  const selectedDate = field.value
+                    ? parseDateString(field.value) ?? undefined
+                    : undefined;
+                  return (
+                    <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                      <PopoverTrigger
+                        render={
+                          <Button
+                            type="button"
+                            variant="outline"
+                            id="preferredDate"
+                            aria-invalid={!!errors.preferredDate}
+                            className={cn(
+                              "h-8 w-full justify-start font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="text-muted-foreground" />
+                            {selectedDate
+                              ? format(selectedDate, "dd.MM.yyyy", { locale: dateLocale })
+                              : t("preferredDatePlaceholder")}
+                          </Button>
+                        }
+                      />
+                      <PopoverContent align="start" className="p-0">
+                        <Calendar
+                          mode="single"
+                          locale={dateLocale}
+                          selected={selectedDate}
+                          onSelect={(date) => {
+                            field.onChange(date ? format(date, "yyyy-MM-dd") : "");
+                            form.setValue("preferredTime", "");
+                            setDatePickerOpen(false);
+                          }}
+                          disabled={[
+                            { before: startOfDay(new Date()) },
+                            (date) => isClosedDate(date),
+                          ]}
+                          autoFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  );
+                }}
               />
               {errors.preferredDate && (
                 <p className="text-sm text-destructive">{errors.preferredDate.message}</p>
@@ -190,11 +271,31 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="preferredTime">{t("preferredTime")}</Label>
-              <Input
-                id="preferredTime"
-                type="time"
-                {...form.register("preferredTime")}
-                aria-invalid={!!errors.preferredTime}
+              <Controller
+                control={form.control}
+                name="preferredTime"
+                render={({ field }) => (
+                  <Select
+                    value={field.value || undefined}
+                    onValueChange={field.onChange}
+                    disabled={!preferredDate || timeSlots.length === 0}
+                  >
+                    <SelectTrigger id="preferredTime" className="w-full" aria-invalid={!!errors.preferredTime}>
+                      <SelectValue
+                        placeholder={
+                          preferredDate ? t("preferredTimePlaceholder") : t("selectDateFirst")
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {timeSlots.map((slot) => (
+                        <SelectItem key={slot} value={slot}>
+                          {slot}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               />
               {errors.preferredTime && (
                 <p className="text-sm text-destructive">{errors.preferredTime.message}</p>
@@ -220,15 +321,24 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
                 render={({ field }) => (
                   <Checkbox
                     id="kvkkInformationAccepted"
+                    className="mt-1"
                     checked={field.value}
                     onChange={(e) => field.onChange(e.target.checked)}
                     aria-invalid={!!errors.kvkkInformationAccepted}
                   />
                 )}
               />
-              <Label htmlFor="kvkkInformationAccepted" className="text-sm leading-6 font-normal">
+              {/* Label defaults to flex — block keeps the link inline with wrapping text */}
+              <Label
+                htmlFor="kvkkInformationAccepted"
+                className="block text-sm leading-6 font-normal"
+              >
                 {t("kvkkInformationLabel")}{" "}
-                <Link href="/kvkk/information" className="text-primary underline" target="_blank">
+                <Link
+                  href="/kvkk/information"
+                  target="_blank"
+                  className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+                >
                   {t("kvkkInformationLink")}
                 </Link>
               </Label>
@@ -244,15 +354,23 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
                 render={({ field }) => (
                   <Checkbox
                     id="kvkkExplicitConsentAccepted"
+                    className="mt-1"
                     checked={field.value}
                     onChange={(e) => field.onChange(e.target.checked)}
                     aria-invalid={!!errors.kvkkExplicitConsentAccepted}
                   />
                 )}
               />
-              <Label htmlFor="kvkkExplicitConsentAccepted" className="text-sm leading-6 font-normal">
+              <Label
+                htmlFor="kvkkExplicitConsentAccepted"
+                className="block text-sm leading-6 font-normal"
+              >
                 {t("kvkkExplicitConsentLabel")}{" "}
-                <Link href="/kvkk/consent" className="text-primary underline" target="_blank">
+                <Link
+                  href="/kvkk/consent"
+                  target="_blank"
+                  className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+                >
                   {t("kvkkExplicitConsentLink")}
                 </Link>
               </Label>

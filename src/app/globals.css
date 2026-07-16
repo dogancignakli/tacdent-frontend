@@ -132,3 +132,10 @@ body {
     @apply font-sans;
   }
 }
+
+@layer components {
+  /* Govde metni icindeki linkler duz metinden ayrilsin (token bazli). */
+  .content-link {
+    @apply font-medium text-primary underline underline-offset-4 transition-colors hover:text-primary/80;
+  }
+}

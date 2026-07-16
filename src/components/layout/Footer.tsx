@@ -2,7 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 interface FooterProps {
   showStaffLogin?: boolean;
@@ -10,6 +12,9 @@ interface FooterProps {
 
 export default function Footer({ showStaffLogin = true }: FooterProps) {
   const t = useTranslations("common.footer");
+  const phone = t("phone");
+  const email = t("email");
+  const telHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
 
   return (
     <footer className="mt-auto border-t bg-card text-card-foreground">
@@ -30,8 +35,16 @@ export default function Footer({ showStaffLogin = true }: FooterProps) {
           <p className="font-semibold">{t("contact")}</p>
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             <li>{t("address")}</li>
-            <li>{t("phone")}</li>
-            <li>{t("email")}</li>
+            <li>
+              <a href={telHref} className="transition-colors hover:text-primary">
+                {phone}
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${email}`} className="transition-colors hover:text-primary">
+                {email}
+              </a>
+            </li>
           </ul>
           <Link
             href="/appointments"
@@ -40,12 +53,14 @@ export default function Footer({ showStaffLogin = true }: FooterProps) {
             {t("scheduleLink")}
           </Link>
           {showStaffLogin && (
-            <Link
-              href="/admin/login"
-              className="mt-2 block text-xs text-muted-foreground hover:text-foreground hover:underline"
-            >
-              {t("staffLogin")}
-            </Link>
+            <div className="mt-4">
+              <Link
+                href="/admin/login"
+                className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+              >
+                {t("staffLogin")}
+              </Link>
+            </div>
           )}
         </div>
       </div>

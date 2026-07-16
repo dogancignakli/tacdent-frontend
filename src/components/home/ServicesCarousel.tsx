@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import Autoplay from "embla-carousel-autoplay";
 import { getServices } from "@/lib/api";
 import { getServiceDescription, getServiceName } from "@/lib/services";
+import { cn } from "@/lib/utils";
 import type { DentalService } from "@/types";
 import {
   Carousel,
@@ -49,6 +50,10 @@ export default function ServicesCarousel() {
     return null;
   }
 
+  const showArrows = slides.length > 1;
+  const arrowClass =
+    "size-9 border bg-background/90 text-foreground shadow-sm hover:bg-background";
+
   return (
     <section className="py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -63,7 +68,7 @@ export default function ServicesCarousel() {
         </div>
 
         <Carousel
-          opts={{ align: "start", loop: true }}
+          opts={{ align: "start", loop: showArrows }}
           plugins={[Autoplay({ delay: 4500, stopOnInteraction: true })]}
           className="w-full"
         >
@@ -91,8 +96,12 @@ export default function ServicesCarousel() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-2 md:-left-12" />
-          <CarouselNext className="right-2 md:-right-12" />
+          {showArrows && (
+            <>
+              <CarouselPrevious className={cn(arrowClass, "left-2 md:-left-5")} />
+              <CarouselNext className={cn(arrowClass, "right-2 md:-right-5")} />
+            </>
+          )}
         </Carousel>
       </div>
     </section>
