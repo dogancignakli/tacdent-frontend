@@ -43,7 +43,8 @@ export default async function Hero() {
               height={900}
               sizes="(max-width: 1024px) 100vw, 600px"
               className="h-[420px] w-full object-cover"
-              priority
+              loading="eager"
+              fetchPriority="high"
             />
           </div>
         </div>
