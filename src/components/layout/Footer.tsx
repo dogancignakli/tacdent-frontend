@@ -82,12 +82,16 @@ export default function Footer({ showStaffLogin = true }: FooterProps) {
       <div className="py-4 text-center text-xs text-muted-foreground">
         {t("lastUpdated", { date: lastUpdated })}
         {", "}
-        <a
-          href={`mailto:${DEVELOPER_EMAIL}`}
-          className="underline-offset-4 transition-colors hover:text-primary hover:underline"
-        >
-          {t("developerName")}
-        </a>
+        {t.rich("developedBy", {
+          developer: (chunks) => (
+            <a
+              href={`mailto:${DEVELOPER_EMAIL}`}
+              className="underline-offset-4 transition-colors hover:text-primary hover:underline"
+            >
+              {chunks}
+            </a>
+          ),
+        })}
       </div>
     </footer>
   );

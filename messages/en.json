@@ -48,7 +48,7 @@
       "scheduleLink": "Schedule an appointment →",
       "staffLogin": "Staff login",
       "lastUpdated": "Last updated : {date}",
-      "developerName": "Doğan Çiğnaklı"
+      "developedBy": "Developed by <developer>Doğan Çiğnaklı</developer>."
     },
     "language": {
       "label": "Language",

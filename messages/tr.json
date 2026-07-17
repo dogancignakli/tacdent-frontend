@@ -48,7 +48,7 @@
       "scheduleLink": "Randevu planla →",
       "staffLogin": "Personel girişi",
       "lastUpdated": "Son güncelleme tarihi : {date}",
-      "developerName": "Doğan Çiğnaklı"
+      "developedBy": "<developer>Doğan Çiğnaklı</developer> tarafından geliştirilmiştir."
     },
     "language": {
       "label": "Dil",
