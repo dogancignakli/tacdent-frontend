@@ -1,10 +1,22 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { format, parseISO } from "date-fns";
+import { tr as trLocale, enUS } from "date-fns/locale";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+
+const DEVELOPER_EMAIL = "dogancignakli@gmail.com";
+
+function formatLastUpdated(locale: string): string {
+  const iso = process.env.NEXT_PUBLIC_SITE_LAST_UPDATED ?? "2026-07-17";
+  const date = parseISO(iso);
+  return format(date, "dd.MM.yyyy", {
+    locale: locale === "tr" ? trLocale : enUS,
+  });
+}
 
 interface FooterProps {
   showStaffLogin?: boolean;
@@ -12,9 +24,11 @@ interface FooterProps {
 
 export default function Footer({ showStaffLogin = true }: FooterProps) {
   const t = useTranslations("common.footer");
+  const locale = useLocale();
   const phone = t("phone");
   const email = t("email");
   const telHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
+  const lastUpdated = formatLastUpdated(locale);
 
   return (
     <footer className="mt-auto border-t bg-card text-card-foreground">
@@ -66,7 +80,14 @@ export default function Footer({ showStaffLogin = true }: FooterProps) {
       </div>
       <Separator />
       <div className="py-4 text-center text-xs text-muted-foreground">
-        {t("copyright", { year: new Date().getFullYear() })}
+        {t("lastUpdated", { date: lastUpdated })}
+        {", "}
+        <a
+          href={`mailto:${DEVELOPER_EMAIL}`}
+          className="underline-offset-4 transition-colors hover:text-primary hover:underline"
+        >
+          {t("developerName")}
+        </a>
       </div>
     </footer>
   );

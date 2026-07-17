@@ -47,7 +47,8 @@
       "email": "info@tugceaydincignakli.com",
       "scheduleLink": "Schedule an appointment →",
       "staffLogin": "Staff login",
-      "copyright": "© {year} TacDent. Developed by Doğan Çığnaklı."
+      "lastUpdated": "Last updated : {date}",
+      "developerName": "Doğan Çiğnaklı"
     },
     "language": {
       "label": "Language",

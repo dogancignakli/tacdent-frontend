@@ -47,7 +47,8 @@
       "email": "info@tugceaydincignakli.com",
       "scheduleLink": "Randevu planla →",
       "staffLogin": "Personel girişi",
-      "copyright": "© {year} TacDent. Doğan Çığnaklı tarafından geliştirilmiştir."
+      "lastUpdated": "Son güncelleme tarihi : {date}",
+      "developerName": "Doğan Çiğnaklı"
     },
     "language": {
       "label": "Dil",

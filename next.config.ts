@@ -25,6 +25,12 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Stamped at build/deploy time — stays fixed until the next rebuild.
+  env: {
+    NEXT_PUBLIC_SITE_LAST_UPDATED:
+      process.env.NEXT_PUBLIC_SITE_LAST_UPDATED ??
+      new Date().toISOString().slice(0, 10),
+  },
   images: {
     formats: ["image/avif", "image/webp"],
   },
