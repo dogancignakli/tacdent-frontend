@@ -4,11 +4,15 @@ interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
-export async function DELETE(_request: Request, context: RouteContext) {
+export async function DELETE(request: Request, context: RouteContext) {
   const { id } = await context.params;
-  const backendResponse = await backendFetch(`/api/appointments/${id}`, {
-    method: "DELETE",
-  });
+  const backendResponse = await backendFetch(
+    `/api/appointments/${id}`,
+    {
+      method: "DELETE",
+    },
+    request
+  );
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));

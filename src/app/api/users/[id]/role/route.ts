@@ -8,10 +8,14 @@ export async function PATCH(request: Request, context: RouteContext) {
   const { id } = await context.params;
   const body = await request.json();
 
-  const backendResponse = await backendFetch(`/api/users/${id}/role`, {
-    method: "PATCH",
-    body: JSON.stringify(body),
-  });
+  const backendResponse = await backendFetch(
+    `/api/users/${id}/role`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    },
+    request
+  );
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));

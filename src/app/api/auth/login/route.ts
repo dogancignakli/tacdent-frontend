@@ -23,7 +23,8 @@ export async function POST(request: Request) {
       method: "POST",
       body: JSON.stringify(body),
     },
-    clientIp
+    clientIp,
+    request
   );
 
   if (!backendResponse.ok) {

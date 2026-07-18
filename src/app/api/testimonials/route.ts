@@ -2,10 +2,14 @@ import { backendFetch } from "@/lib/server/backend";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const backendResponse = await backendFetch("/api/testimonials", {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
+  const backendResponse = await backendFetch(
+    "/api/testimonials",
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+    },
+    request
+  );
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));

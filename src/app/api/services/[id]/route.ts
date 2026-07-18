@@ -6,10 +6,14 @@ export async function PUT(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const backendResponse = await backendFetch(`/api/services/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(body),
-  });
+  const backendResponse = await backendFetch(
+    `/api/services/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(body),
+    },
+    request
+  );
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));
@@ -23,13 +27,17 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const backendResponse = await backendFetch(`/api/services/${id}`, {
-    method: "DELETE",
-  });
+  const backendResponse = await backendFetch(
+    `/api/services/${id}`,
+    {
+      method: "DELETE",
+    },
+    request
+  );
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));

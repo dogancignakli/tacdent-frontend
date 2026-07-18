@@ -1,7 +1,7 @@
 import { backendFetch } from "@/lib/server/backend";
 
-export async function GET() {
-  const backendResponse = await backendFetch("/api/services/all");
+export async function GET(request: Request) {
+  const backendResponse = await backendFetch("/api/services/all", undefined, request);
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));

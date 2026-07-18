@@ -20,6 +20,7 @@ import type {
   User,
   UserRole,
 } from "@/types";
+import { buildClientTraceHeaders } from "@/lib/trace";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065";
 
@@ -31,6 +32,7 @@ async function request<T>(path: string, options?: RequestOptions): Promise<T> {
   const { skipAuthHandling, ...fetchOptions } = options ?? {};
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    ...buildClientTraceHeaders(),
     ...(fetchOptions.headers as Record<string, string> | undefined),
   };
 
@@ -59,6 +61,7 @@ async function request<T>(path: string, options?: RequestOptions): Promise<T> {
 async function publicRequest<T>(path: string, options?: RequestInit): Promise<T> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    ...buildClientTraceHeaders(),
     ...(options?.headers as Record<string, string> | undefined),
   };
 

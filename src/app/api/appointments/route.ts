@@ -20,7 +20,11 @@ export async function GET(request: Request) {
   }
 
   const query = forwarded.toString();
-  const backendResponse = await backendFetch(`/api/appointments${query ? `?${query}` : ""}`);
+  const backendResponse = await backendFetch(
+    `/api/appointments${query ? `?${query}` : ""}`,
+    undefined,
+    request
+  );
 
   if (!backendResponse.ok) {
     const error = await backendResponse.json().catch(() => ({}));
@@ -43,7 +47,8 @@ export async function POST(request: Request) {
       method: "POST",
       body: JSON.stringify(body),
     },
-    clientIp
+    clientIp,
+    request
   );
 
   if (!backendResponse.ok) {
