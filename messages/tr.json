@@ -3,7 +3,37 @@
     "title": "TacDent | Modern Diş Kliniği",
     "description": "Randevu alın, hizmetleri keşfedin ve nazik, modern diş bakımını deneyimleyin.",
     "siteName": "TacDent",
-    "keywords": "diş kliniği, diş hekimi, Dalaman, Muğla, diş randevu, diş tedavisi, TacDent, Tuğçe Aydın Çiğnaklı"
+    "keywords": "diş kliniği, diş hekimi, Dalaman, Muğla, diş randevu, diş tedavisi, TacDent, Tuğçe Aydın Çiğnaklı",
+    "pages": {
+      "services": {
+        "title": "Diş Tedavileri ve Hizmetler | TacDent",
+        "description": "Genel muayene, estetik diş hekimliği, implant ve koruyucu bakımdan ileri tedavilere kadar Dalaman’daki hizmetlerimizi keşfedin."
+      },
+      "about": {
+        "title": "Diş Hekimi Tuğçe Aydın Çiğnaklı | Hakkımızda | TacDent",
+        "description": "Diş Hekimi Tuğçe Aydın Çiğnaklı hakkında bilgi alın; Dalaman’daki modern diş kliniğimizde bilimsel ve hasta odaklı yaklaşım."
+      },
+      "contact": {
+        "title": "İletişim | TacDent Dalaman",
+        "description": "TacDent Dalaman iletişim bilgileri, adres, telefon ve harita. Randevu veya tedavi sorularınız için bize ulaşın."
+      },
+      "appointments": {
+        "title": "Online Randevu Al | TacDent",
+        "description": "TacDent’te online randevu talep edin. Tercih ettiğiniz tarih ve saati bildirin; ekibimiz telefonla onaylasın."
+      },
+      "healthTourism": {
+        "title": "Sağlık Turizmi | Uluslararası Diş Tedavisi | TacDent",
+        "description": "Uluslararası hastalar için tedavi planlaması, iki dilli iletişim ve randevu koordinasyonu ile sağlık turizmi diş tedavileri."
+      },
+      "kvkkInformation": {
+        "title": "KVKK Aydınlatma Metni | TacDent",
+        "description": "Randevu talep formu kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni."
+      },
+      "kvkkConsent": {
+        "title": "KVKK Açık Rıza Metni | TacDent",
+        "description": "Randevu talep formu kapsamında kişisel verilerin işlenmesine ilişkin açık rıza metni."
+      }
+    }
   },
   "common": {
     "brand": "TacDent",

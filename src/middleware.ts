@@ -37,5 +37,6 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(tr|en)/:path*"],
+  // Include unprefixed paths (e.g. /services) so next-intl can 307 to /tr|en/...
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };

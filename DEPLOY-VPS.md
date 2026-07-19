@@ -39,7 +39,12 @@ docker compose --env-file .env up -d --build
 
 If Docker only exposes `127.0.0.1:3000` and the **VPS panel / Ubuntu nginx** terminates HTTP(S), that config must proxy **all methods** (GET, POST, **PUT**, **DELETE**, **PATCH**) to Next.js. A common default blocks PUT → admin service edit returns **405**.
 
-Use [nginx/host-proxy.conf.example](./nginx/host-proxy.conf.example). Remove any rule like:
+Use [nginx/host-proxy.conf.example](./nginx/host-proxy.conf.example). That example also:
+
+- Proxies **all** methods to `127.0.0.1:3000`
+- **301 redirects `www.tacdent.com` → `https://tacdent.com`** so apex is the only canonical host
+
+Remove any rule like:
 
 ```nginx
 if ($request_method !~ ^(GET|HEAD|POST)$) { return 405; }

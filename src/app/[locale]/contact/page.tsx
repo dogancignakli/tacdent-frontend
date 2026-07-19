@@ -1,13 +1,24 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MailIcon, PhoneIcon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import MapEmbed from "@/components/contact/MapEmbed";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { createPageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 const MAP_EMBED_SRC =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.1539038021497!2d28.803814799999998!3d36.7668752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c0713c63fe9959%3A0xe4c9c21b0e11829b!2zRGnFnyBIZWtpbWkgVHXEn8OnZSBBeWTEsW4gw4dpxJ9uYWtsxLE!5e0!3m2!1str!2str!4v1783157357606!5m2!1str!2str";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata(locale, "contact");
+}
 
 export default async function ContactPage({
   params,

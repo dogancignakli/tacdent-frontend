@@ -1,11 +1,22 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { KVKK_INFORMATION_VERSION } from "@/lib/kvkk";
+import { createPageMetadata } from "@/lib/seo";
 
 type KvkkSection = {
   title: string;
   paragraphs?: string[];
   items?: string[];
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata(locale, "kvkkInformation");
+}
 
 export default async function KvkkInformationPage({
   params,

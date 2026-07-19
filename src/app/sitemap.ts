@@ -1,19 +1,28 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
+import { localizedPath, siteUrl } from "@/lib/seo";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
-const paths = ["", "/services", "/health-tourism", "/about", "/contact", "/appointments"] as const;
+/** Public indexable paths (without locale prefix). Keep in sync with page metadata. */
+const paths = [
+  "",
+  "/services",
+  "/health-tourism",
+  "/about",
+  "/contact",
+  "/appointments",
+  "/kvkk/information",
+  "/kvkk/consent",
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return paths.map((path) => ({
-    url: `${siteUrl}/${routing.defaultLocale}${path}`,
+    url: `${siteUrl}${localizedPath(routing.defaultLocale, path)}`,
     lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: path === "" ? 1 : 0.8,
+    changeFrequency: path.startsWith("/kvkk") ? "yearly" : "monthly",
+    priority: path === "" ? 1 : path.startsWith("/kvkk") ? 0.3 : 0.8,
     alternates: {
       languages: Object.fromEntries(
-        routing.locales.map((locale) => [locale, `${siteUrl}/${locale}${path}`]),
+        routing.locales.map((locale) => [locale, `${siteUrl}${localizedPath(locale, path)}`]),
       ),
     },
   }));
