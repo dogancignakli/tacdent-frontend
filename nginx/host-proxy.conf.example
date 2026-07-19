@@ -3,7 +3,7 @@
 #
 # Requirements:
 # - Proxy ALL methods (GET, POST, PUT, DELETE, PATCH) — admin CRUD needs PUT/DELETE
-# - Canonical host is apex: www → https://tacdent.com (301)
+# - Canonical host is apex: www → https://tugceaydincignakli.com (301)
 # - Do NOT limit methods with: if ($request_method !~ ^(GET|HEAD|POST)$) { return 405; }
 
 # Redirect www → apex (canonical host)
@@ -12,28 +12,28 @@ server {
     listen [::]:80;
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name www.tacdent.com;
+    server_name www.tugceaydincignakli.com;
 
-    # ssl_certificate     /etc/letsencrypt/live/tacdent.com/fullchain.pem;
-    # ssl_certificate_key /etc/letsencrypt/live/tacdent.com/privkey.pem;
+    # ssl_certificate     /etc/letsencrypt/live/tugceaydincignakli.com/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/tugceaydincignakli.com/privkey.pem;
 
-    return 301 https://tacdent.com$request_uri;
+    return 301 https://tugceaydincignakli.com$request_uri;
 }
 
 server {
     listen 80;
     listen [::]:80;
-    server_name tacdent.com;
-    return 301 https://tacdent.com$request_uri;
+    server_name tugceaydincignakli.com;
+    return 301 https://tugceaydincignakli.com$request_uri;
 }
 
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name tacdent.com;
+    server_name tugceaydincignakli.com;
 
-    # ssl_certificate     /etc/letsencrypt/live/tacdent.com/fullchain.pem;
-    # ssl_certificate_key /etc/letsencrypt/live/tacdent.com/privkey.pem;
+    # ssl_certificate     /etc/letsencrypt/live/tugceaydincignakli.com/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/tugceaydincignakli.com/privkey.pem;
 
     location / {
         proxy_pass http://127.0.0.1:3000;

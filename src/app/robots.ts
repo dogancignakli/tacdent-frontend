@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  let host = "tacdent.com";
+  let host = "tugceaydincignakli.com";
   try {
     host = new URL(siteUrl).host;
   } catch {

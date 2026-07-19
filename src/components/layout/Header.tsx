@@ -43,12 +43,21 @@ export default function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="shrink-0">
           <Image
-            src="/logo/tacdent-logo.png"
+            src="/logo/logo-light.png"
             alt={t("brand")}
-            width={920}
-            height={220}
+            width={300}
+            height={92}
             sizes="(max-width: 640px) 160px, 200px"
-            className="h-9 w-auto sm:h-10 dark:rounded-md dark:bg-white/95 dark:px-2 dark:py-1"
+            className="h-9 w-auto sm:h-10 dark:hidden"
+            priority
+          />
+          <Image
+            src="/logo/logo-dark.png"
+            alt={t("brand")}
+            width={300}
+            height={92}
+            sizes="(max-width: 640px) 160px, 200px"
+            className="hidden h-9 w-auto sm:h-10 dark:block"
             priority
           />
         </Link>
@@ -91,12 +100,20 @@ export default function Header() {
                 <SheetTitle className="sr-only">{t("menu")}</SheetTitle>
                 <Link href="/" className="mx-auto w-fit">
                   <Image
-                    src="/logo/tacdent-logo.png"
+                    src="/logo/logo-light.png"
                     alt={t("brand")}
-                    width={920}
-                    height={220}
+                    width={300}
+                    height={92}
                     sizes="160px"
-                    className="h-9 w-auto dark:rounded-md dark:bg-white/95 dark:px-2 dark:py-1"
+                    className="h-9 w-auto dark:hidden"
+                  />
+                  <Image
+                    src="/logo/logo-dark.png"
+                    alt={t("brand")}
+                    width={300}
+                    height={92}
+                    sizes="160px"
+                    className="hidden h-9 w-auto dark:block"
                   />
                 </Link>
               </SheetHeader>

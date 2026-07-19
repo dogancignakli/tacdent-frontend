@@ -1,42 +1,42 @@
 {
   "metadata": {
-    "title": "TacDent | Modern Dental Practice",
+    "title": "Dt. Tuğçe Aydın Çiğnaklı | Modern Dental Practice",
     "description": "Book appointments, explore services, and discover gentle modern dental care.",
-    "siteName": "TacDent",
-    "keywords": "dental practice, dentist, Dalaman, Mugla, dental appointment, dental care, TacDent, Tuğce Aydin Cignakli",
+    "siteName": "Dt. Tuğçe Aydın Çiğnaklı",
+    "keywords": "dental practice, dentist, Dalaman, Mugla, dental appointment, dental care, Tuğce Aydin Cignakli",
     "pages": {
       "services": {
-        "title": "Dental Treatments & Services | TacDent",
+        "title": "Dental Treatments & Services | Dt. Tuğçe Aydın Çiğnaklı",
         "description": "Explore our Dalaman dental services — from checkups and cosmetic care to implants and advanced treatments."
       },
       "about": {
-        "title": "Dentist Tuğçe Aydın Çiğnaklı | About | TacDent",
+        "title": "Dentist Tuğçe Aydın Çiğnaklı | About | Dt. Tuğçe Aydın Çiğnaklı",
         "description": "Meet Dentist Tuğçe Aydın Çiğnaklı and learn about our evidence-based, patient-focused dental practice in Dalaman."
       },
       "contact": {
-        "title": "Contact | TacDent Dalaman",
-        "description": "TacDent Dalaman contact details, address, phone, and map. Reach us with treatment questions or booking requests."
+        "title": "Contact | Dt. Tuğçe Aydın Çiğnaklı Dalaman",
+        "description": "Dt. Tuğçe Aydın Çiğnaklı Dalaman contact details, address, phone, and map. Reach us with treatment questions or booking requests."
       },
       "appointments": {
-        "title": "Book an Appointment Online | TacDent",
-        "description": "Request an appointment at TacDent online. Share your preferred date and time — our team will confirm by phone."
+        "title": "Book an Appointment Online | Dt. Tuğçe Aydın Çiğnaklı",
+        "description": "Request an appointment at Dt. Tuğçe Aydın Çiğnaklı online. Share your preferred date and time — our team will confirm by phone."
       },
       "healthTourism": {
-        "title": "Health Tourism | International Dental Care | TacDent",
+        "title": "Health Tourism | International Dental Care | Dt. Tuğçe Aydın Çiğnaklı",
         "description": "Dental treatment planning, bilingual communication, and appointment coordination for international patients."
       },
       "kvkkInformation": {
-        "title": "Privacy Notice (KVKK/GDPR) | TacDent",
+        "title": "Privacy Notice (KVKK/GDPR) | Dt. Tuğçe Aydın Çiğnaklı",
         "description": "Privacy notice on the processing of personal data for appointment requests."
       },
       "kvkkConsent": {
-        "title": "Explicit Consent Form (KVKK/GDPR) | TacDent",
+        "title": "Explicit Consent Form (KVKK/GDPR) | Dt. Tuğçe Aydın Çiğnaklı",
         "description": "Explicit consent form for processing personal data submitted via the appointment request form."
       }
     }
   },
   "common": {
-    "brand": "TacDent",
+    "brand": "Dt. Tuğçe Aydın Çiğnaklı",
     "tagline": "Modern Dental Care",
     "nav": {
       "home": "Home",
@@ -65,7 +65,7 @@
       "reset": "Reset"
     },
     "footer": {
-      "clinic": "TacDent Practice",
+      "clinic": "Dt. Tuğçe Aydın Çiğnaklı Practice",
       "description": "Gentle, modern dentistry for families. Your smile is our priority.",
       "hours": "Hours",
       "hoursWeekdays": "Mon – Fri: 9:00 – 18:00",
@@ -101,7 +101,7 @@
   },
   "home": {
     "hero": {
-      "badge": "Welcome to TacDent",
+      "badge": "Welcome to Dt. Tuğçe Aydın Çiğnaklı",
       "title": "Healthy smiles start with trusted care",
       "description": "From routine checkups to advanced treatments, our team combines modern technology with a calm, friendly experience.",
       "bookAppointment": "Book Appointment",
@@ -156,7 +156,7 @@
           "role": "New patient"
         },
         "3": {
-          "quote": "Professional, gentle, and transparent about every step. Highly recommend TacDent.",
+          "quote": "Professional, gentle, and transparent about every step. Highly recommend Dt. Tuğçe Aydın Çiğnaklı.",
           "name": "Ayşe K.",
           "role": "Family plan member"
         }
@@ -465,7 +465,7 @@
   "healthTourism": {
     "title": "Health Tourism",
     "description": "We offer comprehensive dental care and coordination support for international patients.",
-    "intro": "TacDent supports international patients with treatment planning, bilingual communication, and appointment coordination. Our modern practice provides implants, cosmetic dentistry, and general dental treatments in a safe, welcoming environment.",
+    "intro": "Dt. Tuğçe Aydın Çiğnaklı supports international patients with treatment planning, bilingual communication, and appointment coordination. Our modern practice provides implants, cosmetic dentistry, and general dental treatments in a safe, welcoming environment.",
     "servicesTitle": "What we offer",
     "services": {
       "consultation": "Initial consultation and treatment plan",

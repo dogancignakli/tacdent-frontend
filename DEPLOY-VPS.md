@@ -5,8 +5,8 @@ Next.js **standalone** build behind Nginx. The .NET API stays on separate hostin
 ## Prerequisites
 
 - VPS with Docker and Docker Compose
-- DNS: `tacdent.com` (and optionally `www`) → VPS public IP
-- Backend `Cors:Origins` includes `https://tacdent.com`
+- DNS: `tugceaydincignakli.com` (and optionally `www`) → VPS public IP
+- Backend `Cors:Origins` includes `https://tugceaydincignakli.com`
 
 ## 1. Clone and configure
 
@@ -33,7 +33,7 @@ docker compose --env-file .env up -d --build
 
 - App listens on internal port `3000`
 - Nginx exposes `80` (and `443` reserved for SSL later)
-- Test: `http://tacdent.com` (or VPS IP until DNS propagates)
+- Test: `http://tugceaydincignakli.com` (or VPS IP until DNS propagates)
 
 ### Host Nginx (panel proxies to port 3000)
 
@@ -42,7 +42,7 @@ If Docker only exposes `127.0.0.1:3000` and the **VPS panel / Ubuntu nginx** ter
 Use [nginx/host-proxy.conf.example](./nginx/host-proxy.conf.example). That example also:
 
 - Proxies **all** methods to `127.0.0.1:3000`
-- **301 redirects `www.tacdent.com` → `https://tacdent.com`** so apex is the only canonical host
+- **301 redirects `www.tugceaydincignakli.com` → `https://tugceaydincignakli.com`** so apex is the only canonical host
 
 Remove any rule like:
 
@@ -62,7 +62,7 @@ docker run -it --rm \
   -v tacdent-frontend_certbot-certs:/etc/letsencrypt \
   certbot/certbot certonly --webroot \
   -w /var/www/certbot \
-  -d tacdent.com -d www.tacdent.com \
+  -d tugceaydincignakli.com -d www.tugceaydincignakli.com \
   --email you@example.com --agree-tos --no-eff-email
 ```
 
