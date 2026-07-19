@@ -3,7 +3,37 @@
     "title": "TacDent | Modern Dental Practice",
     "description": "Book appointments, explore services, and discover gentle modern dental care.",
     "siteName": "TacDent",
-    "keywords": "dental practice, dentist, Dalaman, Mugla, dental appointment, dental care, TacDent, Tuğce Aydin Cignakli"
+    "keywords": "dental practice, dentist, Dalaman, Mugla, dental appointment, dental care, TacDent, Tuğce Aydin Cignakli",
+    "pages": {
+      "services": {
+        "title": "Dental Treatments & Services | TacDent",
+        "description": "Explore our Dalaman dental services — from checkups and cosmetic care to implants and advanced treatments."
+      },
+      "about": {
+        "title": "Dentist Tuğçe Aydın Çiğnaklı | About | TacDent",
+        "description": "Meet Dentist Tuğçe Aydın Çiğnaklı and learn about our evidence-based, patient-focused dental practice in Dalaman."
+      },
+      "contact": {
+        "title": "Contact | TacDent Dalaman",
+        "description": "TacDent Dalaman contact details, address, phone, and map. Reach us with treatment questions or booking requests."
+      },
+      "appointments": {
+        "title": "Book an Appointment Online | TacDent",
+        "description": "Request an appointment at TacDent online. Share your preferred date and time — our team will confirm by phone."
+      },
+      "healthTourism": {
+        "title": "Health Tourism | International Dental Care | TacDent",
+        "description": "Dental treatment planning, bilingual communication, and appointment coordination for international patients."
+      },
+      "kvkkInformation": {
+        "title": "Privacy Notice (KVKK/GDPR) | TacDent",
+        "description": "Privacy notice on the processing of personal data for appointment requests."
+      },
+      "kvkkConsent": {
+        "title": "Explicit Consent Form (KVKK/GDPR) | TacDent",
+        "description": "Explicit consent form for processing personal data submitted via the appointment request form."
+      }
+    }
   },
   "common": {
     "brand": "TacDent",

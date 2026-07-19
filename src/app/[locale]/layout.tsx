@@ -13,9 +13,8 @@ import { WebVitals } from "@/components/analytics/web-vitals";
 import JsonLd from "@/components/seo/JsonLd";
 import { routing } from "@/i18n/routing";
 import { SESSION_COOKIE } from "@/lib/server/backend";
+import { siteUrl } from "@/lib/seo";
 import "../globals.css";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +33,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
 
-  const ogLocale = locale === "tr" ? "tr_TR" : "en_US";
-  const alternateLocale = locale === "tr" ? "en_US" : "tr_TR";
-
+  // Site-wide defaults only. Each page sets its own canonical, hreflang, and title.
   return {
     metadataBase: new URL(siteUrl),
     title: t("title"),
@@ -46,21 +43,9 @@ export async function generateMetadata({
       index: true,
       follow: true,
     },
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        tr: "/tr",
-        en: "/en",
-      },
-    },
     openGraph: {
       type: "website",
-      locale: ogLocale,
-      alternateLocale: [alternateLocale],
-      url: `/${locale}`,
       siteName: t("siteName"),
-      title: t("title"),
-      description: t("description"),
       images: [
         {
           url: "/og-image.jpg",
@@ -72,8 +57,6 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: t("title"),
-      description: t("description"),
       images: ["/og-image.jpg"],
     },
   };

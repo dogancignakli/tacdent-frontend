@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { localizedPath, siteUrl } from "@/lib/seo";
 
 const CLINIC_GEO = {
   latitude: 36.7668752,
@@ -13,14 +14,12 @@ export default async function JsonLd({ locale }: JsonLdProps) {
   const tFooter = await getTranslations({ locale, namespace: "common.footer" });
   const tMeta = await getTranslations({ locale, namespace: "metadata" });
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
   const schema = {
     "@context": "https://schema.org",
     "@type": "Dentist",
     name: tFooter("clinic"),
     description: tMeta("description"),
-    url: `${siteUrl}/${locale}`,
+    url: `${siteUrl}${localizedPath(locale)}`,
     image: `${siteUrl}/og-image.jpg`,
     telephone: tFooter("phone"),
     email: tFooter("email"),

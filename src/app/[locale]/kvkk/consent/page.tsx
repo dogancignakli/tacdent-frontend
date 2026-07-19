@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { KVKK_EXPLICIT_CONSENT_VERSION } from "@/lib/kvkk";
+import { createPageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return createPageMetadata(locale, "kvkkConsent");
+}
 
 export default async function KvkkConsentPage({
   params,
