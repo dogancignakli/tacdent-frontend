@@ -11,15 +11,15 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com",
+  "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://consent.cookiebot.com https://consentcdn.cookiebot.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
-  `connect-src 'self' ${apiUrl} https://www.google.com`,
+  "img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com https://imgsct.cookiebot.com",
+  `connect-src 'self' ${apiUrl} https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://consent.cookiebot.com https://consentcdn.cookiebot.com`,
   "font-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  "frame-src https://www.google.com",
+  "frame-src https://www.google.com https://consentcdn.cookiebot.com",
   "frame-ancestors 'none'",
 ].join("; ");
 

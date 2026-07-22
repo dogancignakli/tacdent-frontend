@@ -9,6 +9,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ConsentAnalytics } from "@/components/analytics/consent-analytics";
 import { WebVitals } from "@/components/analytics/web-vitals";
 import JsonLd from "@/components/seo/JsonLd";
 import { routing } from "@/i18n/routing";
@@ -86,6 +87,9 @@ export default async function LocaleLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} h-full antialiased`}
     >
+      <head>
+        <ConsentAnalytics />
+      </head>
       <body className="min-h-full flex flex-col">
         <JsonLd locale={locale} />
         <NextIntlClientProvider messages={messages}>

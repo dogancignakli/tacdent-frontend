@@ -121,6 +121,8 @@ public/
 | `API_URL` | Server-only backend URL used by BFF route handlers (default same as `NEXT_PUBLIC_API_URL`) |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL for metadata, sitemap, JSON-LD (default `http://localhost:3000`) |
 | `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 **site key** (public). Required for booking and staff login. [Create keys](https://www.google.com/recaptcha/admin/create); add `localhost` to allowed domains. |
+| `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` | GA4 measurement ID. Analytics loads only after Cookiebot statistics consent. |
+| `NEXT_PUBLIC_COOKIEBOT_ID` | Cookiebot Domain Group ID used to render and store the consent banner. |
 | `INTERNAL_API_KEY` | Shared secret sent by the BFF to the .NET API on `POST /api/appointments` and `POST /api/auth/login`. **Required in production** — must match backend `InternalApi:Key`. Leave empty locally to skip the check. |
 
 ## React learning path
