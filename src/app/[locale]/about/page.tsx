@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import JsonLdScript from "@/components/seo/JsonLdScript";
+import { buildBreadcrumbList } from "@/lib/schema";
 import { createPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -22,8 +24,15 @@ export default async function AboutPage({
   const t = await getTranslations("about");
   const bio = t.raw("dentist.bio") as string[];
 
+  const breadcrumbSchema = buildBreadcrumbList(locale, [
+    { name: t("breadcrumbHome"), path: "" },
+    { name: t("breadcrumbAbout"), path: "/about" },
+  ]);
+
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-12">
+    <>
+      <JsonLdScript data={breadcrumbSchema} />
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-12">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,46%)_1fr] lg:items-start lg:gap-10 xl:gap-12">
         <div className="mx-auto w-full max-w-sm lg:sticky lg:top-24 lg:mx-0 lg:max-w-none">
           <Image
@@ -50,6 +59,7 @@ export default async function AboutPage({
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

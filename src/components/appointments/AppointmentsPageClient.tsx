@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { AppointmentAnalytics } from "@/components/analytics/appointment-analytics";
 import AppointmentForm from "@/components/appointments/AppointmentForm";
 
 export default function AppointmentsPageClient() {
@@ -8,6 +9,7 @@ export default function AppointmentsPageClient() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <AppointmentAnalytics />
       <div className="max-w-2xl space-y-4">
         <p className="text-sm font-semibold uppercase tracking-wide text-primary">{t("label")}</p>
         <h1 className="font-heading text-4xl font-bold">{t("title")}</h1>

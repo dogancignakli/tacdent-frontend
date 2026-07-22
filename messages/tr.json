@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "Dt. Tuğçe Aydın Çiğnaklı | Modern Diş Muayenehanesi",
-    "description": "Randevu alın, hizmetleri keşfedin ve nazik, modern diş bakımını deneyimleyin.",
+    "title": "Dalaman Diş Hekimi | Dt. Tuğçe Aydın Çiğnaklı",
+    "description": "Dalaman ve çevresinde implant, estetik diş hekimliği ve genel diş tedavileri. Dt. Tuğçe Aydın Çiğnaklı ile online randevu alın.",
     "siteName": "Dt. Tuğçe Aydın Çiğnaklı",
-    "keywords": "diş muayenehanesi, diş hekimi, Dalaman, Muğla, diş randevu, diş tedavisi, Tuğçe Aydın Çiğnaklı",
+    "keywords": "Dalaman diş hekimi, Muğla diş hekimi, Ortaca diş hekimi, Göcek diş hekimi, Fethiye diş implantı, diş muayenehanesi, diş randevu, Tuğçe Aydın Çiğnaklı",
     "pages": {
       "services": {
         "title": "Diş Tedavileri ve Hizmetler | Dt. Tuğçe Aydın Çiğnaklı",
@@ -73,7 +73,7 @@
       "hoursSunday": "Pazar: Yalnızca acil",
       "contact": "İletişim",
       "address": "Merkez Mahallesi, Atatürk Caddesi, 3. Sokak No:5/1, Dalaman/Muğla",
-      "phone": "0544 405 48 41",
+      "phone": "+90 544 405 48 41",
       "email": "info@tugceaydincignakli.com",
       "scheduleLink": "Randevu planla →",
       "staffLogin": "Personel girişi",
@@ -101,9 +101,9 @@
   },
   "home": {
     "hero": {
-      "badge": "Muayenehanemize Hoş Geldiniz",
-      "title": "Sağlıklı gülüşler güvenilir bakımla başlar",
-      "description": "Rutin kontrollerden ileri tedavilere kadar ekibimiz modern teknolojiyi sakin ve samimi bir deneyimle birleştirir.",
+      "badge": "Dalaman Diş Muayenehanesi",
+      "title": "Dalaman Diş Hekimi — Güvenilir ve Modern Diş Bakımı",
+      "description": "Dalaman merkezdeki muayenehanemizde implant, estetik diş hekimliği ve koruyucu tedavileri hasta odaklı, şeffaf bir yaklaşımla sunuyoruz. Ortaca, Göcek ve Fethiye’den de kolayca ulaşabilirsiniz.",
       "bookAppointment": "Randevu Al",
       "viewServices": "Hizmetleri Gör",
       "imageAlt": "Samimi personelli modern diş muayenehanesi"
@@ -165,15 +165,29 @@
     "cta": {
       "title": "Bir sonraki ziyaretinize hazır mısınız?",
       "description": "Bir dakikadan kısa sürede çevrimiçi randevu alın. Ekibimiz randevunuzu onaylayacak ve ziyaretinizden önce hatırlatma gönderecek."
+    },
+    "localArea": {
+      "label": "Konum ve Hizmet Bölgeleri",
+      "title": "Dalaman merkezde, bölgeye hizmet veren diş muayenehanesi",
+      "intro": "Muayenehanemiz Dalaman’da fiziksel olarak hizmet vermektedir. Ortaca, Göcek, Fethiye ve Muğla genelinden gelen hastalarımız için randevu planlaması ve tedavi koordinasyonu sağlıyoruz.",
+      "locationTitle": "Adres",
+      "locationNote": "Muayenehane Dalaman merkezdedir. Yol tarifi ve harita için iletişim sayfasını kullanabilirsiniz.",
+      "areasTitle": "Hizmet verdiğimiz bölgeler",
+      "areaItem": "{area} ve çevresinden gelen hastalar",
+      "areasNote": "Farklı ilçelerden gelen hastalar için randevu öncesi ulaşım süresini paylaşmanız planlamayı kolaylaştırır.",
+      "bookCta": "Online randevu al",
+      "contactCta": "İletişim ve harita"
     }
   },
   "services": {
     "label": "Hizmetler",
     "title": "Her bakım aşaması için tedaviler",
-    "description": "Koruyucu ziyaretlerden ileri işlemlere kadar her seçeneği anlaşılır bir dille açıklıyoruz; güvenle karar verebilirsiniz.",
+    "description": "Koruyucu ziyaretlerden implant ve estetik tedavilere kadar her seçeneği anlaşılır bir dille açıklıyoruz; güvenle karar verebilirsiniz.",
     "imageAlt": "Diş tedavi odası",
     "empty": "Canlı hizmetleri yüklemek için backend API'yi başlatın veya daha sonra tekrar kontrol edin.",
     "priceFrom": "{price} başlayan fiyatlar · {minutes} dk",
+    "breadcrumbHome": "Ana Sayfa",
+    "viewDetails": "Detayları gör",
     "items": {
       "1": {
         "name": "Genel Muayene",
@@ -195,9 +209,33 @@
         "name": "Acil Bakım",
         "description": "Ağrı, kırık ve acil durumlar için aynı gün müdahale."
       }
+    },
+    "detail": {
+      "metaTitle": "{service} | Dalaman Diş Hekimi",
+      "breadcrumbHome": "Ana Sayfa",
+      "breadcrumbServices": "Hizmetler",
+      "processTitle": "Tedavi süreci",
+      "processText": "İlk görüşmede muayene ve ihtiyaç analizi yapılır. Size uygun tedavi planı, süre ve fiyat bilgisi şeffaf biçimde paylaşılır. Onay sonrası randevunuz planlanır.",
+      "faqTitle": "Sık sorulan sorular",
+      "faq": {
+        "1": {
+          "question": "İlk muayenede neler yapılır?",
+          "answer": "Ağız ve diş sağlığı değerlendirilir, gerekirse görüntüleme yapılır ve size özel tedavi seçenekleri anlatılır."
+        },
+        "2": {
+          "question": "Fiyat bilgisini önceden alabilir miyim?",
+          "answer": "Evet. Muayene sonrası tedavi planı ve başlangıç fiyat bilgisi net şekilde paylaşılır."
+        },
+        "3": {
+          "question": "Dalaman dışından gelen hastalar için randevu alabilir miyim?",
+          "answer": "Evet. Ortaca, Göcek, Fethiye ve Muğla genelinden online randevu talebi oluşturabilirsiniz."
+        }
+      }
     }
   },
   "about": {
+    "breadcrumbHome": "Ana Sayfa",
+    "breadcrumbAbout": "Hakkımızda",
     "dentist": {
       "name": "Tuğçe Aydın Çiğnaklı",
       "role": "Diş Hekimi",

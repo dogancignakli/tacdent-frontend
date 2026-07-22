@@ -2,23 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import JsonLdScript from "@/components/seo/JsonLdScript";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { buildBreadcrumbList, buildOfferCatalogSchema } from "@/lib/schema";
+import { fetchActiveServices } from "@/lib/server/services";
 import { createPageMetadata } from "@/lib/seo";
 import { formatServicePrice, getServiceDescription, getServiceName } from "@/lib/services";
-import type { DentalService } from "@/types";
-
-async function getServices(): Promise<DentalService[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065";
-
-  try {
-    const response = await fetch(`${apiUrl}/api/services`, { next: { revalidate: 60 } });
-    if (!response.ok) return [];
-    return response.json();
-  } catch {
-    return [];
-  }
-}
 
 export async function generateMetadata({
   params,
@@ -39,10 +29,18 @@ export default async function ServicesPage({
 
   const t = await getTranslations("services");
   const tButtons = await getTranslations("common.buttons");
-  const services = await getServices();
+  const services = await fetchActiveServices();
+
+  const breadcrumbSchema = buildBreadcrumbList(locale, [
+    { name: t("breadcrumbHome"), path: "" },
+    { name: t("title"), path: "/services" },
+  ]);
+  const catalogSchema = buildOfferCatalogSchema(locale, services, t("title"));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <>
+      <JsonLdScript data={[breadcrumbSchema, catalogSchema]} />
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div className="grid items-center gap-10 lg:grid-cols-2">
         <div className="space-y-4">
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">{t("label")}</p>
@@ -73,22 +71,36 @@ export default async function ServicesPage({
           services.map((service) => (
             <Card key={service.id}>
               <CardHeader>
-                <CardTitle>{getServiceName(service, locale)}</CardTitle>
+                <CardTitle>
+                  <Link
+                    href={`/services/${service.id}`}
+                    className="transition-colors hover:text-primary"
+                  >
+                    {getServiceName(service, locale)}
+                  </Link>
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm leading-6 text-muted-foreground">
                   {getServiceDescription(service, locale)}
                 </p>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex items-center justify-between gap-4">
                 <p className="text-sm font-medium text-primary">
                   {formatServicePrice(service, locale, t)}
                 </p>
+                <Link
+                  href={`/services/${service.id}`}
+                  className="text-sm font-medium text-primary hover:underline"
+                >
+                  {t("viewDetails")}
+                </Link>
               </CardFooter>
             </Card>
           ))
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

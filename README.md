@@ -113,6 +113,15 @@ public/
 └── og-image.jpg          # Open Graph preview image
 ```
 
+## SEO & local visibility
+
+- Structured data: `src/lib/schema.ts`, `src/components/seo/JsonLd.tsx` (`WebSite` + `Dentist` + `Person` graph)
+- Local content: `src/components/home/LocalAreaSection.tsx`
+- Service detail pages: `/[locale]/services/[id]` with `Service` + breadcrumb schema
+- Off-site checklist: [docs/LOCAL-SEO.md](./docs/LOCAL-SEO.md)
+- Measurement baseline: [docs/SEO-BASELINE.md](./docs/SEO-BASELINE.md)
+- GA4 events: `phone_click`, `appointment_start`, `appointment_submit` via `src/lib/analytics.ts`
+
 ## Environment
 
 | Variable | Description |

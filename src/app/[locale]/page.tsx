@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import CTASection from "@/components/home/CTASection";
 import Hero from "@/components/home/Hero";
+import LocalAreaSection from "@/components/home/LocalAreaSection";
 import ServicesCarousel from "@/components/home/ServicesCarousel";
 import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -46,6 +47,7 @@ export default async function HomePage({
         </div>
       </section>
       <TestimonialsCarousel />
+      <LocalAreaSection />
       <CTASection />
     </>
   );

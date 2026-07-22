@@ -24,6 +24,7 @@ import {
   isClosedDate,
   parseDateString,
 } from "@/lib/working-hours";
+import { trackAppointmentSubmit } from "@/lib/analytics";
 import { getServiceName } from "@/lib/services";
 import { cn } from "@/lib/utils";
 import type { DentalService } from "@/types";
@@ -111,6 +112,7 @@ export default function AppointmentForm({ onCreated }: AppointmentFormProps) {
         kvkkExplicitConsentVersion: KVKK_EXPLICIT_CONSENT_VERSION,
         recaptchaToken,
       });
+      trackAppointmentSubmit(values.serviceId);
       toast.success(t("success"));
       form.reset({
         patientName: "",

@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "Dt. Tuğçe Aydın Çiğnaklı | Modern Dental Practice",
-    "description": "Book appointments, explore services, and discover gentle modern dental care.",
+    "title": "Dalaman Dentist | Dt. Tuğçe Aydın Çiğnaklı",
+    "description": "Dental implants, cosmetic dentistry, and general care in Dalaman and the surrounding area. Book an appointment with Dt. Tuğçe Aydın Çiğnaklı.",
     "siteName": "Dt. Tuğçe Aydın Çiğnaklı",
-    "keywords": "dental practice, dentist, Dalaman, Mugla, dental appointment, dental care, Tuğce Aydin Cignakli",
+    "keywords": "Dalaman dentist, Mugla dentist, Ortaca dentist, Gocek dentist, Fethiye dental implant, dental practice, dental appointment, Tuğce Aydin Cignakli",
     "pages": {
       "services": {
         "title": "Dental Treatments & Services | Dt. Tuğçe Aydın Çiğnaklı",
@@ -101,9 +101,9 @@
   },
   "home": {
     "hero": {
-      "badge": "Welcome to Dt. Tuğçe Aydın Çiğnaklı",
-      "title": "Healthy smiles start with trusted care",
-      "description": "From routine checkups to advanced treatments, our team combines modern technology with a calm, friendly experience.",
+      "badge": "Dalaman Dental Practice",
+      "title": "Dalaman Dentist — Trusted, Modern Dental Care",
+      "description": "Our Dalaman practice offers implants, cosmetic dentistry, and preventive care with a patient-first approach. Easy to reach from Ortaca, Gocek, and Fethiye.",
       "bookAppointment": "Book Appointment",
       "viewServices": "View Services",
       "imageAlt": "Modern dental practice with friendly staff"
@@ -165,6 +165,18 @@
     "cta": {
       "title": "Ready for your next visit?",
       "description": "Book online in under a minute. Our team will confirm your appointment and send a reminder before your visit."
+    },
+    "localArea": {
+      "label": "Location & Service Areas",
+      "title": "A Dalaman-based practice serving the wider region",
+      "intro": "Our practice is physically located in Dalaman. We support patients traveling from Ortaca, Gocek, Fethiye, and across Mugla with appointment planning and treatment coordination.",
+      "locationTitle": "Address",
+      "locationNote": "The practice is in central Dalaman. Use the contact page for directions and the map.",
+      "areasTitle": "Areas we serve",
+      "areaItem": "Patients from {area} and nearby",
+      "areasNote": "If you are traveling from another district, sharing your expected travel time helps us plan your visit.",
+      "bookCta": "Book online",
+      "contactCta": "Contact & map"
     }
   },
   "services": {
@@ -174,6 +186,8 @@
     "imageAlt": "Dental treatment room",
     "empty": "Start the backend API to load live services, or check back soon.",
     "priceFrom": "From {price} · {minutes} min",
+    "breadcrumbHome": "Home",
+    "viewDetails": "View details",
     "items": {
       "1": {
         "name": "General Checkup",
@@ -195,9 +209,33 @@
         "name": "Emergency Care",
         "description": "Same-day relief for pain, breaks, and urgent issues."
       }
+    },
+    "detail": {
+      "metaTitle": "{service} | Dalaman Dentist",
+      "breadcrumbHome": "Home",
+      "breadcrumbServices": "Services",
+      "processTitle": "Treatment process",
+      "processText": "Your first visit includes an exam and needs assessment. We explain suitable options, timing, and pricing transparently before scheduling treatment.",
+      "faqTitle": "Frequently asked questions",
+      "faq": {
+        "1": {
+          "question": "What happens at the first appointment?",
+          "answer": "We assess your oral health, review imaging if needed, and explain personalized treatment options."
+        },
+        "2": {
+          "question": "Can I get pricing in advance?",
+          "answer": "Yes. After the exam, we share a treatment plan and starting price information clearly."
+        },
+        "3": {
+          "question": "Can patients from outside Dalaman book?",
+          "answer": "Yes. You can request an appointment online from Ortaca, Gocek, Fethiye, and across Mugla."
+        }
+      }
     }
   },
   "about": {
+    "breadcrumbHome": "Home",
+    "breadcrumbAbout": "About",
     "dentist": {
       "name": "Tuğçe Aydın Çiğnaklı",
       "role": "Dentist",

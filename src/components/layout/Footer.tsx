@@ -4,6 +4,7 @@ import { format, parseISO } from "date-fns";
 import { tr as trLocale, enUS } from "date-fns/locale";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { TrackablePhoneLink } from "@/components/analytics/trackable-phone-link";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -50,9 +51,13 @@ export default function Footer({ showStaffLogin = true }: FooterProps) {
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             <li>{t("address")}</li>
             <li>
-              <a href={telHref} className="transition-colors hover:text-primary">
+              <TrackablePhoneLink
+                href={telHref}
+                location="footer"
+                className="transition-colors hover:text-primary"
+              >
                 {phone}
-              </a>
+              </TrackablePhoneLink>
             </li>
             <li>
               <a href={`mailto:${email}`} className="transition-colors hover:text-primary">

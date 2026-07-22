@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MailIcon, PhoneIcon } from "lucide-react";
+import { TrackablePhoneLink } from "@/components/analytics/trackable-phone-link";
 import { Link } from "@/i18n/navigation";
 import MapEmbed from "@/components/contact/MapEmbed";
 import { buttonVariants } from "@/components/ui/button";
@@ -48,13 +49,14 @@ export default async function ContactPage({
           >
             {tButtons("bookAppointment")}
           </Link>
-          <a
+          <TrackablePhoneLink
             href={telHref}
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full")}
+            location="contact_hero"
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full inline-flex items-center gap-2")}
           >
             <PhoneIcon />
             {phone}
-          </a>
+          </TrackablePhoneLink>
         </div>
       </div>
 
@@ -67,13 +69,14 @@ export default async function ContactPage({
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>{tFooter("address")}</li>
               <li>
-                <a
+                <TrackablePhoneLink
                   href={telHref}
+                  location="contact_card"
                   className="inline-flex items-center gap-2 text-primary transition-colors hover:underline"
                 >
                   <PhoneIcon className="size-4" />
                   {phone}
-                </a>
+                </TrackablePhoneLink>
               </li>
               <li>
                 <a
