@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Autoplay from "embla-carousel-autoplay";
-import { getTestimonials } from "@/lib/api";
 import type { Testimonial } from "@/types";
 import {
   Carousel,
@@ -21,30 +20,30 @@ function getQuote(testimonial: Testimonial, locale: string): string {
   return testimonial.quoteTr;
 }
 
-export default function TestimonialsCarousel() {
+type TestimonialsCarouselProps = {
+  testimonials: Testimonial[];
+};
+
+export default function TestimonialsCarousel({
+  testimonials,
+}: TestimonialsCarouselProps) {
   const locale = useLocale();
   const t = useTranslations("home.testimonials");
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-
-  useEffect(() => {
-    getTestimonials()
-      .then(setTestimonials)
-      .catch(() => setTestimonials([]));
-  }, []);
+  const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
 
   if (testimonials.length === 0) {
     return null;
   }
 
   return (
-    <section className="bg-primary py-16 text-primary-foreground">
+    <section className="notranslate bg-primary py-16 text-primary-foreground" translate="no">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className="text-sm font-semibold uppercase tracking-wide opacity-80">{t("label")}</p>
         <h2 className="mt-2 font-heading text-3xl font-bold">{t("title")}</h2>
 
         <Carousel
           opts={{ align: "start", loop: true }}
-          plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
+          plugins={[autoplay.current]}
           className="mt-10 w-full"
         >
           <CarouselContent className="-ml-4">

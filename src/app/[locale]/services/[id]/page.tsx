@@ -30,22 +30,27 @@ export async function generateMetadata({
     return {};
   }
 
-  const service = await fetchServiceById(serviceId);
-  if (!service) {
+  try {
+    const service = await fetchServiceById(serviceId);
+    if (!service) {
+      return {};
+    }
+
+    const t = await getTranslations({ locale, namespace: "services.detail" });
+    const name = getServiceName(service, locale);
+    const description = getServiceDescription(service, locale);
+
+    return buildPageMetadata({
+      locale,
+      path: `/services/${service.id}`,
+      title: t("metaTitle", { service: name }),
+      description: description.slice(0, 160),
+      siteName: name,
+    });
+  } catch {
+    // Outage: leave metadata empty; the page will throw into the error boundary.
     return {};
   }
-
-  const t = await getTranslations({ locale, namespace: "services.detail" });
-  const name = getServiceName(service, locale);
-  const description = getServiceDescription(service, locale);
-
-  return buildPageMetadata({
-    locale,
-    path: `/services/${service.id}`,
-    title: t("metaTitle", { service: name }),
-    description: description.slice(0, 160),
-    siteName: name,
-  });
 }
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {

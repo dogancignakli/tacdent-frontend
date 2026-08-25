@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useRef } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Autoplay from "embla-carousel-autoplay";
-import { getServices } from "@/lib/api";
 import { getServiceDescription, getServiceName } from "@/lib/services";
 import { cn } from "@/lib/utils";
 import type { DentalService } from "@/types";
@@ -25,21 +24,19 @@ const slideImages = [
   "/images/service-family.jpg",
 ] as const;
 
-export default function ServicesCarousel() {
+type ServicesCarouselProps = {
+  services: DentalService[];
+};
+
+export default function ServicesCarousel({ services }: ServicesCarouselProps) {
   const locale = useLocale();
   const t = useTranslations("home.servicesCarousel");
   const tButtons = useTranslations("common.buttons");
-  const [services, setServices] = useState<DentalService[]>([]);
-
-  useEffect(() => {
-    getServices()
-      .then((data) => setServices(data.slice(0, 3)))
-      .catch(() => setServices([]));
-  }, []);
+  const autoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: true }));
 
   const slides = useMemo(
     () =>
-      services.map((service, index) => ({
+      services.slice(0, 3).map((service, index) => ({
         service,
         image: slideImages[index] ?? slideImages[0],
       })),
@@ -55,7 +52,7 @@ export default function ServicesCarousel() {
     "size-9 border bg-background/90 text-foreground shadow-sm hover:bg-background";
 
   return (
-    <section className="py-16">
+    <section className="notranslate py-16" translate="no">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
@@ -69,7 +66,7 @@ export default function ServicesCarousel() {
 
         <Carousel
           opts={{ align: "start", loop: showArrows }}
-          plugins={[Autoplay({ delay: 4500, stopOnInteraction: true })]}
+          plugins={[autoplay.current]}
           className="w-full"
         >
           <CarouselContent className="-ml-4">
