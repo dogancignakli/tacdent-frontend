@@ -7,6 +7,8 @@ import ServicesCarousel from "@/components/home/ServicesCarousel";
 import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createPageMetadata } from "@/lib/seo";
+import { fetchActiveServices } from "@/lib/server/services";
+import { fetchActiveTestimonials } from "@/lib/server/testimonials";
 
 const highlightKeys = ["team", "equipment", "booking"] as const;
 
@@ -27,11 +29,15 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home.highlights");
+  const [services, testimonials] = await Promise.all([
+    fetchActiveServices(),
+    fetchActiveTestimonials(),
+  ]);
 
   return (
     <>
       <Hero />
-      <ServicesCarousel />
+      <ServicesCarousel services={services} />
       <section className="py-16">
         <div className="mx-auto grid max-w-6xl gap-6 px-4 sm:px-6 md:grid-cols-3">
           {highlightKeys.map((key) => (
@@ -46,7 +52,7 @@ export default async function HomePage({
           ))}
         </div>
       </section>
-      <TestimonialsCarousel />
+      <TestimonialsCarousel testimonials={testimonials} />
       <LocalAreaSection />
       <CTASection />
     </>

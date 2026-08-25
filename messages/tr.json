@@ -96,7 +96,18 @@
       "generic": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
       "sessionExpired": "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
       "loginFailed": "Giriş başarısız.",
-      "recaptchaFailed": "Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin."
+      "recaptchaFailed": "Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.",
+      "pageTitle": "Sayfa yüklenemedi",
+      "pageDescription": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+      "retry": "Tekrar dene",
+      "goHome": "Ana sayfaya dön"
+    },
+    "notFound": {
+      "title": "Sayfa bulunamadı",
+      "description": "Aradığınız sayfa taşınmış veya hiç var olmamış olabilir.",
+      "home": "Ana sayfa",
+      "services": "Hizmetler",
+      "contact": "İletişim"
     }
   },
   "home": {

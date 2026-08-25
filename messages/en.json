@@ -96,7 +96,18 @@
       "generic": "Something went wrong. Please try again.",
       "sessionExpired": "Your session has expired. Please log in again.",
       "loginFailed": "Login failed.",
-      "recaptchaFailed": "Security verification failed. Please try again."
+      "recaptchaFailed": "Security verification failed. Please try again.",
+      "pageTitle": "This page couldn’t load",
+      "pageDescription": "An unexpected error occurred. Please try again.",
+      "retry": "Try again",
+      "goHome": "Go to homepage"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you’re looking for may have moved or never existed.",
+      "home": "Home",
+      "services": "Services",
+      "contact": "Contact"
     }
   },
   "home": {

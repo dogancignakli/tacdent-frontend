@@ -30,10 +30,8 @@ export function buildLanguageAlternates(path: string = ""): Record<string, strin
     routing.locales.map((locale) => [locale, localizedPath(locale, path)]),
   ) as Record<string, string>;
 
-  // Root `/` is the language-negotiating redirector (307). Deep pages use the
-  // default locale URL so x-default never points at a 404.
-  languages["x-default"] =
-    path === "/" || path === "" ? "/" : localizedPath(routing.defaultLocale, path);
+  // Point x-default at the default-locale URL (indexable), never at `/` which 307s.
+  languages["x-default"] = localizedPath(routing.defaultLocale, path);
 
   return languages;
 }

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
-import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
@@ -13,7 +12,6 @@ import { ConsentAnalytics } from "@/components/analytics/consent-analytics";
 import { WebVitals } from "@/components/analytics/web-vitals";
 import JsonLd from "@/components/seo/JsonLd";
 import { routing } from "@/i18n/routing";
-import { SESSION_COOKIE } from "@/lib/server/backend";
 import { siteUrl } from "@/lib/seo";
 import "../globals.css";
 
@@ -21,6 +19,16 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
+/** Namespaces needed by client components — excludes server-only catalogs (kvkk, metadata, …). */
+const CLIENT_MESSAGE_NAMESPACES = [
+  "common",
+  "home",
+  "appointments",
+  "admin",
+  "validation",
+  "status",
+] as const;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -77,9 +85,13 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
-  const messages = await getMessages();
-  const cookieStore = await cookies();
-  const isStaffLoggedIn = !!cookieStore.get(SESSION_COOKIE);
+  const allMessages = await getMessages();
+  const messages = Object.fromEntries(
+    CLIENT_MESSAGE_NAMESPACES.map((namespace) => [
+      namespace,
+      allMessages[namespace],
+    ]),
+  );
 
   return (
     <html
@@ -97,7 +109,7 @@ export default async function LocaleLayout({
             <WebVitals />
             <Header />
             <main className="flex-1">{children}</main>
-            <Footer showStaffLogin={!isStaffLoggedIn} />
+            <Footer />
             <Toaster richColors closeButton position="top-right" />
           </ThemeProvider>
         </NextIntlClientProvider>
