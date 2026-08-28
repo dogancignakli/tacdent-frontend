@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
       new Date().toISOString().slice(0, 10),
   },
   images: {
-    formats: ["image/avif", "image/webp"],
+    formats: ["image/webp"],
   },
   async headers() {
     return [
