@@ -78,7 +78,7 @@ Images use `next/image` with `sizes` + AVIF/WebP (`next.config.ts`). Hero is a *
 
 ## Project layout
 
-```
+```text
 src/
 ├── app/
 │   ├── [locale]/         # Localized page routes (tr, en)
@@ -164,7 +164,7 @@ Bootstrap admin credentials: set via backend .NET user-secrets (`Auth:AdminEmail
 
 Staff session is stored in an **httpOnly cookie** (`tacdent_session`) set by the BFF login route — not in `localStorage`. Role (`Admin` / `Staff`) is exposed via a separate `tacdent_role` cookie for client-side UI gating only. `src/middleware.ts` guards `/admin` routes.
 
-**Production checklist**
+### Production checklist
 
 | Item | Frontend | Backend |
 |------|----------|---------|

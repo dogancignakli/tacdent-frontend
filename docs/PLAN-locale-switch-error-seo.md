@@ -1,6 +1,6 @@
 # Dil değişiminde çıkan hata — kök neden, çözüm planı ve SEO değerlendirmesi
 
-Tarih: 2026-08-24 · Ortam: canlı (https://tugceaydincignakli.com) · Durum: onaylandı, uygulama bekliyor
+Tarih: 2026-08-24 · Ortam: canlı (<https://tugceaydincignakli.com>) · Durum: onaylandı, uygulama bekliyor
 
 ---
 
@@ -33,7 +33,7 @@ Görselde `"Reload to try again, or go back."` ve iki düğme birlikte var. Yani
 
 Konsol hatası kesin teşhisi verdi:
 
-```
+```text
 NotFoundError: The object can not be found here.
   reportError — 3peubv2924kx4.js:1:117019
   p, oO, (anonymous), IG, LJ, lb, i4, us, i4, us, i4, us, ...

@@ -1,30 +1,27 @@
 ---
-applyTo: "src/lib/auth.ts,src/app/admin/**/*.tsx,src/components/admin/**/*.tsx"
+applyTo: "src/lib/auth.ts,src/app/**/admin/**/*.tsx,src/components/admin/**/*.tsx,src/middleware.ts"
 ---
 
-# Admin auth & route guard
+# Admin auth and route guard
 
-Staff log in with a shared password, get a JWT, and manage appointments. Patient data is only
-ever shown here, behind the guard.
+Staff log in with email and password. The BFF (`src/app/api/auth/login/route.ts`) exchanges them
+for a JWT and stores it in the httpOnly cookie `tacdent_session`. The readable cookie
+`tacdent_role` is only for UI gating. Patient data stays behind this area.
 
-## Token storage — only via `src/lib/auth.ts`
-- Use `getToken()` / `setToken(token)` / `clearToken()`. Never touch `localStorage` directly
-  anywhere else. `getToken` guards SSR with `typeof window === "undefined"` -> `null`.
-- The API client already attaches the token and clears it on 401 — don't re-implement that.
+## What the client may read
+- `src/lib/auth.ts` exposes `getRole()`, `isAuthenticated()`, and `isAdmin()` from `tacdent_role`.
+- Do not put the JWT in `localStorage` or in client-readable state. The browser client sends
+  `credentials: "include"`; it never attaches `Authorization` itself.
 
-## Admin pages (`src/app/admin/**`) are client components
-- Login (`/admin/login`): a `Card` + react-hook-form/zod password form (`loginFormSchema`). On
-  success `setToken(response.token)`, `toast.success`, `router.push("/admin")`; on failure
-  `toast.error`. Follow the standard forms rule.
-- Guarded pages (`/admin`): mark `"use client"`, check `getToken()` in a `useEffect`; if missing,
-  `router.replace("/admin/login")` and render `null` until authenticated. Provide a logout button
-  (`clearToken()` + `router.replace("/admin/login")`).
-- Management lists live in `src/components/admin/` (e.g. `AdminAppointmentList`). They accept an
-  `onUnauthorized` callback and call it when a request 401s, so the page can bounce to login.
+## Routes
+- Pages live under `src/app/[locale]/admin/`. Login is `/[locale]/admin/login`.
+- `src/middleware.ts` redirects `/admin` (except login) to the login page when `tacdent_session`
+  is missing. That check is not authorization. The API still enforces `[Authorize]` and roles.
+- Login uses react-hook-form/zod plus reCAPTCHA. On success, `toast.success` and
+  `router.push("/admin")`. Logout calls the BFF `POST /api/auth/logout`, which clears the cookies.
+- Management lists live in `src/components/admin/`. A `401` means the session expired; send the
+  user back to login.
 
-## Security notes (don't regress these)
-- This guard is **client-side only** — real protection is the backend `[Authorize]`. So never
-  fetch or render patient data outside an authenticated admin view, and keep the appointment list
-  off any public/anonymous page.
-- localStorage JWT is acceptable for a single-clinic panel but is XSS-exposed; treat it as the
-  known trade-off, and don't widen what the unauthenticated app can reach.
+## Security
+- Never render patient data on a public page. The booking form is public; the appointment list is not.
+- Do not widen what an anonymous request can reach.

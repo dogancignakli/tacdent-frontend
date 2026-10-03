@@ -256,7 +256,7 @@ docker compose images
 
 | Komut | Amaç |
 |---|---|
-| `cd ... || exit 1` | Dizin yoksa devam etmeyi engelledi. Yanlış dizinde Docker/Git komutu çalışmadı. |
+| `cd ... \|\| exit 1` | Dizin yoksa devam etmeyi engelledi. Yanlış dizinde Docker/Git komutu çalışmadı. |
 | `hostname` | Doğru VPS'in `srv1830980` olduğunu kanıtladı. |
 | `pwd` | Doğru repo dizininde olduğumuzu kanıtladı. |
 | `git status` | Kirli çalışma ağacı veya yanlış branch riskini kontrol etti. |

@@ -20,12 +20,9 @@ clinic staff log into an admin area to view and manage requests.
 Verify Next-specific code (routing, `params`/`searchParams`, caching, `next/image`, metadata)
 against `node_modules/next/dist/docs/` or current docs. Don't "fix" to an older pattern.
 
-## ⚠️ `README.md` is out of date
-It still references Swiper / `ServicesSwiper` / `useState` forms. The accurate guide is
-`LEARNING.md` and the actual code. Trust those over `README.md`.
-
 ## Non-negotiables
-- **Never call `fetch` inside a component.** All API access goes through `src/lib/api.ts`.
+- **The browser never calls the .NET host.** Client code uses `src/lib/api.ts` with same-origin
+  paths (`/api/...`). Server Components and BFF handlers use `src/lib/server/*` and `API_URL`.
 - **All shared types live in `src/types/index.ts`** and must mirror the backend JSON contract.
 - **Server Components by default.** Add `"use client"` only for hooks, handlers, or browser APIs.
 - **Build UI from shadcn primitives in `src/components/ui/`** — don't hand-roll buttons, inputs,
@@ -36,10 +33,11 @@ It still references Swiper / `ServicesSwiper` / `useState` forms. The accurate g
   only; the appointment *list* lives behind the admin auth guard. (This was a real data leak.)
 
 ## Backend contract (the API this app talks to)
-- The browser calls this Next.js app only. Server code reaches the .NET API with `API_URL` (local default `http://localhost:5065`; on the VPS `http://api:8080`). Routes are under `/api`.
+- Server-side base URL is `API_URL` (local `http://localhost:5065`, VPS `http://api:8080` on the
+  `tacdent` Docker network). Routes are under `/api`.
 - JSON is **camelCase**. Enums are **strings** (status `"Pending" | "Confirmed" | "Cancelled" | "Completed"`).
 - Times are `"HH:mm"` / `"HH:mm:ss"`; dates are `"YYYY-MM-DD"`. `Appointment` has `createdAt` + `updatedAt`.
 - Errors: `{ code, message }`; validation errors: `{ message, errors: { field: string[] } }`.
-- **Auth:** `POST /api/auth/login` (anonymous) returns `{ token, expiresAt }`. Management endpoints
-  (`GET/PATCH/DELETE /api/appointments...`) require `Authorization: Bearer <token>`; booking
-  `POST /api/appointments` stays anonymous. A `401` means the session expired.
+- **Auth:** the browser calls `POST /api/auth/login` on this app. The BFF stores the JWT in the
+  httpOnly cookie `tacdent_session` and the role in `tacdent_role`. Management routes require that
+  cookie; the BFF sends `Authorization: Bearer` to the API. A `401` means the session expired.

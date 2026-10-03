@@ -7,7 +7,7 @@ applyTo: "src/**/*.tsx"
 ## File & export shape
 - One component per file, **PascalCase** name, **default export** for feature/page components
   (shadcn `ui/` primitives stay named exports).
-- Pages live in `src/app/<route>/page.tsx`; shared UI in `src/components/<area>/`
+- Pages live in `src/app/[locale]/<route>/page.tsx`; shared UI in `src/components/<area>/`
   (`layout/`, `home/`, `appointments/`, `admin/`, `providers/`, `ui/`).
 - Props use a named `interface XProps`; optional callbacks named `onX`, invoked with `?.()`.
 
@@ -16,7 +16,8 @@ applyTo: "src/**/*.tsx"
   hooks, handlers, theme, routing (`useRouter`), or a browser-only lib. Keep client components small.
 
 ## Data, state, and feedback inside components
-- Import API functions from `@/lib/api` and types from `@/types`. Never `fetch` directly.
+- Client components import API functions from `@/lib/api` and types from `@/types`. Server
+  Components that load public data use `@/lib/server/*`. Never `fetch` a .NET host from the browser.
 - List views: `useCallback` loader + `useEffect`; render **early returns** for loading (shadcn
   `Skeleton`), error, and empty states before the data.
 - Async feedback uses **sonner** `toast`. To refresh a sibling list after a mutation, bump a
