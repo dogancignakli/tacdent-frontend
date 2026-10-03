@@ -14,15 +14,12 @@ import type {
   PagedResult,
   ResetPasswordPayload,
   SortDirection,
-  Testimonial,
   UpdateServicePayload,
   UpdateTestimonialPayload,
   User,
   UserRole,
 } from "@/types";
 import { buildClientTraceHeaders } from "@/lib/trace";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065";
 
 interface RequestOptions extends RequestInit {
   skipAuthHandling?: boolean;
@@ -65,7 +62,7 @@ async function publicRequest<T>(path: string, options?: RequestInit): Promise<T>
     ...(options?.headers as Record<string, string> | undefined),
   };
 
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(path, {
     ...options,
     headers,
   });
@@ -84,10 +81,6 @@ async function publicRequest<T>(path: string, options?: RequestInit): Promise<T>
 
 export function getServices(): Promise<DentalService[]> {
   return publicRequest<DentalService[]>("/api/services");
-}
-
-export function getTestimonials(): Promise<Testimonial[]> {
-  return publicRequest<Testimonial[]>("/api/testimonials");
 }
 
 export function getAllServicesAdmin(): Promise<AdminDentalService[]> {

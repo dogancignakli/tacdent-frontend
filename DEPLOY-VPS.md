@@ -1,12 +1,13 @@
 # TacDent Frontend — VPS deploy (Docker + Nginx)
 
-Next.js **standalone** build behind Nginx. The .NET API stays on separate hosting (`tac-api.pablika.com`).
+Next.js **standalone** build behind Nginx. The .NET API is on the same VPS, reached only over the Docker network `tacdent` (`http://api:8080`). The browser never calls the API host.
 
 ## Prerequisites
 
 - VPS with Docker and Docker Compose
 - DNS: `tugceaydincignakli.com` (and optionally `www`) → VPS public IP
-- Backend `Cors:Origins` includes `https://tugceaydincignakli.com`
+- Backend stack is already up and has created the external Docker network `tacdent`
+- Frontend container address on that network is `172.30.0.10` (backend `ForwardedHeaders` trusted proxy)
 
 ## 1. Clone and configure
 
@@ -14,7 +15,7 @@ Next.js **standalone** build behind Nginx. The .NET API stays on separate hostin
 git clone https://github.com/dogancignakli/tacdent-frontend.git
 cd tacdent-frontend
 cp .env.production.example .env
-# Edit .env with real API URL, site URL, reCAPTCHA, INTERNAL_API_KEY
+# Edit .env: API_URL=http://api:8080, site URL, reCAPTCHA, INTERNAL_API_KEY
 ```
 
 ## 2. Build and run (HTTP first)
@@ -97,16 +98,16 @@ If only `NEXT_PUBLIC_*` env vars change, you **must** rebuild (`--build`) — th
 - Home page loads over HTTPS
 - `POST /tr/appointments` works (reCAPTCHA + BFF + API)
 - Admin login at `/tr/admin/login`
-- Browser devtools: no CORS errors to API domain
+- Browser devtools: service list loads from this site's `/api/services`, not from an API host
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---------|-----|
 | **405 on PUT/DELETE** (admin save) | Host nginx must allow PUT/DELETE/PATCH to `127.0.0.1:3000` — see `nginx/host-proxy.conf.example` |
-| CSP blocks API | Rebuild with correct `NEXT_PUBLIC_API_URL` in `.env` |
+| Booking form has no services | `API_URL` must be `http://api:8080` and this container must be on network `tacdent` |
 | 403 on booking/login | `INTERNAL_API_KEY` must match backend `InternalApi:Key` |
-| CORS errors | Backend `Cors:Origins` must include site URL |
+| Browser calls an API host | Old client bundle. Rebuild; the browser now calls only this site |
 | 502 Bad Gateway | `docker compose logs app` — app container not healthy |
 | SSL nginx fails | Certificates missing; use HTTP `app.conf` until certbot succeeds |
 

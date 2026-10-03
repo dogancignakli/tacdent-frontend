@@ -126,8 +126,7 @@ public/
 
 | Variable | Description |
 |----------|-------------|
-| `NEXT_PUBLIC_API_URL` | Public base URL of the .NET API (browser `connect-src`; default `http://localhost:5065`) |
-| `API_URL` | Server-only backend URL used by BFF route handlers (default same as `NEXT_PUBLIC_API_URL`) |
+| `API_URL` | Server-only .NET API base URL. Local default `http://localhost:5065`. On the VPS, `http://api:8080`. The browser does not use this. |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL for metadata, sitemap, JSON-LD (default `http://localhost:3000`) |
 | `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 **site key** (public). Required for booking and staff login. [Create keys](https://www.google.com/recaptcha/admin/create); add `localhost` to allowed domains. |
 | `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` | GA4 measurement ID. Analytics loads only after Cookiebot statistics consent. |
@@ -153,7 +152,7 @@ Official docs: [react.dev/learn](https://react.dev/learn) · [nextjs.org/docs](h
 - JSON is **camelCase**; enums are **strings** (`Pending`, `Confirmed`, `Cancelled`, `Completed`)
 - Dates: `"YYYY-MM-DD"` · Times: `"HH:mm"` or `"HH:mm:ss"`
 - Public booking: browser → **Next.js BFF** `POST /api/appointments` → .NET API. Body includes `serviceId`, KVKK consent flags + text versions, and `recaptchaToken` (reCAPTCHA v3 action `booking`). The BFF forwards the visitor IP (`X-Forwarded-For`) and `X-Internal-Api-Key` when configured.
-- Public reads: `GET /api/services` and `GET /api/testimonials` still call the .NET API directly (no auth).
+- Public reads: the browser calls same-origin `GET /api/services`. Server Components call the .NET API with `API_URL`. Neither is a direct browser call to the API host.
 - Staff: browser calls **Next.js BFF** routes under `/api/*`; BFF forwards `Authorization: Bearer` from the `tacdent_session` httpOnly cookie
 - Login: `POST /api/auth/login` (BFF) sets `tacdent_session` (httpOnly) and `tacdent_role` (readable by client for UI gating); body includes `recaptchaToken` from action `login`
 - Appointments list returns a **paged envelope**: `{ items, page, pageSize, totalCount, totalPages, hasNextPage, hasPreviousPage }`
@@ -177,7 +176,7 @@ The BFF derives the visitor IP from platform headers when available (`x-vercel-f
 
 Response headers are set in `next.config.ts` for all routes:
 
-- **Content-Security-Policy** — restricts scripts, styles, images, and API `connect-src` to `NEXT_PUBLIC_API_URL`; allows Google reCAPTCHA v3 and Maps iframe (`google.com`, `gstatic.com`)
+- **Content-Security-Policy** — `connect-src` is `'self'` plus Google reCAPTCHA, Analytics, and Cookiebot. The browser does not connect to the API host. Maps iframe stays on `google.com` / `gstatic.com`.
 - **X-Frame-Options: DENY** — clickjacking protection
 - **X-Content-Type-Options: nosniff**
 - **Referrer-Policy** and **Permissions-Policy**

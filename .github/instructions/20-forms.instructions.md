@@ -1,0 +1,26 @@
+---
+applyTo: "src/components/**/*.tsx,src/app/**/*.tsx,src/lib/schemas/**/*.ts"
+---
+
+# Forms: react-hook-form + zod + sonner
+
+Reference: `AppointmentForm.tsx` and `app/admin/login/page.tsx`.
+
+## Schema first
+- Define the schema in `src/lib/schemas/<name>.ts` with **zod**, then export the inferred type:
+  `export type XValues = z.infer<typeof xSchema>`. Validation messages live in the schema.
+
+## Wiring the form
+- `const form = useForm<XValues>({ resolver: zodResolver(xSchema), defaultValues })`.
+- Simple fields: spread `{...form.register("field")}` onto the shadcn `Input`/`Textarea`, with
+  `aria-invalid={!!errors.field}`.
+- Controlled shadcn components (e.g. `Select`): wrap in `<Controller control={form.control} ... />`.
+- Show errors under the field: `{errors.field && <p className="text-sm text-destructive">
+  {errors.field.message}</p>}`. Pull `const { errors, isSubmitting } = form.formState`.
+
+## Submit & feedback
+- `<form onSubmit={form.handleSubmit(onSubmit)}>`. In `onSubmit`: call the `@/lib/api` function,
+  then on success `toast.success(...)` (+ `form.reset(...)` / navigation / `onCreated?.()` as needed);
+  on failure `toast.error(err instanceof Error ? err.message : "…")`.
+- Disable the submit `Button` with `disabled={isSubmitting}` and show a `Loader2Icon` spinner.
+- **Feedback is via sonner toasts**, not inline state. `<Toaster />` is already in `app/layout.tsx`.

@@ -7,7 +7,7 @@ const CORRELATION_ID_HEADER = "X-Correlation-ID";
 const SESSION_ID_HEADER = "X-Session-Id";
 
 export function getBackendUrl(): string {
-  return process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5065";
+  return process.env.API_URL ?? "http://localhost:5065";
 }
 
 function getInternalApiKey(): string | undefined {

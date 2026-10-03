@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
         NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NEXT_PUBLIC_RECAPTCHA_SITE_KEY:-}
         NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:-}
@@ -13,7 +12,18 @@ services:
     env_file:
       - .env
     environment:
-      API_URL: ${API_URL}
+      # Server-side only. The browser calls this app; this app calls the API on the Docker network.
+      API_URL: ${API_URL:-http://api:8080}
       INTERNAL_API_KEY: ${INTERNAL_API_KEY}
     ports:
       - "127.0.0.1:3000:3000"
+    networks:
+      tacdent:
+        # Must match the backend ForwardedHeaders trusted proxy.
+        ipv4_address: 172.30.0.10
+
+# Created by tacdent-backend. Bring that stack up before this one.
+networks:
+  tacdent:
+    external: true
+    name: tacdent

@@ -1,4 +1,23 @@
-import { backendFetch } from "@/lib/server/backend";
+import { anonymousBackendFetch, backendFetch } from "@/lib/server/backend";
+
+export async function GET(request: Request) {
+  const backendResponse = await anonymousBackendFetch(
+    "/api/services",
+    undefined,
+    undefined,
+    request
+  );
+
+  if (!backendResponse.ok) {
+    const error = await backendResponse.json().catch(() => ({}));
+    return Response.json(
+      { message: error.message ?? "Could not load services." },
+      { status: backendResponse.status }
+    );
+  }
+
+  return Response.json(await backendResponse.json());
+}
 
 export async function POST(request: Request) {
   const body = await request.json();
